@@ -18,6 +18,14 @@ namespace Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        //MenuScene escenaInicio;
+        //HelpScene escenaAyuda;
+        GameScene escenaActiva;
+        ActionScene escenaAccion;
+        SpriteFont fuenteNormal;
+        Texture2D fondo;
+        KeyboardState newState;
+        KeyboardState oldState;
 
         public Game1()
         {
@@ -46,7 +54,22 @@ namespace Game
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Services.AddService(typeof(SpriteBatch), spriteBatch);
+            Services.AddService(typeof(ContentManager), Content);
+            //fuenteNormal = Content.Load<SpriteFont>("fuente");
+            fondo = Content.Load<Texture2D>("background/mario");
+            //escenaInicio = new MenuScene(this, fuenteNormal, fondo);
+            //Components.Add(escenaInicio);
+            //fondo = Content.Load<Texture2D>("fondo2");
+            //escenaAyuda = new HelpScene(this, fondo);
+            //Components.Add(escenaAyuda);
+            escenaAccion = new ActionScene(this, fondo);
+            Components.Add(escenaAccion);
+            escenaAccion.Show();
+            //escenaInicio.Show();
+            //escenaAyuda.Hide();
+            //escenaActiva = escenaInicio;
+            escenaActiva = escenaAccion;
             // TODO: use this.Content to load your game content here
         }
 
@@ -82,10 +105,9 @@ namespace Game
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
             base.Draw(gameTime);
+            spriteBatch.End();
         }
     }
 }
