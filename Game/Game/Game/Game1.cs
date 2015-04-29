@@ -22,10 +22,10 @@ namespace Game
         //HelpScene escenaAyuda;
         GameScene escenaActiva;
         ActionScene escenaAccion;
-        SpriteFont fuenteNormal;
+        //SpriteFont fuenteNormal;
         Texture2D fondo;
-        KeyboardState newState;
-        KeyboardState oldState;
+        //KeyboardState newState;
+        //KeyboardState oldState;
 
         public Game1()
         {

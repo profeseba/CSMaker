@@ -43,7 +43,7 @@ namespace Game
             mundo.AdicionarSprite(new Muro(game, new Vector2(256, 16), new Vector2(64, (int)(96 * 3.5f))));
             mundo.AdicionarSprite(new Muro(game, new Vector2(256, 8), new Vector2(game.Window.ClientBounds.Width / 2, (int)(96 * 4f))));
  
-            jugador1 = new Jugador(game, new Vector2(32, 46), new Vector2(32, 32), "players/blue");
+            jugador1 = new Jugador(game, new Vector2(32, 32), new Vector2(32, 32), "players/blue");
             mundo.AdicionarSprite(jugador1);
         }
  
