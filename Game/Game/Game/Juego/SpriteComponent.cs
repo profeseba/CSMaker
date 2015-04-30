@@ -103,5 +103,9 @@ namespace Game
         }
 
         public abstract void Colision(SpriteComponent otro, Vector2 desplazamiento);
+
+        public void LeerSensores() { }
+
+
     }
 }
