@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionScene.cs" />
+    <Compile Include="AgenteReactivoSimple.cs" />
     <Compile Include="BackgroundComponent.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="Jugador.cs" />

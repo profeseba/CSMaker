@@ -21,6 +21,7 @@ namespace Game
         SpriteBatch spriteBatch;
         Mundo mundo;
         Jugador jugador1;
+        AgenteReactivoSimple reactivoSimple;
         //KeyboardState oldState;
  
         public ActionScene(Microsoft.Xna.Framework.Game game, Texture2D background)
@@ -43,8 +44,13 @@ namespace Game
             //mundo.AdicionarSprite(new Muro(game, new Vector2(256, 16), new Vector2(64, (int)(96 * 3.5f))));
             //mundo.AdicionarSprite(new Muro(game, new Vector2(256, 8), new Vector2(game.Window.ClientBounds.Width / 2, (int)(96 * 4f))));
  
-            jugador1 = new Jugador(game, new Vector2(32, 32), new Vector2(32, 32), "players/blue");
+            //crea al jugador
+            jugador1 = new Jugador(game, new Vector2(32, 32), new Vector2( 0, game.Window.ClientBounds.Height - 32), "players/blue");
             mundo.AdicionarSprite(jugador1);
+
+            //crea al agente
+            reactivoSimple = new AgenteReactivoSimple(game, new Vector2(32, 32), new Vector2(game.Window.ClientBounds.Width - 32, game.Window.ClientBounds.Height - 32), "players/red");
+            mundo.AdicionarSprite(reactivoSimple);
         }
  
         protected override void LoadContent()
