@@ -36,8 +36,12 @@ namespace Game
                 }
             }
             if (otro is Jugador) 
-            { 
-                // muerto
+            {
+                Mover(desplazamiento);
+                if (desplazamiento.Y != 0)
+                {
+                    velocidad.Y = 0;
+                }
             }
 
         }

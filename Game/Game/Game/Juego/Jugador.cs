@@ -32,6 +32,14 @@ namespace Game
                     velocidad.Y = 0;
                 }
             }
+            if (otro is AgenteReactivoSimple)
+            {
+                Mover(desplazamiento);
+                if (desplazamiento.Y != 0)
+                {
+                    velocidad.Y = 0;
+                }
+            }
         }
     }
 }
