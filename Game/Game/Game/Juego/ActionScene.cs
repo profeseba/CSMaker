@@ -64,11 +64,16 @@ namespace Game
             float totalTime = (float)((double)gameTime.TotalGameTime.TotalMilliseconds / 1000);
             KeyboardState newState = Keyboard.GetState();
             Vector2 velocidad = jugador1.Velocidad;
+            bool salto = jugador1.Salto;
  
             velocidad.X = 0;
-            if (newState.IsKeyDown(Keys.W))
+            if (newState.IsKeyDown(Keys.Space))
             {
-                velocidad.Y = -200;
+                if (salto == false)
+                {
+                    velocidad.Y = -400;
+                    salto = true;
+                }
             }
             if (newState.IsKeyDown(Keys.A))
             {
@@ -79,6 +84,7 @@ namespace Game
                 velocidad.X = 200;
             }
             jugador1.Velocidad = velocidad;
+            jugador1.Salto = salto;
             mundo.Update(deltaTime, totalTime);
             base.Update(gameTime);
         }

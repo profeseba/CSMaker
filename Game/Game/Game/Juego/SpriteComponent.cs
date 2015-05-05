@@ -25,6 +25,7 @@ namespace Game
         public Texture2D Textura { get; set; }
         protected Vector2 velocidad;
         public Vector2 Velocidad { get { return velocidad; } set { velocidad = value; } }
+        public bool Salto { get; set; }
         public Vector2 Centro { get; set; }
         public Vector2 Tamano { get; set; }
         public float Peso { get; set; }
