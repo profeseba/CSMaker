@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Game.Agentes;
 using Game.Juego;
+using Game.Agentes.ext;
 
 
 namespace Game
@@ -78,12 +79,12 @@ namespace Game
                 cond2.accion = "saltar";
                 cond2.condicion = "onAir";
                 condiciones cond3 = new condiciones();
-                cond3.accion = "perseguir";
-                cond3.condicion = "near";
+                cond3.accion = "avanzar";
+                cond3.condicion = "not_near";
                 //
                 r.regla.Add(cond1);
                 r.regla.Add(cond2);
-                //r.regla.Add(cond3);
+                r.regla.Add(cond3);
                 //
                 acciones action = new acciones();
                 action = Regla(e, r);
@@ -96,22 +97,12 @@ namespace Game
         {
             foreach (var accion in a.accion)
             {
-                if (accion.Equals("perseguir"))
-                {
-                    // calcula el mejor camino.. aun por definir.
-
-                }
-
-                if (accion.Equals("saltar"))
-                {
-                    if (isOnGround)
-                    {
-                        velocidad.Y = -400;
-                        isOnGround = false;
-                    }                    
-                }
+                if (accion.Equals("avanzar")) avanzar(Direccion.LEFT); 
+                if (accion.Equals("saltar")) saltar();     
             }
         }
+
+        
 
 
 

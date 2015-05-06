@@ -72,11 +72,12 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agentes\acciones.cs" />
+    <Compile Include="Agentes\ext\acciones.cs" />
     <Compile Include="Agentes\Agent.cs" />
-    <Compile Include="Agentes\condiciones.cs" />
-    <Compile Include="Agentes\estados.cs" />
-    <Compile Include="Agentes\reglas.cs" />
+    <Compile Include="Agentes\ext\condiciones.cs" />
+    <Compile Include="Agentes\ext\Direccion.cs" />
+    <Compile Include="Agentes\ext\estados.cs" />
+    <Compile Include="Agentes\ext\reglas.cs" />
     <Compile Include="Juego\ActionScene.cs" />
     <Compile Include="Agentes\AgenteReactivoSimple.cs" />
     <Compile Include="Juego\BackgroundComponent.cs" />
@@ -84,7 +85,7 @@
     <Compile Include="Juego\Jugador.cs" />
     <Compile Include="Juego\Mundo.cs" />
     <Compile Include="Juego\Muro.cs" />
-    <Compile Include="Agentes\percepciones.cs" />
+    <Compile Include="Agentes\ext\percepciones.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
