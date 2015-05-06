@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Game.Juego;
+using Game.Agentes;
 
 
 namespace Game
@@ -25,7 +27,7 @@ namespace Game
         public Texture2D Textura { get; set; }
         protected Vector2 velocidad;
         public Vector2 Velocidad { get { return velocidad; } set { velocidad = value; } }
-        public bool Salto { get; set; }
+        public bool isOnGround { get; set; }
         public Vector2 Centro { get; set; }
         public Vector2 Tamano { get; set; }
         public float Peso { get; set; }
@@ -43,6 +45,7 @@ namespace Game
             Tamano = tamano;
             Posicion = posicion;
             Peso = 1.0f;
+            isOnGround = true;
             Vector3 min1 = new Vector3(Posicion.X, Posicion.Y, 0);
             Vector3 max1 = new Vector3((Posicion.X + Tamano.X), (Posicion.Y + Tamano.Y), 0);
             bound = new BoundingBox(min1, max1);
@@ -104,12 +107,6 @@ namespace Game
         }
 
         public abstract void Colision(SpriteComponent otro, Vector2 desplazamiento);
-
-        public void LeerSensores() 
-        {
-            // ola komo tay
-        }
-
 
     }
 }

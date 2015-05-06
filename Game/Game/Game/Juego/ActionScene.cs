@@ -51,6 +51,7 @@ namespace Game
             //crea al agente
             reactivoSimple = new AgenteReactivoSimple(game, new Vector2(32, 32), new Vector2(game.Window.ClientBounds.Width - 32, game.Window.ClientBounds.Height - 32), "players/red");
             mundo.AdicionarSprite(reactivoSimple);
+            mundo.AdicionarAgente(reactivoSimple);
         }
  
         protected override void LoadContent()
@@ -64,15 +65,15 @@ namespace Game
             float totalTime = (float)((double)gameTime.TotalGameTime.TotalMilliseconds / 1000);
             KeyboardState newState = Keyboard.GetState();
             Vector2 velocidad = jugador1.Velocidad;
-            bool salto = jugador1.Salto;
+            bool isOnGround = jugador1.isOnGround;
  
             velocidad.X = 0;
             if (newState.IsKeyDown(Keys.Space))
             {
-                if (salto == false)
+                if (isOnGround)
                 {
                     velocidad.Y = -400;
-                    salto = true;
+                    isOnGround = false;
                 }
             }
             if (newState.IsKeyDown(Keys.A))
@@ -84,7 +85,7 @@ namespace Game
                 velocidad.X = 200;
             }
             jugador1.Velocidad = velocidad;
-            jugador1.Salto = salto;
+            jugador1.isOnGround = isOnGround;
             mundo.Update(deltaTime, totalTime);
             base.Update(gameTime);
         }

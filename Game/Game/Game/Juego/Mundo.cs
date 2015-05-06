@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Game.Juego;
 
 
 namespace Game
@@ -19,10 +20,12 @@ namespace Game
     {
         Vector2 gravedad = new Vector2(0, 16);
         public List<SpriteComponent> Sprites { get; set; }
+        public List<Agent> Agentes { get; set; }     
 
         public Mundo()
         {
             Sprites = new List<SpriteComponent>();
+            Agentes = new List<Agent>();
         }
 
         public void AdicionarSprite(SpriteComponent sprite)
@@ -33,6 +36,16 @@ namespace Game
         public void RemoverSprite(SpriteComponent sprite)
         {
             Sprites.Remove(sprite);
+        }
+
+        public void AdicionarAgente(Agent agente)
+        {
+            Agentes.Add(agente);
+        }
+
+        public void RemoverAgente(Agent agente)
+        {
+            Agentes.Remove(agente);
         }
 
         public Vector2 CalcularMinimaDistanciaTraslacion(BoundingBox bound1, BoundingBox bound2)
@@ -128,7 +141,13 @@ namespace Game
                         Sprites[i].Colision(Sprites[j], depth);
                     }
                 }
+                //verificar interaccion con el agente
+                for (int k = 0; k < Agentes.Count; k++)
+                {
+                    Agentes[k].Sensor(Sprites[i]);
+                }               
             }
+            
         }
     }
 }

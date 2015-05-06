@@ -30,7 +30,7 @@ namespace Game
                 if (desplazamiento.Y != 0)
                 {
                     velocidad.Y = 0;
-                    Salto = false;
+                    isOnGround = true;
                 }
             }
             if (otro is AgenteReactivoSimple)
@@ -42,5 +42,7 @@ namespace Game
                 }
             }
         }
+
+        
     }
 }
