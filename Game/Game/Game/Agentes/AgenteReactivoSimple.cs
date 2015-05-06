@@ -98,7 +98,7 @@ namespace Game
             foreach (var accion in a.accion)
             {
                 if (accion.Equals("avanzar")) avanzar(Direccion.LEFT); 
-                if (accion.Equals("saltar")) saltar();     
+                //if (accion.Equals("saltar")) saltar();     
             }
         }
 
