@@ -68,13 +68,14 @@ namespace Game
                 condiciones cond3 = new condiciones();
                 cond3.accion = "avanzar";
                 cond3.condicion = "player_no_near";
-                //condiciones cond4 = new condiciones();
-                //cond4.accion = "avanzar";
-                //cond4.condicion = "block_no_near";
+                condiciones cond4 = new condiciones();
+                cond4.accion = "retroceder";
+                cond4.condicion = "muro_is_near";
                 //
                 r.regla.Add(cond1);
                 r.regla.Add(cond2);
                 r.regla.Add(cond3);
+                r.regla.Add(cond4);
                 //
                 acciones action = new acciones();
                 action = Regla(e, r);
@@ -86,7 +87,11 @@ namespace Game
         {
             foreach (var accion in a.accion)
             {
-                if (accion.Equals("avanzar")) avanzar(Direccion.LEFT); 
+                if (accion.Equals("avanzar"))
+                {
+                    if (accion.Equals("retroceder")) avanzar(Direccion.RIGHT);
+                    else avanzar(Direccion.LEFT);
+                }
                 if (accion.Equals("saltar")) saltar();     
             }
         }

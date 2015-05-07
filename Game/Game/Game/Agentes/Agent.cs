@@ -34,7 +34,7 @@ namespace Game
                 // calcula la distancia entre jugador y agente.
                 Vector2 distancia = new Vector2(agente.Posicion.X - sprite.Posicion.X, agente.Posicion.Y - sprite.Posicion.Y);
                 // verifica si el jugador esta cerca o no.
-                if (distancia.X < 64) nuevoEstado.estado.Add("player_near");
+                if ((distancia.X > 0) && (distancia.X < 64)) nuevoEstado.estado.Add("player_near");
                 else nuevoEstado.estado.Add("player_no_near");
                 // verifica si el jugador esta en el aire o no.
                 if (sprite.isOnGround) nuevoEstado.estado.Add("player_no_onAir");
@@ -48,8 +48,15 @@ namespace Game
                 // calcular distancia del salto.
                 float distanciaX = agente.Posicion.X - (sprite.Posicion.X + sprite.Tamano.X);
                 // verifica si el jugador esta cerca o no.
-                if ((sprite.Posicion.Y >= agente.Posicion.Y) && (sprite.Posicion.Y < (agente.Posicion.Y + agente.Tamano.Y)) && (distanciaX < 32) && (distanciaX > 0)) nuevoEstado.estado.Add("block_is_near");
-                else nuevoEstado.estado.Add("block_no_near");
+                if ((sprite.Posicion.Y >= agente.Posicion.Y) && (sprite.Posicion.Y < (agente.Posicion.Y + agente.Tamano.Y)))
+                {
+                    if ((distanciaX < 32) && (distanciaX > 0)) nuevoEstado.estado.Add("block_is_near");
+                    else nuevoEstado.estado.Add("block_no_near");
+	            }
+                if (((sprite.Posicion.Y + sprite.Tamano.Y )> agente.Posicion.Y) && (sprite.Posicion.Y < (agente.Posicion.Y - agente.Tamano.Y)))
+                {
+                    nuevoEstado.estado.Add("muro_is_near");
+                }
             }
             
             // retorna los estados agregados.
