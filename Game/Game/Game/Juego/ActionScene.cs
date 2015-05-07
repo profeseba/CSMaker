@@ -33,8 +33,8 @@ namespace Game
             mundo = new Mundo();
             //Crear los muros
             mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width, 1), new Vector2(0,0)));           
-            mundo.AdicionarSprite(new Muro(game, new Vector2(1, game.Window.ClientBounds.Width), new Vector2(game.Window.ClientBounds.Width - 1, 0)));
-            mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width, 1), new Vector2(0, game.Window.ClientBounds.Height - 1)));
+            mundo.AdicionarSprite(new Muro(game, new Vector2(1, game.Window.ClientBounds.Width), new Vector2(game.Window.ClientBounds.Width, 0)));
+            mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width, 1), new Vector2(0, game.Window.ClientBounds.Height)));
             mundo.AdicionarSprite(new Muro(game, new Vector2(1, game.Window.ClientBounds.Width), new Vector2(0, 0)));
  
             //crear algunas plataformas
@@ -42,7 +42,7 @@ namespace Game
             //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 500)));
             //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(game.Window.ClientBounds.Width - (game.Window.ClientBounds.Width / 2), 96 + 96 + 28)));
             //mundo.AdicionarSprite(new Muro(game, new Vector2(256, 16), new Vector2(64, (int)(96 * 3.5f))));
-            mundo.AdicionarSprite(new Muro(game, new Vector2(256, 64), new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height - 32 - 1)));
+            mundo.AdicionarSprite(new Muro(game, new Vector2(256, 32), new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height - 32)));
  
             //crea al jugador
             jugador1 = new Jugador(game, new Vector2(32, 32), new Vector2( 0, game.Window.ClientBounds.Height - 32), "players/blue");

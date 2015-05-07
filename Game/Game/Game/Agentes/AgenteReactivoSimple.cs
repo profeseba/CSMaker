@@ -52,35 +52,25 @@ namespace Game
 
         public override void Sensor(SpriteComponent sprite) 
         {
-            if (sprite is Jugador)
-            {
-                percepciones jugador = new percepciones();
-                percepciones agente = new percepciones();
-                //Jugador
-                jugador.Position = sprite.Posicion;
-                jugador.isOnGround = sprite.isOnGround;
-                jugador.isFire = false;
-                //Agente
-                agente.Position = Posicion;
-                agente.isOnGround = isOnGround;
-                agente.isFire = false;
-                //inicia el comportamient
                 //asigna los estados
                 estados e = new estados();
-                e = Estado(jugador, agente);
+                e = Percepciones(sprite, this);
                 // acciones necesitan reglas
                 reglas r = new reglas();
                 r.regla = new List<condiciones>();
                 // condiciones
                 condiciones cond1 = new condiciones();
                 cond1.accion = "perseguir";
-                cond1.condicion = "near";
+                cond1.condicion = "player_near";
                 condiciones cond2 = new condiciones();
                 cond2.accion = "saltar";
-                cond2.condicion = "onAir";
+                cond2.condicion = "block_is_near";
                 condiciones cond3 = new condiciones();
                 cond3.accion = "avanzar";
-                cond3.condicion = "not_near";
+                cond3.condicion = "player_no_near";
+                //condiciones cond4 = new condiciones();
+                //cond4.accion = "avanzar";
+                //cond4.condicion = "block_no_near";
                 //
                 r.regla.Add(cond1);
                 r.regla.Add(cond2);
@@ -90,7 +80,6 @@ namespace Game
                 action = Regla(e, r);
                 //
                 Comportamiento(action);
-            }
         }
 
         public override void Comportamiento(acciones a)
@@ -98,7 +87,7 @@ namespace Game
             foreach (var accion in a.accion)
             {
                 if (accion.Equals("avanzar")) avanzar(Direccion.LEFT); 
-                //if (accion.Equals("saltar")) saltar();     
+                if (accion.Equals("saltar")) saltar();     
             }
         }
 
