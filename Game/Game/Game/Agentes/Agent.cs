@@ -34,7 +34,7 @@ namespace Game
                 // calcula la distancia entre jugador y agente.
                 Vector2 distancia = new Vector2(agente.Posicion.X - sprite.Posicion.X, agente.Posicion.Y - sprite.Posicion.Y);
                 // verifica si el jugador esta cerca o no.
-                if ((distancia.X > 0) && (distancia.X < 64)) nuevoEstado.estado.Add("player_near");
+                if ((distancia.X > 0) && (distancia.X < 64)) nuevoEstado.estado.Add("player_is_near");
                 else nuevoEstado.estado.Add("player_no_near");
                 // verifica si el jugador esta en el aire o no.
                 if (sprite.isOnGround) nuevoEstado.estado.Add("player_no_onAir");
@@ -53,9 +53,15 @@ namespace Game
                     if ((distanciaX < 32) && (distanciaX > 0)) nuevoEstado.estado.Add("block_is_near");
                     else nuevoEstado.estado.Add("block_no_near");
 	            }
-                if (((sprite.Posicion.Y + sprite.Tamano.Y )> agente.Posicion.Y) && (sprite.Posicion.Y < (agente.Posicion.Y - agente.Tamano.Y)))
+                //if (((sprite.Posicion.Y + sprite.Tamano.Y ) > agente.Posicion.Y) && (sprite.Posicion.Y < (agente.Posicion.Y - agente.Tamano.Y)))
+                //{
+                //    if ((distanciaX < 32) && (distanciaX > 0)) nuevoEstado.estado.Add("muro_is_near");
+                //    else nuevoEstado.estado.Add("muro_no_near");
+                //}    
+                if ( ( sprite.Posicion.Y  < ( agente.Posicion.Y - agente.Tamano.Y ) ) && ( ( sprite.Posicion.Y + sprite.Tamano.Y ) > agente.Posicion.Y))
                 {
-                    nuevoEstado.estado.Add("muro_is_near");
+                    if ((distanciaX < 32) && (distanciaX >= 0)) nuevoEstado.estado.Add("muro_is_near");
+                    else nuevoEstado.estado.Add("muro_no_near");
                 }
             }
             
@@ -68,16 +74,31 @@ namespace Game
             // deberia leer las reglas desde un archivo
             acciones nuevasAcciones = new acciones();
             nuevasAcciones.accion = new List<string>();
-            foreach (var state in e.estado)
+            int cond = 0;
+            //foreach (var state in e.estado)
+            //{
+            //    foreach (var rule in r.regla)
+            //    {
+            //        foreach (var item in rule.condicion)
+            //        {
+            //            if (item == state) cond++; 
+            //            if (cond == rule.condicion.Count) { nuevasAcciones.accion.Add(rule.accion); cond = 0; }
+            //        }
+            //    }
+            //}
+            foreach (var rule in r.regla)
             {
-                foreach (var rule in r.regla)
+                foreach (var state in e.estado)
                 {
-                    if (rule.condicion == state)
+                    //Console.Out.WriteLine(rule.accion+state);
+                    foreach (var item in rule.condicion)
                     {
-                        nuevasAcciones.accion.Add(rule.accion);
-                    }  
+                        if (item == state) cond++;
+                        if (cond == rule.condicion.Count) { nuevasAcciones.accion.Add(rule.accion); cond = 0; }
+                    }
                 }
             }
+            
             return nuevasAcciones;
         }
 

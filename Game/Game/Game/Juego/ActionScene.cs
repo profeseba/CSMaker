@@ -32,10 +32,10 @@ namespace Game
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
             mundo = new Mundo();
             //Crear los muros
-            mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width, 1), new Vector2(0,0)));           
-            mundo.AdicionarSprite(new Muro(game, new Vector2(1, game.Window.ClientBounds.Width), new Vector2(game.Window.ClientBounds.Width, 0)));
-            mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width, 1), new Vector2(0, game.Window.ClientBounds.Height)));
-            mundo.AdicionarSprite(new Muro(game, new Vector2(1, game.Window.ClientBounds.Width), new Vector2(0, 0)));
+            mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width, 1), new Vector2(0,0)));   // muro de arriba     
+            mundo.AdicionarSprite(new Muro(game, new Vector2(1, game.Window.ClientBounds.Height), new Vector2(game.Window.ClientBounds.Width, 0))); // muro de derecha
+            mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width, 1), new Vector2(0, game.Window.ClientBounds.Height))); // muro de abajo
+            mundo.AdicionarSprite(new Muro(game, new Vector2(1, game.Window.ClientBounds.Height), new Vector2(0, 0))); // muro de izquierda
  
             //crear algunas plataformas
             //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 96)));
@@ -49,7 +49,7 @@ namespace Game
             mundo.AdicionarSprite(jugador1);
 
             //crea al agente
-            reactivoSimple = new AgenteReactivoSimple(game, new Vector2(32, 32), new Vector2(game.Window.ClientBounds.Width - 32, game.Window.ClientBounds.Height - 32), "players/red");
+            reactivoSimple = new AgenteReactivoSimple(game, new Vector2(32, 32), new Vector2(game.Window.ClientBounds.Width - 32 -1, game.Window.ClientBounds.Height - 32 -1), "players/red");
             mundo.AdicionarSprite(reactivoSimple);
             mundo.AdicionarAgente(reactivoSimple);
         }
