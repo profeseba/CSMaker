@@ -53,7 +53,7 @@ namespace Game
                     if ((distanciaX < 32) && (distanciaX > 0)) nuevoEstado.estado.Add("block_is_near");
                     else nuevoEstado.estado.Add("block_no_near");
 	            }
-                if (((sprite.Posicion.Y + sprite.Tamano.Y )> agente.Posicion.Y) && (sprite.Posicion.Y < (agente.Posicion.Y - agente.Tamano.Y)))
+                if (((sprite.Posicion.Y + sprite.Tamano.Y ) > agente.Posicion.Y) && (sprite.Posicion.Y < (agente.Posicion.Y - agente.Tamano.Y)))
                 {
                     nuevoEstado.estado.Add("muro_is_near");
                 }
