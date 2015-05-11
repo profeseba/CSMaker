@@ -35,6 +35,7 @@ namespace Game
         public Color ColorImagen { get; set; }
         public String NombreImagen { get; set; }
         public float Salto = 400;
+        public String Direccion { get; set; }
         BoundingBox bound;
 
         public SpriteComponent(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion)

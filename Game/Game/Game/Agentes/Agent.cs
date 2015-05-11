@@ -5,7 +5,6 @@ using System.Text;
 using Game.Agentes;
 using Game.Juego;
 using Microsoft.Xna.Framework;
-using Game.Agentes.ext;
 
 namespace Game
 {
@@ -16,6 +15,7 @@ namespace Game
         {
             NombreImagen = nombreImagen;
             ColorImagen = Color.White;
+            Direccion = "left";
             LoadContent();
         }
 
@@ -34,7 +34,7 @@ namespace Game
                 // calcula la distancia entre jugador y agente.
                 Vector2 distancia = new Vector2(agente.Posicion.X - sprite.Posicion.X, agente.Posicion.Y - sprite.Posicion.Y);
                 // verifica si el jugador esta cerca o no.
-                if ((distancia.X > 0) && (distancia.X < 64)) nuevoEstado.estado.Add("player_is_near");
+                if ((distancia.X > -64) && (distancia.X < 64)) nuevoEstado.estado.Add("player_is_near");
                 else nuevoEstado.estado.Add("player_no_near");
                 // verifica si el jugador esta en el aire o no.
                 if (sprite.isOnGround) nuevoEstado.estado.Add("player_no_onAir");
@@ -45,12 +45,17 @@ namespace Game
                 // calcula la distancia entre el muro y agente.
                 // tamano del muro
                 //Vector2 distancia = new Vector2(agente.Posicion.X - (sprite.Posicion.X + sprite.Tamano.X), agente.Posicion.Y - (sprite.Posicion.Y ));
-                // calcular distancia del salto.
-                float distanciaX = agente.Posicion.X - (sprite.Posicion.X + sprite.Tamano.X);
+                // calcular distancia entre objetos
+                float distanciaX;
+                if (Direccion.Equals("left"))
+                {
+                    distanciaX = agente.Posicion.X - (sprite.Posicion.X + sprite.Tamano.X);
+                } else distanciaX = agente.Posicion.X - sprite.Posicion.X;
+                
                 // verifica si el jugador esta cerca o no.
                 if ((sprite.Posicion.Y >= agente.Posicion.Y) && (sprite.Posicion.Y < (agente.Posicion.Y + agente.Tamano.Y)))
                 {
-                    if ((distanciaX < 32) && (distanciaX > 0)) nuevoEstado.estado.Add("block_is_near");
+                    if ((distanciaX < agente.Tamano.X) && (distanciaX > -(agente.Tamano.X*2))) nuevoEstado.estado.Add("block_is_near");
                     else nuevoEstado.estado.Add("block_no_near");
 	            }
                 //if (((sprite.Posicion.Y + sprite.Tamano.Y ) > agente.Posicion.Y) && (sprite.Posicion.Y < (agente.Posicion.Y - agente.Tamano.Y)))
@@ -60,7 +65,7 @@ namespace Game
                 //}    
                 if ( ( sprite.Posicion.Y  < ( agente.Posicion.Y - agente.Tamano.Y ) ) && ( ( sprite.Posicion.Y + sprite.Tamano.Y ) > agente.Posicion.Y))
                 {
-                    if ((distanciaX < 32) && (distanciaX >= 0)) nuevoEstado.estado.Add("muro_is_near");
+                    if ((distanciaX < (agente.Tamano.X) + 1) && (distanciaX > -(agente.Tamano.X) - 1)) nuevoEstado.estado.Add("muro_is_near");
                     else nuevoEstado.estado.Add("muro_no_near");
                 }
             }
@@ -126,17 +131,24 @@ namespace Game
             }    
         }
         
-        public void avanzar(String where)
+        public void avanzar()
         {
-            if (where.Equals(Direccion.LEFT))
+            if (Direccion.Equals("left"))
             {
                 velocidad.X = -100;
             }
-            else if (where.Equals(Direccion.RIGHT))
+            else if (Direccion.Equals("right"))
             {
                 velocidad.X = 100;
             }
             
+        }
+
+        public void cambiarDireccion() 
+        {
+            if (Direccion.Equals("left")) Direccion = "right";
+            else Direccion = "left";
+            avanzar(); // hace una llamada a la funcion avanzar para no entrar en un loop.
         }
 
 

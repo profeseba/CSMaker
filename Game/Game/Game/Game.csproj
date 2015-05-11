@@ -75,7 +75,6 @@
     <Compile Include="Agentes\ext\acciones.cs" />
     <Compile Include="Agentes\Agent.cs" />
     <Compile Include="Agentes\ext\condiciones.cs" />
-    <Compile Include="Agentes\ext\Direccion.cs" />
     <Compile Include="Agentes\ext\estados.cs" />
     <Compile Include="Agentes\ext\reglas.cs" />
     <Compile Include="Juego\ActionScene.cs" />

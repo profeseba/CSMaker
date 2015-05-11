@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Game.Agentes;
 using Game.Juego;
-using Game.Agentes.ext;
 
 
 namespace Game
@@ -73,14 +72,14 @@ namespace Game
                 //cond3.condicion.Add("player_no_near");
                 cond3.condicion.Add("muro_no_near");
                 condiciones cond4 = new condiciones();
-                cond4.accion = "retroceder";
+                cond4.accion = "cambiar_direccion";
                 cond4.condicion = new List<string>();
                 cond4.condicion.Add("muro_is_near");
                 //
                 r.regla.Add(cond1);
                 r.regla.Add(cond2);
-                r.regla.Add(cond3);
                 r.regla.Add(cond4);
+                r.regla.Add(cond3);
                 //
                 acciones action = new acciones();
                 action = Regla(e, r);
@@ -92,10 +91,10 @@ namespace Game
         {
             foreach (var accion in a.accion)
             {
-                //Console.Out.WriteLine(accion);
+                //Console.Out.WriteLine(Direccion);
                 //
-                if (accion.Equals("avanzar"))  avanzar(Direccion.LEFT);
-                if (accion.Equals("retroceder")) avanzar(Direccion.RIGHT);
+                if (accion.Equals("cambiar_direccion")) cambiarDireccion();                
+                if (accion.Equals("avanzar"))  avanzar();
                 if (accion.Equals("saltar")) saltar();     
             }
         }
