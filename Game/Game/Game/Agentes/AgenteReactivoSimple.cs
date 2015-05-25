@@ -27,28 +27,6 @@ namespace Game
             LoadContent();
         }
 
-        public override void Colision(SpriteComponent otro, Vector2 desplazamiento)
-        {
-            if (otro is Muro)
-            {
-                Mover(desplazamiento);
-                if (desplazamiento.Y != 0)
-                {
-                    velocidad.Y = 0;
-                    isOnGround = true;
-                }
-            }
-            if (otro is Jugador) 
-            {
-                Mover(desplazamiento);
-                if (desplazamiento.Y != 0)
-                {
-                    velocidad.Y = 0;
-                }
-            }
-
-        }
-
         public override void Sensor(SpriteComponent sprite) 
         {
                 //asigna los estados

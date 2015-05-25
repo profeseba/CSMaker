@@ -19,7 +19,26 @@ namespace Game
             LoadContent();
         }
 
-        public override void Colision(SpriteComponent otro, Vector2 desplazamiento) { }
+        public override void Colision(SpriteComponent otro, Vector2 desplazamiento) 
+        {
+            if (otro is Muro)
+            {
+                Mover(desplazamiento);
+                if (desplazamiento.Y != 0)
+                {
+                    velocidad.Y = 0;
+                    isOnGround = true;
+                }
+            }
+            if (otro is Jugador)
+            {
+                Mover(desplazamiento);
+                if (desplazamiento.Y != 0)
+                {
+                    velocidad.Y = 0;
+                }
+            }
+        }
 
         public estados Percepciones(SpriteComponent sprite, SpriteComponent agente)
         {
@@ -80,17 +99,7 @@ namespace Game
             acciones nuevasAcciones = new acciones();
             nuevasAcciones.accion = new List<string>();
             int cond = 0;
-            //foreach (var state in e.estado)
-            //{
-            //    foreach (var rule in r.regla)
-            //    {
-            //        foreach (var item in rule.condicion)
-            //        {
-            //            if (item == state) cond++; 
-            //            if (cond == rule.condicion.Count) { nuevasAcciones.accion.Add(rule.accion); cond = 0; }
-            //        }
-            //    }
-            //}
+            
             foreach (var rule in r.regla)
             {
                 foreach (var state in e.estado)
@@ -142,6 +151,19 @@ namespace Game
                 velocidad.X = 100;
             }
             
+        }
+
+        public void avanzarDireccion(String Direccion)
+        {
+            if (Direccion.Equals("left"))
+            {
+                velocidad.X = -100;
+            }
+            else if (Direccion.Equals("right"))
+            {
+                velocidad.X = 100;
+            }
+
         }
 
         public void cambiarDireccion() 
