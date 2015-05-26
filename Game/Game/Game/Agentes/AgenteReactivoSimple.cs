@@ -59,6 +59,7 @@ namespace Game
                 r.regla.Add(cond4);
                 r.regla.Add(cond3);
                 //
+                XML.Serialize(r,"reglas.dat");
                 acciones action = new acciones();
                 action = Regla(e, r);
                 //

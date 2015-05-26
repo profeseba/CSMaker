@@ -78,6 +78,7 @@
     <Compile Include="Agentes\ext\condiciones.cs" />
     <Compile Include="Agentes\ext\estados.cs" />
     <Compile Include="Agentes\ext\reglas.cs" />
+    <Compile Include="Agentes\ext\XML.cs" />
     <Compile Include="Juego\ActionScene.cs" />
     <Compile Include="Agentes\AgenteReactivoSimple.cs" />
     <Compile Include="Juego\BackgroundComponent.cs" />
