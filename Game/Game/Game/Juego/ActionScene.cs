@@ -26,13 +26,13 @@ namespace Game
         Vector2 sizeWorld;
         //KeyboardState oldState;
  
-        public ActionScene(Microsoft.Xna.Framework.Game game, Texture2D background, Vector2 size, Vector2 sizeWorld)
+        public ActionScene(Microsoft.Xna.Framework.Game game, Texture2D background, Vector2 sizeWorld)
             : base(game)
         {
             Componentes.Add(new BackgroundComponent(game, background));
             Content = (ContentManager)Game.Services.GetService(typeof(ContentManager));
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
-            this.size = size;
+            this.size = new Vector2(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
             this.sizeWorld = sizeWorld;
             mundo = new Mundo();
             //Crear los muros

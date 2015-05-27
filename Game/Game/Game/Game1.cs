@@ -68,7 +68,7 @@ namespace Game
             //fondo = Content.Load<Texture2D>("fondo2");
             //escenaAyuda = new HelpScene(this, fondo);
             //Components.Add(escenaAyuda);
-            escenaAccion = new ActionScene(this, fondo, size, new Vector2(70*32, size.Y));
+            escenaAccion = new ActionScene(this, fondo, new Vector2(70*32, size.Y));
             Components.Add(escenaAccion);
             escenaAccion.Show();
             //escenaInicio.Show();
