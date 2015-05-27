@@ -23,7 +23,8 @@ namespace Game
         // Propiedades
         ContentManager Content;
         SpriteBatch spriteBatch;
-        public Vector2 Posicion { get; set; }
+        protected Vector2 posicion { get; set; }
+        public Vector2 Posicion { get { return posicion; } set { posicion = value; } }
         public Texture2D Textura { get; set; }
         protected Vector2 velocidad;
         public Vector2 Velocidad { get { return velocidad; } set { velocidad = value; } }
@@ -38,18 +39,18 @@ namespace Game
         public String Direccion { get; set; }
         BoundingBox bound;
 
-        public SpriteComponent(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion)
+        public SpriteComponent(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 pos)
             : base(game)
         {
             // TODO: Construct any child components here
             Content = (ContentManager)Game.Services.GetService(typeof(ContentManager));
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
             Tamano = tamano;
-            Posicion = posicion;
+            posicion = pos;
             Peso = 1.0f;
             isOnGround = true;
-            Vector3 min1 = new Vector3(Posicion.X, Posicion.Y, 0);
-            Vector3 max1 = new Vector3((Posicion.X + Tamano.X), (Posicion.Y + Tamano.Y), 0);
+            Vector3 min1 = new Vector3(posicion.X, posicion.Y, 0);
+            Vector3 max1 = new Vector3((posicion.X + Tamano.X), (posicion.Y + Tamano.Y), 0);
             bound = new BoundingBox(min1, max1);
         }
 
@@ -85,7 +86,7 @@ namespace Game
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Draw(Textura, Posicion, new Rectangle(0, 0, (int)Tamano.X, (int)Tamano.Y), ColorImagen);
+            spriteBatch.Draw(Textura, posicion, new Rectangle(0, 0, (int)Tamano.X, (int)Tamano.Y), ColorImagen);
             base.Draw(gameTime);
         }
 
@@ -103,9 +104,9 @@ namespace Game
 
         public void Mover(Vector2 velocidad)
         {
-            Posicion += velocidad;
-            bound.Max = new Vector3((Posicion.X + Tamano.X), (Posicion.Y + Tamano.Y), 0);
-            bound.Min = new Vector3(Posicion.X, Posicion.Y, 0);
+            posicion += velocidad;
+            bound.Max = new Vector3((posicion.X + Tamano.X), (posicion.Y + Tamano.Y), 0);
+            bound.Min = new Vector3(posicion.X, posicion.Y, 0);
         }
 
         public abstract void Colision(SpriteComponent otro, Vector2 desplazamiento);

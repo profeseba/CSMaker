@@ -20,12 +20,14 @@ namespace Game
     {
         Vector2 gravedad = new Vector2(0, 16);
         public List<SpriteComponent> Sprites { get; set; }
-        public List<Agent> Agentes { get; set; }     
+        public List<Agent> Agentes { get; set; }
+        public Vector2 Desplazamiento;
 
         public Mundo()
         {
             Sprites = new List<SpriteComponent>();
             Agentes = new List<Agent>();
+            Desplazamiento = new Vector2(0,0);
         }
 
         public void AdicionarSprite(SpriteComponent sprite)
@@ -129,7 +131,12 @@ namespace Game
             for (int i = 0; i < Sprites.Count; ++i)
             {
                 Sprites[i].Velocidad += gravedad * Sprites[i].Peso;
-                Sprites[i].Mover(Sprites[i].Velocidad * deltaTime);
+                Sprites[i].Mover((Sprites[i].Velocidad) * deltaTime);
+                //redibuja las posiciones
+                if (!(Sprites[i] is Jugador))
+                {
+                    Sprites[i].Mover(Desplazamiento * deltaTime);  
+                }
                 //verificar colisiones
                 for (int j = 0; j < Sprites.Count; ++j)
                 {
