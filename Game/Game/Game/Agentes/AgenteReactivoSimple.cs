@@ -30,9 +30,11 @@ namespace Game
         {
             foreach (var accion in a.accion)
             {
+                //Console.Out.WriteLine(accion);
                 if (accion.Equals("cambiar_direccion")) cambiarDireccion();                
                 if (accion.Equals("avanzar"))  avanzar();
-                if (accion.Equals("saltar")) saltar();     
+                if (accion.Equals("saltarIzq")) { avanzar(); saltar(); }
+                if (accion.Equals("saltarDer")) { avanzar(); saltar(); }
             }
         }
 

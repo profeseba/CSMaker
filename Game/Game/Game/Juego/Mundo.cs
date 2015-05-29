@@ -128,6 +128,9 @@ namespace Game
 
         public void Update(float deltaTime, float totalTime)
         {
+            //List<estados> stat = new List<estados>();
+            estados stat = new estados();
+            stat.bloque = new List<Bloque>();
             for (int i = 0; i < Sprites.Count; ++i)
             {
                 Sprites[i].Velocidad += gravedad * Sprites[i].Peso;
@@ -151,7 +154,15 @@ namespace Game
                 //verificar interaccion con el agente
                 for (int k = 0; k < Agentes.Count; k++)
                 {
-                    Agentes[k].Sensor(Sprites[i]);
+                    if (!(Sprites[i] is Agent))
+                    {
+                        stat.bloque.Add(new Sensores().Percepciones(Agentes[k],Sprites[i]));
+                    }
+                    if (i == (Sprites.Count - 1) )
+                    {
+                        Agentes[k].Sensor(stat);
+                        stat = new estados();
+                    }
                 }               
             }
             
