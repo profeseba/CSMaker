@@ -50,6 +50,10 @@ namespace Game
             //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(game.Window.ClientBounds.Width - (game.Window.ClientBounds.Width / 2), 96 + 96 + 28)));
             //mundo.AdicionarSprite(new Muro(game, new Vector2(256, 20), new Vector2(120, (int)(96 * 4.5f))));
             mundo.AdicionarSprite(new Objeto(game, new Vector2(Celda, Celda), new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height - Piso)));
+            mundo.AdicionarSprite(new Objeto(game, new Vector2(Celda, Celda), new Vector2(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda)));
+            mundo.AdicionarSprite(new Objeto(game, new Vector2(Celda, Celda), new Vector2(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda*2)));
+            mundo.AdicionarSprite(new Objeto(game, new Vector2(Celda*2, Celda), new Vector2(Celda*4, game.Window.ClientBounds.Height - Piso)));
+            
             mundo.AdicionarSprite(new Objeto(game, new Vector2(3 * Celda, Celda), new Vector2(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height - Piso)));
  
             //crea al jugador

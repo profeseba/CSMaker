@@ -131,6 +131,7 @@ namespace Game
             //List<estados> stat = new List<estados>();
             estados stat = new estados();
             stat.bloque = new List<Bloque>();
+            List<Bloque> aux = new List<Bloque>();
             for (int i = 0; i < Sprites.Count; ++i)
             {
                 Sprites[i].Velocidad += gravedad * Sprites[i].Peso;
@@ -160,8 +161,12 @@ namespace Game
                     }
                     if (i == (Sprites.Count - 1) )
                     {
-                        Agentes[k].Sensor(stat);
+                        aux = stat.bloque;
                         stat = new estados();
+                        stat.bloque = new List<Bloque>();
+                        stat.bloque.Add(new Sensores().SumaNivel1(aux));
+                        Agentes[k].Sensor(stat);
+                        
                     }
                 }               
             }

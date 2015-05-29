@@ -200,5 +200,60 @@ namespace Game
 
             return output;
         }
+
+        public Bloque SumaNivel1(List<Bloque> input)
+        {
+            Bloque output = new Bloque();
+            //Bloque swap = new Bloque();
+            List<Sector> swap = new List<Sector>();
+            Sector sA;
+            sA = new Sector();
+            sA.name = "A";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "B";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "C";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "D";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "E";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "F";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "G";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "H";
+            sA.value = false;
+            swap.Add(sA);
+            // comparacion
+            foreach (var bloque in input)
+            {
+                foreach (var s in swap)
+                {
+                    foreach (var o in bloque.sector)
+                    {
+                        if ((s.name == o.name) && (o.value == true)) s.value = true;
+                    }
+                }
+            }
+
+            output.sector = swap;
+
+            return output;
+        }
     }
 }
