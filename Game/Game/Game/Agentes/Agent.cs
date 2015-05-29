@@ -63,9 +63,10 @@ namespace Game
                 {
                     foreach (var e_bloq in e.bloque) // para cada condicion de bloques
                     {
-                        //Console.Out.WriteLine(e_bloq.element);
+                        //Console.Out.WriteLine(r_bloq.element);
                         foreach (var r_sector in r_bloq.sector) // lista de sectores
                         {
+                            
                             foreach (var e_sector in e_bloq.sector) // lista de sectores
                             {
                                //Console.Out.Write(" " + e_sector.name + ":" + e_sector.value);
@@ -78,8 +79,8 @@ namespace Game
                         }
                         if (sectores == r_bloq.sector.Count) { cond++; sectores = 0; break; }
                     }
-                    if (cond == r_cond.bloque.Count) { nuevasAcciones.accion.Add(r_cond.accion); cond = 0; Console.Out.WriteLine("Regla aceptada.. "+r_cond.accion); }   
                 }
+                if (cond == r_cond.bloque.Count) { nuevasAcciones.accion.Add(r_cond.accion); cond = 0; }   
             }
             
             return nuevasAcciones;
