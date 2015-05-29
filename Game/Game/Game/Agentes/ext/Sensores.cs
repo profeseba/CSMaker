@@ -63,6 +63,10 @@ namespace Game
             {
                 nuevoBloque.element = "agent";
             }
+            else if (sprite is Objeto)
+            {
+                nuevoBloque.element = "Objeto";
+            }
             //if (sprite is Jugador)
             //{
 
@@ -109,7 +113,8 @@ namespace Game
             //
             //for (int i = 0; i < nuevoEstado.sector.Count; i++)  Console.Out.WriteLine(nuevoEstado.sector[i].name+" "+nuevoEstado.sector[i].value);   
 
-            nuevoBloque = filtro(nuevoBloque);
+            // filtra el bloque agregando los sectores que faltan como falsos.
+            nuevoBloque = filtroNivel1(nuevoBloque);
 
             return nuevoBloque;
         }
@@ -144,17 +149,54 @@ namespace Game
             return retorno;
         }
 
-        private Bloque filtro(Bloque input) 
+        private Bloque filtroNivel1(Bloque input) 
         {
-            Bloque output = new Bloque();
-            foreach (var o in input.sector)
+            Bloque output = input;
+            //Bloque swap = new Bloque();
+            List<Sector> swap = new List<Sector>();
+            Sector sA;
+            sA = new Sector();
+            sA.name = "A";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "B";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "C";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "D";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "E";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "F";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "G";
+            sA.value = false;
+            swap.Add(sA);
+            sA = new Sector();
+            sA.name = "H";
+            sA.value = false;
+            swap.Add(sA);
+            // comparacion
+            foreach (var s in swap)
             {
-                if (o.name.Equals("H"))
+                foreach (var o in output.sector)
                 {
-
+                    if (s.name == o.name)  s.value = true;
                 }
             }
-            
+
+            output.sector = swap;
 
             return output;
         }

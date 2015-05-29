@@ -38,6 +38,15 @@ namespace Game
                     velocidad.Y = 0;
                 }
             }
+            if (otro is Objeto)
+            {
+                Mover(desplazamiento);
+                if (desplazamiento.Y != 0)
+                {
+                    velocidad.Y = 0;
+                    isOnGround = true;
+                }
+            }
         }
 
         
@@ -59,14 +68,18 @@ namespace Game
                         {
                             foreach (var e_sector in e_bloq.sector) // lista de sectores
                             {
-                                ///Console.Out.Write(" " + e_sector.name + ":" + e_sector.value);
-                                if ((r_sector.name == e_sector.name) && (r_sector.value == e_sector.value)) sectores++;
+                               //Console.Out.Write(" " + e_sector.name + ":" + e_sector.value);
+                               if ((r_sector.name == e_sector.name) && (r_sector.value == e_sector.value))
+                               {
+                                   sectores++;
+                                   break;
+                               }
                             }
                         }
+                        if (sectores == r_bloq.sector.Count) { cond++; sectores = 0; break; }
                     }
-                    if (sectores == r_bloq.sector.Count) { cond++; sectores = 0; }
+                    if (cond == r_cond.bloque.Count) { nuevasAcciones.accion.Add(r_cond.accion); cond = 0; Console.Out.WriteLine("Regla aceptada.. "+r_cond.accion); }   
                 }
-                if (cond == r_cond.bloque.Count) { nuevasAcciones.accion.Add(r_cond.accion); cond = 0; }
             }
             
             return nuevasAcciones;

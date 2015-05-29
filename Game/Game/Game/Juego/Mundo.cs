@@ -154,7 +154,7 @@ namespace Game
                 //verificar interaccion con el agente
                 for (int k = 0; k < Agentes.Count; k++)
                 {
-                    if (!(Sprites[i] is Agent))
+                    if (!(Sprites[i] is Agent) && !(Sprites[i] is Muro))
                     {
                         stat.bloque.Add(new Sensores().Percepciones(Agentes[k],Sprites[i]));
                     }

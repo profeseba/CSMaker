@@ -32,7 +32,7 @@ namespace Game
             {
                 //Console.Out.WriteLine(accion);
                 if (accion.Equals("cambiar_direccion")) cambiarDireccion();                
-                if (accion.Equals("avanzar"))  avanzar();
+                if (accion.Equals("avanzarIzq"))  avanzar();
                 if (accion.Equals("saltarIzq")) { avanzar(); saltar(); }
                 if (accion.Equals("saltarDer")) { avanzar(); saltar(); }
             }

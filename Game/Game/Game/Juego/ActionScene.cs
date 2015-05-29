@@ -24,6 +24,7 @@ namespace Game
         AgenteReactivoSimple reactivoSimple;
         private int celda = 32;
         public int Celda { get { return celda; } }
+        int Piso { get { return celda * 2; } }
         Vector2 size;
         Vector2 sizeWorld;
         //KeyboardState oldState;
@@ -38,21 +39,21 @@ namespace Game
             this.sizeWorld = sizeWorld;
             mundo = new Mundo();
             //Crear los muros
-            mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, Celda), new Vector2(0,0)));   // muro de arriba     
+            mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, 1), new Vector2(0,0)));   // muro de arriba     
             mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), new Vector2(sizeWorld.X, 0))); // muro de derecha
-            mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, Celda), new Vector2(0, sizeWorld.Y))); // muro de abajo
-            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), new Vector2(0, 0))); // muro de izquierda
+            mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, Celda), new Vector2(0, sizeWorld.Y - Celda))); // muro de abajo
+            mundo.AdicionarSprite(new Muro(game, new Vector2( Celda ,sizeWorld.Y ), new Vector2(0, 0))); // muro de izquierda
  
             //crear algunas plataformas
             //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 96)));
             //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 500)));
             //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(game.Window.ClientBounds.Width - (game.Window.ClientBounds.Width / 2), 96 + 96 + 28)));
             //mundo.AdicionarSprite(new Muro(game, new Vector2(256, 20), new Vector2(120, (int)(96 * 4.5f))));
-            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height - Celda)));
-            mundo.AdicionarSprite(new Muro(game, new Vector2(2 * Celda, Celda), new Vector2(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height - Celda)));
+            mundo.AdicionarSprite(new Objeto(game, new Vector2(Celda, Celda), new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height - Piso)));
+            mundo.AdicionarSprite(new Objeto(game, new Vector2(3 * Celda, Celda), new Vector2(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height - Piso)));
  
             //crea al jugador
-            jugador1 = new Jugador(game, new Vector2(Celda, Celda), new Vector2(Celda, size.Y - Celda - 1), "players/blue");
+            jugador1 = new Jugador(game, new Vector2(Celda, Celda), new Vector2(Celda, size.Y - 2*Celda), "players/blue");
             mundo.AdicionarSprite(jugador1);
 
             //crea al agente
