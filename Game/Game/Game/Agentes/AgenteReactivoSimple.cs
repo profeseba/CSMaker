@@ -31,8 +31,9 @@ namespace Game
             foreach (var accion in a.accion)
             {
                 //Console.Out.WriteLine(accion);
-                if (accion.Equals("cambiar_direccion")) cambiarDireccion();                
-                if (accion.Equals("avanzarIzq"))  avanzar();
+                if (accion.Equals("cambiar_direccion_izq")) avanzarIzquierda();
+                if (accion.Equals("cambiar_direccion_der")) avanzarDerecha();    
+                if (accion.Equals("avanzar"))  avanzar();
                 if (accion.Equals("saltarIzq"))  saltar(); 
                 if (accion.Equals("saltarDer"))  saltar(); 
             }

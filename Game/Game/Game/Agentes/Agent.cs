@@ -194,7 +194,6 @@ namespace Game
             if (isOnGround)
             {
                 velocidad.Y = -Salto;
-
                 isOnGround = false;
             }    
         }
@@ -230,6 +229,20 @@ namespace Game
             if (Direccion.Equals("left")) Direccion = "right";
             else Direccion = "left";
              // hace una llamada a la funcion avanzar para no entrar en un loop.
+            avanzar();
+        }
+
+        public void avanzarIzquierda()
+        {
+            Direccion = "left";
+            // hace una llamada a la funcion avanzar para no entrar en un loop.
+            avanzar();
+        }
+
+        public void avanzarDerecha()
+        {
+            Direccion = "right";
+            // hace una llamada a la funcion avanzar para no entrar en un loop.
             avanzar();
         }
 
