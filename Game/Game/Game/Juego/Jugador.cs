@@ -33,7 +33,16 @@ namespace Game
                     isOnGround = true;
                 }
             }
-            if (otro is AgenteReactivoSimple)
+            if (otro is Objeto)
+            {
+                Mover(desplazamiento);
+                if (desplazamiento.Y != 0)
+                {
+                    velocidad.Y = 0;
+                    isOnGround = true;
+                }
+            }
+            if (otro is Agent)
             {
                 Mover(desplazamiento);
                 if (desplazamiento.Y != 0)
@@ -41,6 +50,7 @@ namespace Game
                     velocidad.Y = 0;
                 }
             }
+            
         }
 
         

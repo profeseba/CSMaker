@@ -26,11 +26,17 @@ namespace Game
         Texture2D fondo;
         //KeyboardState newState;
         //KeyboardState oldState;
+        Vector2 size;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.Title = "CSMakerTestv1.1";
+            size = new Vector2(960, 640); // x = 30*32px ; y = 20*32px
+            this.graphics.PreferredBackBufferWidth = (int)size.X;
+            this.graphics.PreferredBackBufferHeight = (int)size.Y;
+            //this.graphics.IsFullScreen = true;
         }
 
         /// <summary>
@@ -42,7 +48,6 @@ namespace Game
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -63,7 +68,7 @@ namespace Game
             //fondo = Content.Load<Texture2D>("fondo2");
             //escenaAyuda = new HelpScene(this, fondo);
             //Components.Add(escenaAyuda);
-            escenaAccion = new ActionScene(this, fondo);
+            escenaAccion = new ActionScene(this, fondo, new Vector2(70*32, size.Y));
             Components.Add(escenaAccion);
             escenaAccion.Show();
             //escenaInicio.Show();

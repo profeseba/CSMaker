@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Game
 {
-    public class estados
+    public class Bloque
     {
-        public List<Bloque> bloque { get; set;}
+        public List<Sector> sector { get; set; }
+        public String element { get; set; }
     }
 }

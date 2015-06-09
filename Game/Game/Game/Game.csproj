@@ -75,13 +75,17 @@
     <Compile Include="Agentes\Enemigo.cs" />
     <Compile Include="Agentes\ext\acciones.cs" />
     <Compile Include="Agentes\Agent.cs" />
+    <Compile Include="Agentes\ext\Bloque.cs" />
     <Compile Include="Agentes\ext\condiciones.cs" />
     <Compile Include="Agentes\ext\estados.cs" />
     <Compile Include="Agentes\ext\reglas.cs" />
+    <Compile Include="Agentes\ext\Sector.cs" />
+    <Compile Include="Agentes\ext\Sensores.cs" />
     <Compile Include="Agentes\ext\XML.cs" />
     <Compile Include="Juego\ActionScene.cs" />
     <Compile Include="Agentes\AgenteReactivoSimple.cs" />
     <Compile Include="Juego\BackgroundComponent.cs" />
+    <Compile Include="Juego\Objeto.cs" />
     <Compile Include="Juego\GameScene.cs" />
     <Compile Include="Juego\Jugador.cs" />
     <Compile Include="Juego\Mundo.cs" />

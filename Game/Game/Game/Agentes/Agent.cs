@@ -38,85 +38,144 @@ namespace Game
                     velocidad.Y = 0;
                 }
             }
-        }
-
-        public estados Percepciones(SpriteComponent sprite, SpriteComponent agente)
-        {
-            // lee las entradas (percepciones) y las compara para luego retornar un estado
-            // 'jugador' son las percepciones del objetivo: Jugador.
-            // 'agente' son las percepciones del objetivo: Agente.
-            estados nuevoEstado = new estados(); // inicializa los estados.
-            nuevoEstado.estado = new List<string>(); // inicializa el conjunto de estados.
-            // verifica si es un jugador u otro objeto
-            if (sprite is Jugador)
+            if (otro is Objeto)
             {
-                // calcula la distancia entre jugador y agente.
-                Vector2 distancia = new Vector2(agente.Posicion.X - sprite.Posicion.X, agente.Posicion.Y - sprite.Posicion.Y);
-                // verifica si el jugador esta cerca o no.
-                if ((distancia.X > -64) && (distancia.X < 64)) nuevoEstado.estado.Add("player_is_near");
-                else nuevoEstado.estado.Add("player_no_near");
-                // verifica si el jugador esta en el aire o no.
-                if (sprite.isOnGround) nuevoEstado.estado.Add("player_no_onAir");
-                else nuevoEstado.estado.Add("player_onAir");
-            }
-            if (sprite is Muro)
-            {
-                // calcula la distancia entre el muro y agente.
-                // tamano del muro
-                //Vector2 distancia = new Vector2(agente.Posicion.X - (sprite.Posicion.X + sprite.Tamano.X), agente.Posicion.Y - (sprite.Posicion.Y ));
-                // calcular distancia entre objetos
-                float distanciaX;
-                if (Direccion.Equals("left"))
+                Mover(desplazamiento);
+                if (desplazamiento.Y != 0)
                 {
-                    distanciaX = agente.Posicion.X - (sprite.Posicion.X + sprite.Tamano.X);
-                } else distanciaX = agente.Posicion.X - sprite.Posicion.X;
-                
-                // verifica si el jugador esta cerca o no.
-                if ((sprite.Posicion.Y >= agente.Posicion.Y) && (sprite.Posicion.Y < (agente.Posicion.Y + agente.Tamano.Y)))
-                {
-                    if ((distanciaX < agente.Tamano.X) && (distanciaX > -(agente.Tamano.X*2))) nuevoEstado.estado.Add("block_is_near");
-                    else nuevoEstado.estado.Add("block_no_near");
-	            }
-                //if (((sprite.Posicion.Y + sprite.Tamano.Y ) > agente.Posicion.Y) && (sprite.Posicion.Y < (agente.Posicion.Y - agente.Tamano.Y)))
-                //{
-                //    if ((distanciaX < 32) && (distanciaX > 0)) nuevoEstado.estado.Add("muro_is_near");
-                //    else nuevoEstado.estado.Add("muro_no_near");
-                //}    
-                if ( ( sprite.Posicion.Y  < ( agente.Posicion.Y - agente.Tamano.Y ) ) && ( ( sprite.Posicion.Y + sprite.Tamano.Y ) > agente.Posicion.Y))
-                {
-                    if ((distanciaX < (agente.Tamano.X) + 1) && (distanciaX > -(agente.Tamano.X) - 1)) nuevoEstado.estado.Add("muro_is_near");
-                    else nuevoEstado.estado.Add("muro_no_near");
+                    velocidad.Y = 0;
+                    isOnGround = true;
                 }
             }
-            
-            // retorna los estados agregados.
-            return nuevoEstado;
         }
+
+        
 
         public acciones Regla(estados e, reglas r)
         {
-            // deberia leer las reglas desde un archivo
             acciones nuevasAcciones = new acciones();
             nuevasAcciones.accion = new List<string>();
-            int cond = 0;
+            int cond = 0, sectores = 0;
             
-            foreach (var rule in r.regla)
+            foreach (var r_cond in r.regla) // lista de condiciones
             {
-                foreach (var state in e.estado)
+                foreach (var r_bloq in r_cond.bloque) // lista de bloques regla
                 {
-                    //Console.Out.WriteLine(rule.accion+state);
-                    foreach (var item in rule.condicion)
+                    foreach (var r_sector in r_bloq.sector) // sectores de cada bloque regla
                     {
-                        if (item == state) cond++;
-                        if (cond == rule.condicion.Count) { nuevasAcciones.accion.Add(rule.accion); cond = 0; }
+                        foreach (var e_bloq in e.bloque) // lista de bloques del sensor
+                        {
+                            foreach (var e_sector in e_bloq.sector) // lista de sectores del sensor
+                            {
+                                if ((r_sector.name == e_sector.name) && (r_sector.value == e_sector.value)) sectores++;
+                            }
+                        }
                     }
+                    if (sectores == r_bloq.sector.Count) cond++;
+                    sectores = 0;
                 }
+                if (cond == r_cond.bloque.Count) { nuevasAcciones.accion.Add(r_cond.accion); cond = 0; }   
             }
-            
             return nuevasAcciones;
         }
 
-        public abstract void Sensor(SpriteComponent sprite);
+        public acciones Regla2(estados e, reglas r)
+        {
+            acciones nuevasAcciones = new acciones();
+            nuevasAcciones.accion = new List<string>();
+            int cond = 0, sectores = 0, aux = 0;
+
+            foreach (var r_cond in r.regla) // lista de condiciones
+            {
+                foreach (var r_bloq in r_cond.bloque) // lista de bloques regla
+                {
+                    foreach (var r_sector in r_bloq.sector) // sectores de cada bloque regla
+                    {
+                        //Console.Out.WriteLine(r_bloq.element);
+                        foreach (var e_bloq in e.bloque) // lista de bloques del sensor
+                        {
+                            if (aux == sectores)
+                            {
+                                foreach (var e_sector in e_bloq.sector) // lista de sectores del sensor
+                                {
+                                    //Console.Out.Write(" " + e_sector.name + ":" + e_sector.value);
+                                    if ((r_sector.name == e_sector.name) && (r_sector.value == e_sector.value))
+                                    {
+                                        sectores++;
+                                        //Console.Out.Write(" " + e_sector.name + ":" + e_sector.value);
+                                        break;
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                aux = sectores;
+                                break;
+                            }
+
+                        }
+                    }
+                    if (sectores == r_bloq.sector.Count) { cond++; }
+                    sectores = 0; aux = 0;
+                }
+                if (cond == r_cond.bloque.Count) { nuevasAcciones.accion.Add(r_cond.accion); Console.Out.WriteLine(r_cond.accion); cond = 0; }
+            }
+
+            return nuevasAcciones;
+        }
+
+        public void Sensor(estados st) 
+        {
+            //asigna los estados
+            //estados e = Percepciones(sprite);
+            // acciones necesitan reglas
+            reglas r = new reglas();
+            //// ---------------------------------------------------------------------
+            //r.regla = new List<condiciones>();
+            //// condiciones
+            //// condicion 1
+            //condiciones cond = new condiciones(); // tecnicamente esto es una regla
+            //cond.bloque = new List<Bloque>();
+            //Bloque bA = new Bloque();
+            //bA.sector = new List<Sector>();
+            //Sector sA = new Sector();
+            //Sector sB = new Sector();
+            //Sector sC = new Sector();
+            //cond.accion = "avanzar";
+            //sA.value = true;
+            //sA.name = "F";
+            //sB.value = true;
+            //sB.name = "G";
+            //sC.value = true;
+            //sC.name = "H";
+            //bA.sector.Add(sA); // agrega sector F
+            //bA.sector.Add(sB); // agrega sector G
+            //bA.sector.Add(sC); // agrega sector H
+            //bA.element = "block"; // agrega el nombre del bloque
+            //cond.bloque.Add(bA); // agrega bloque a la lista de bloques.
+            //r.regla.Add(cond); // agrega la condicion a la regla.
+            //// condicion 2
+            //cond = new condiciones(); // tecnicamente esto es una regla
+            //cond.bloque = new List<Bloque>();
+            //bA = new Bloque();
+            //bA.sector = new List<Sector>();
+            //sA = new Sector();
+            //cond.accion = "saltarIzq";
+            //sA.value = true;
+            //sA.name = "D";
+            //bA.sector.Add(sA); // agrega sector D
+            //bA.element = "block"; // agrega el nombre del bloque
+            //cond.bloque.Add(bA); // agrega bloque a la lista de bloques.
+            //r.regla.Add(cond); // agrega la condicion a la regla.
+            //// fin condiciones
+            ////  ---------------------------------------------------------------------
+            //XML.Serialize(r, "reglas.dat");
+            r = XML.Deserialize<reglas>("reglas.dat");
+            acciones action = new acciones();
+            action = Regla(st, r);
+            //
+            Comportamiento(action);
+        }
 
         public abstract void Comportamiento(acciones a);
 
@@ -135,7 +194,6 @@ namespace Game
             if (isOnGround)
             {
                 velocidad.Y = -Salto;
-
                 isOnGround = false;
             }    
         }
@@ -170,9 +228,25 @@ namespace Game
         {
             if (Direccion.Equals("left")) Direccion = "right";
             else Direccion = "left";
-            avanzar(); // hace una llamada a la funcion avanzar para no entrar en un loop.
+             // hace una llamada a la funcion avanzar para no entrar en un loop.
+            avanzar();
         }
 
+        public void avanzarIzquierda()
+        {
+            Direccion = "left";
+            // hace una llamada a la funcion avanzar para no entrar en un loop.
+            avanzar();
+        }
+
+        public void avanzarDerecha()
+        {
+            Direccion = "right";
+            // hace una llamada a la funcion avanzar para no entrar en un loop.
+            avanzar();
+        }
+
+       
 
 
     }

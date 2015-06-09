@@ -20,12 +20,14 @@ namespace Game
     {
         Vector2 gravedad = new Vector2(0, 16);
         public List<SpriteComponent> Sprites { get; set; }
-        public List<Agent> Agentes { get; set; }     
+        public List<Agent> Agentes { get; set; }
+        public Vector2 Desplazamiento;
 
         public Mundo()
         {
             Sprites = new List<SpriteComponent>();
             Agentes = new List<Agent>();
+            Desplazamiento = new Vector2(0,0);
         }
 
         public void AdicionarSprite(SpriteComponent sprite)
@@ -126,10 +128,19 @@ namespace Game
 
         public void Update(float deltaTime, float totalTime)
         {
+            //List<estados> stat = new List<estados>();
+            estados stat = new estados();
+            stat.bloque = new List<Bloque>();
+            List<Bloque> aux = new List<Bloque>();
             for (int i = 0; i < Sprites.Count; ++i)
             {
                 Sprites[i].Velocidad += gravedad * Sprites[i].Peso;
-                Sprites[i].Mover(Sprites[i].Velocidad * deltaTime);
+                Sprites[i].Mover((Sprites[i].Velocidad) * deltaTime);
+                //redibuja las posiciones
+                if (!(Sprites[i] is Jugador))
+                {
+                    Sprites[i].Mover(Desplazamiento * deltaTime);  
+                }
                 //verificar colisiones
                 for (int j = 0; j < Sprites.Count; ++j)
                 {
@@ -144,7 +155,19 @@ namespace Game
                 //verificar interaccion con el agente
                 for (int k = 0; k < Agentes.Count; k++)
                 {
-                    Agentes[k].Sensor(Sprites[i]);
+                    if (!(Sprites[i] is Agent) && !(Sprites[i] is Muro))
+                    {
+                        stat.bloque.Add(new Sensores().Percepciones(Agentes[k],Sprites[i]));
+                    }
+                    if (i == (Sprites.Count - 1) )
+                    {
+                        aux = stat.bloque;
+                        stat = new estados();
+                        stat.bloque = new List<Bloque>();
+                        stat.bloque.Add(new Sensores().SumaNivel1(aux));
+                        Agentes[k].Sensor(stat);
+                        
+                    }
                 }               
             }
             

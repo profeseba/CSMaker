@@ -7,7 +7,7 @@ namespace Game.Agentes
 {
     public class condiciones
     {
-        public List<String> condicion { get; set; }
+        public List<Bloque> bloque { get; set; }
         public String accion { get; set; }
     }
 }
