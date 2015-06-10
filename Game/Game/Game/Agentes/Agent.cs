@@ -5,6 +5,7 @@ using System.Text;
 using Game.Agentes;
 using Game.Juego;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace Game
 {
@@ -67,6 +68,7 @@ namespace Game
                         {
                             foreach (var e_sector in e_bloq.sector) // lista de sectores del sensor
                             {
+                                //Debug.Write(e_sector.name + " ");
                                 if ((r_sector.name == e_sector.name) && (r_sector.value == e_sector.value)) sectores++;
                             }
                         }
@@ -79,50 +81,6 @@ namespace Game
             return nuevasAcciones;
         }
 
-        public acciones Regla2(estados e, reglas r)
-        {
-            acciones nuevasAcciones = new acciones();
-            nuevasAcciones.accion = new List<string>();
-            int cond = 0, sectores = 0, aux = 0;
-
-            foreach (var r_cond in r.regla) // lista de condiciones
-            {
-                foreach (var r_bloq in r_cond.bloque) // lista de bloques regla
-                {
-                    foreach (var r_sector in r_bloq.sector) // sectores de cada bloque regla
-                    {
-                        //Console.Out.WriteLine(r_bloq.element);
-                        foreach (var e_bloq in e.bloque) // lista de bloques del sensor
-                        {
-                            if (aux == sectores)
-                            {
-                                foreach (var e_sector in e_bloq.sector) // lista de sectores del sensor
-                                {
-                                    //Console.Out.Write(" " + e_sector.name + ":" + e_sector.value);
-                                    if ((r_sector.name == e_sector.name) && (r_sector.value == e_sector.value))
-                                    {
-                                        sectores++;
-                                        //Console.Out.Write(" " + e_sector.name + ":" + e_sector.value);
-                                        break;
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                aux = sectores;
-                                break;
-                            }
-
-                        }
-                    }
-                    if (sectores == r_bloq.sector.Count) { cond++; }
-                    sectores = 0; aux = 0;
-                }
-                if (cond == r_cond.bloque.Count) { nuevasAcciones.accion.Add(r_cond.accion); Console.Out.WriteLine(r_cond.accion); cond = 0; }
-            }
-
-            return nuevasAcciones;
-        }
 
         public void Sensor(estados st) 
         {

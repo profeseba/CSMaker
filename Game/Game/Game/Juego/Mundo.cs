@@ -157,14 +157,14 @@ namespace Game
                 {
                     if (!(Sprites[i] is Agent) && !(Sprites[i] is Muro))
                     {
-                        stat.bloque.Add(new Sensores().Percepciones(Agentes[k],Sprites[i]));
+                        stat.bloque.Add(new Sensores().Percepciones(Agentes[k],Sprites[i], 1));
                     }
                     if (i == (Sprites.Count - 1) )
                     {
                         aux = stat.bloque;
                         stat = new estados();
                         stat.bloque = new List<Bloque>();
-                        stat.bloque.Add(new Sensores().SumaNivel1(aux));
+                        stat.bloque.Add(new Sensores().Suma(aux, 1));
                         Agentes[k].Sensor(stat);
                         
                     }

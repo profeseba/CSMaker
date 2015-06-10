@@ -6,19 +6,19 @@
         <Bloque>
           <sector>
             <Sector>
-              <name>D</name>
+              <name>4</name>
               <value>false</value>
             </Sector>
 			<Sector>
-              <name>E</name>
+              <name>6</name>
               <value>false</value>
             </Sector>
 			<Sector>
-              <name>A</name>
+              <name>1</name>
               <value>false</value>
             </Sector>
 			<Sector>
-              <name>C</name>
+              <name>3</name>
               <value>false</value>
             </Sector>
           </sector>
@@ -32,11 +32,11 @@
         <Bloque>
           <sector>
 		    <Sector>
-              <name>D</name>
+              <name>4</name>
               <value>true</value>
             </Sector>
             <Sector>
-              <name>A</name>
+              <name>1</name>
               <value>false</value>
             </Sector>
           </sector>
@@ -50,11 +50,11 @@
         <Bloque>
           <sector>
 			<Sector>
-              <name>E</name>
+              <name>6</name>
               <value>true</value>
             </Sector>
             <Sector>
-              <name>C</name>
+              <name>3</name>
               <value>false</value>
             </Sector>
           </sector>
@@ -68,11 +68,11 @@
         <Bloque>
           <sector>
             <Sector>
-              <name>A</name>
+              <name>1</name>
               <value>true</value>
             </Sector>
 			<Sector>
-              <name>D</name>
+              <name>4</name>
               <value>true</value>
             </Sector>
           </sector>
@@ -86,11 +86,11 @@
         <Bloque>
           <sector>
             <Sector>
-              <name>C</name>
+              <name>3</name>
               <value>true</value>
             </Sector>
 			<Sector>
-              <name>E</name>
+              <name>6</name>
               <value>true</value>
             </Sector>
           </sector>

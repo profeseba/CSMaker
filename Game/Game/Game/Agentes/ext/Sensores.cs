@@ -10,7 +10,7 @@ namespace Game
     {
         //private List<estados> retorno = new List<estados>();
 
-        public Bloque Percepciones(SpriteComponent agente, SpriteComponent sprite)
+        public Bloque Percepciones(SpriteComponent agente, SpriteComponent sprite, int profundidad)
         {
             // lee las entradas (percepciones) y las compara para luego retornar un estado
             // 'jugador' son las percepciones del objetivo: Jugador.
@@ -48,7 +48,8 @@ namespace Game
             Vector2 nPS = new Vector2(sprite.Posicion.X / 32, sprite.Posicion.Y / 32);
             Vector2 tPS = new Vector2(sprite.Tamano.X / 32, sprite.Tamano.Y / 32);
             // comprueba la posicion del sprite con profundidadnivel1
-            nuevoBloque.sector = ProfundidadNivel1(nPA, nPS, tPS);
+            //nuevoBloque.sector = ProfundidadNivel1(nPA, nPS, tPS);
+            nuevoBloque.sector = Profundidad(nPA, nPS, tPS, profundidad);
 
             // asignamos el nombre del sprite
             if (sprite is Jugador)
@@ -114,7 +115,7 @@ namespace Game
             //for (int i = 0; i < nuevoEstado.sector.Count; i++)  Console.Out.WriteLine(nuevoEstado.sector[i].name+" "+nuevoEstado.sector[i].value);   
 
             // filtra el bloque agregando los sectores que faltan como falsos.
-            nuevoBloque = filtroNivel1(nuevoBloque);
+            //nuevoBloque = filtroNivel1(nuevoBloque);
 
             return nuevoBloque;
         }
@@ -152,27 +153,25 @@ namespace Game
         private List<Sector> Profundidad(Vector2 nPA, Vector2 nPS, Vector2 tPS, int profundidad)
         {
             int k = profundidad;
+            int value = 0;
             List<Sector> retorno = new List<Sector>();
-            for (int j = 0; j < tPS.Y; j++)
+            for (int y = -k; y < k +1; y++)
             {
-                for (int i = 0; i < tPS.X; i++)
+                for (int x = -k; x < k + 1; x++)
                 {
-                    if ((nPA.Y - 1) == nPS.Y + j)
+                    value++;
+                    for (int h = 0; h < tPS.Y; h++)
                     {
-                        if ((nPA.X - 1) == nPS.X + i) { Sector aux = new Sector(); aux.name = "A"; aux.value = true; retorno.Add(aux); }
-                        if ((nPA.X) == nPS.X + i) { Sector aux = new Sector(); aux.name = "B"; aux.value = true; retorno.Add(aux); }
-                        if ((nPA.X + 1) == nPS.X + i) { Sector aux = new Sector(); aux.name = "C"; aux.value = true; retorno.Add(aux); }
-                    }
-                    if ((nPA.Y) == nPS.Y + j)
-                    {
-                        if ((nPA.X - 1) == nPS.X + i) { Sector aux = new Sector(); aux.name = "D"; aux.value = true; retorno.Add(aux); }
-                        if ((nPA.X + 1) == nPS.X + i) { Sector aux = new Sector(); aux.name = "E"; aux.value = true; retorno.Add(aux); }
-                    }
-                    if ((nPA.Y + 1) == nPS.Y + j)
-                    {
-                        if ((nPA.X - 1) == nPS.X + i) { Sector aux = new Sector(); aux.name = "F"; aux.value = true; retorno.Add(aux); }
-                        if ((nPA.X) == nPS.X + i) { Sector aux = new Sector(); aux.name = "G"; aux.value = true; retorno.Add(aux); }
-                        if ((nPA.X + 1) == nPS.X + i) { Sector aux = new Sector(); aux.name = "H"; aux.value = true; retorno.Add(aux); }
+                        for (int w = 0; w < tPS.X; w++)
+                        {
+                            if ((nPA.X + x == nPS.X + w) && (nPA.Y + y == nPS.Y + h))
+                            {
+                                Sector aux = new Sector(); 
+                                aux.name = ""+value; 
+                                aux.value = true; 
+                                retorno.Add(aux);
+                            }
+                        }
                     }
                 }
             }
@@ -180,50 +179,29 @@ namespace Game
             return retorno;
         }
 
-        private Bloque filtroNivel1(Bloque input) 
+        public Bloque Suma(List<Bloque> input, int profundidad)
         {
-            Bloque output = input;
+            Bloque output = new Bloque();
             //Bloque swap = new Bloque();
             List<Sector> swap = new List<Sector>();
-            Sector sA;
-            sA = new Sector();
-            sA.name = "A";
-            sA.value = false;
-            swap.Add(sA);
-            sA = new Sector();
-            sA.name = "B";
-            sA.value = false;
-            swap.Add(sA);
-            sA = new Sector();
-            sA.name = "C";
-            sA.value = false;
-            swap.Add(sA);
-            sA = new Sector();
-            sA.name = "D";
-            sA.value = false;
-            swap.Add(sA);
-            sA = new Sector();
-            sA.name = "E";
-            sA.value = false;
-            swap.Add(sA);
-            sA = new Sector();
-            sA.name = "F";
-            sA.value = false;
-            swap.Add(sA);
-            sA = new Sector();
-            sA.name = "G";
-            sA.value = false;
-            swap.Add(sA);
-            sA = new Sector();
-            sA.name = "H";
-            sA.value = false;
-            swap.Add(sA);
-            // comparacion
-            foreach (var s in swap)
+            int k;
+            k = ( ((profundidad * 2) + 1) * ((profundidad * 2) + 1) );
+            for (int i = 1; i < k+1; i++)
             {
-                foreach (var o in output.sector)
+                Sector aux = new Sector(); 
+                aux.name = ""+i; 
+                aux.value = false; 
+                swap.Add(aux);
+            }
+            // comparacion
+            foreach (var bloque in input)
+            {
+                foreach (var s in swap)
                 {
-                    if (s.name == o.name)  s.value = true;
+                    foreach (var o in bloque.sector)
+                    {
+                        if ((s.name == o.name) && (o.value == true)) s.value = true;
+                    }
                 }
             }
 
