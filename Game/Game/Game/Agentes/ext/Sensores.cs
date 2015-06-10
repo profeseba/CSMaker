@@ -149,6 +149,37 @@ namespace Game
             return retorno;
         }
 
+        private List<Sector> Profundidad(Vector2 nPA, Vector2 nPS, Vector2 tPS, int profundidad)
+        {
+            int k = profundidad;
+            List<Sector> retorno = new List<Sector>();
+            for (int j = 0; j < tPS.Y; j++)
+            {
+                for (int i = 0; i < tPS.X; i++)
+                {
+                    if ((nPA.Y - 1) == nPS.Y + j)
+                    {
+                        if ((nPA.X - 1) == nPS.X + i) { Sector aux = new Sector(); aux.name = "A"; aux.value = true; retorno.Add(aux); }
+                        if ((nPA.X) == nPS.X + i) { Sector aux = new Sector(); aux.name = "B"; aux.value = true; retorno.Add(aux); }
+                        if ((nPA.X + 1) == nPS.X + i) { Sector aux = new Sector(); aux.name = "C"; aux.value = true; retorno.Add(aux); }
+                    }
+                    if ((nPA.Y) == nPS.Y + j)
+                    {
+                        if ((nPA.X - 1) == nPS.X + i) { Sector aux = new Sector(); aux.name = "D"; aux.value = true; retorno.Add(aux); }
+                        if ((nPA.X + 1) == nPS.X + i) { Sector aux = new Sector(); aux.name = "E"; aux.value = true; retorno.Add(aux); }
+                    }
+                    if ((nPA.Y + 1) == nPS.Y + j)
+                    {
+                        if ((nPA.X - 1) == nPS.X + i) { Sector aux = new Sector(); aux.name = "F"; aux.value = true; retorno.Add(aux); }
+                        if ((nPA.X) == nPS.X + i) { Sector aux = new Sector(); aux.name = "G"; aux.value = true; retorno.Add(aux); }
+                        if ((nPA.X + 1) == nPS.X + i) { Sector aux = new Sector(); aux.name = "H"; aux.value = true; retorno.Add(aux); }
+                    }
+                }
+            }
+
+            return retorno;
+        }
+
         private Bloque filtroNivel1(Bloque input) 
         {
             Bloque output = input;
