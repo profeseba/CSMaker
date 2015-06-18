@@ -6,23 +6,22 @@
         <Bloque>
           <sector>
             <Sector>
-              <name>4</name>
+              <name>wall</name>
               <value>false</value>
+              <posicion>
+                <X>1</X>
+                <Y>0</Y>
+              </posicion>
             </Sector>
-			<Sector>
-              <name>6</name>
+            <Sector>
+              <name>wall</name>
               <value>false</value>
-            </Sector>
-			<Sector>
-              <name>1</name>
-              <value>false</value>
-            </Sector>
-			<Sector>
-              <name>3</name>
-              <value>false</value>
+              <posicion>
+                <X>1</X>
+                <Y>2</Y>
+              </posicion>
             </Sector>
           </sector>
-          <element>block</element>
         </Bloque>
       </bloque>
       <accion>avanzar</accion>
@@ -31,16 +30,23 @@
       <bloque>
         <Bloque>
           <sector>
-		    <Sector>
-              <name>4</name>
-              <value>true</value>
+            <Sector>
+              <name>wall</name>
+              <value>false</value>
+              <posicion>
+                <X>0</X>
+                <Y>0</Y>
+              </posicion>
             </Sector>
             <Sector>
-              <name>1</name>
-              <value>false</value>
+              <name>wall</name>
+              <value>true</value>
+              <posicion>
+                <X>1</X>
+                <Y>0</Y>
+              </posicion>
             </Sector>
           </sector>
-          <element>block</element>
         </Bloque>
       </bloque>
       <accion>saltarIzq</accion>
@@ -49,16 +55,23 @@
       <bloque>
         <Bloque>
           <sector>
-			<Sector>
-              <name>6</name>
-              <value>true</value>
+            <Sector>
+              <name>wall</name>
+              <value>false</value>
+              <posicion>
+                <X>0</X>
+                <Y>2</Y>
+              </posicion>
             </Sector>
             <Sector>
-              <name>3</name>
-              <value>false</value>
+              <name>wall</name>
+              <value>true</value>
+              <posicion>
+                <X>1</X>
+                <Y>2</Y>
+              </posicion>
             </Sector>
           </sector>
-          <element>block</element>
         </Bloque>
       </bloque>
       <accion>saltarDer</accion>
@@ -68,36 +81,50 @@
         <Bloque>
           <sector>
             <Sector>
-              <name>1</name>
+              <name>wall</name>
               <value>true</value>
+              <posicion>
+                <X>0</X>
+                <Y>2</Y>
+              </posicion>
             </Sector>
-			<Sector>
-              <name>4</name>
+            <Sector>
+              <name>wall</name>
               <value>true</value>
+              <posicion>
+                <X>1</X>
+                <Y>2</Y>
+              </posicion>
             </Sector>
           </sector>
-          <element>block</element>
         </Bloque>
       </bloque>
-      <accion>cambiar_direccion_der</accion>
+      <accion>cambiar_direccion_izq</accion>
     </condiciones>
 	<condiciones>
       <bloque>
         <Bloque>
           <sector>
             <Sector>
-              <name>3</name>
+              <name>wall</name>
               <value>true</value>
+              <posicion>
+                <X>0</X>
+                <Y>0</Y>
+              </posicion>
             </Sector>
-			<Sector>
-              <name>6</name>
+            <Sector>
+              <name>wall</name>
               <value>true</value>
+              <posicion>
+                <X>1</X>
+                <Y>0</Y>
+              </posicion>
             </Sector>
           </sector>
-          <element>block</element>
         </Bloque>
       </bloque>
-      <accion>cambiar_direccion_izq</accion>
+      <accion>cambiar_direccion_der</accion>
     </condiciones>
   </regla>
 </reglas>

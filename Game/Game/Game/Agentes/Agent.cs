@@ -11,7 +11,9 @@ namespace Game
 {
     public abstract class Agent : SpriteComponent
     {
-        public Agent(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion, String nombreImagen)
+        public int profundidad { get; set; } //profundidad del sensor
+
+        public Agent(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion, string nombreImagen)
             : base(game, tamano, posicion)
         {
             NombreImagen = nombreImagen;
@@ -19,6 +21,10 @@ namespace Game
             Direccion = "left";
             LoadContent();
         }
+        
+        public abstract void Sensor(Bloque area);
+
+        public abstract void Comportamiento(acciones a);
 
         public override void Colision(SpriteComponent otro, Vector2 desplazamiento) 
         {
@@ -49,94 +55,7 @@ namespace Game
                 }
             }
         }
-
         
-
-        public acciones Regla(estados e, reglas r)
-        {
-            acciones nuevasAcciones = new acciones();
-            nuevasAcciones.accion = new List<string>();
-            int cond = 0, sectores = 0;
-            
-            foreach (var r_cond in r.regla) // lista de condiciones
-            {
-                foreach (var r_bloq in r_cond.bloque) // lista de bloques regla
-                {
-                    foreach (var r_sector in r_bloq.sector) // sectores de cada bloque regla
-                    {
-                        foreach (var e_bloq in e.bloque) // lista de bloques del sensor
-                        {
-                            foreach (var e_sector in e_bloq.sector) // lista de sectores del sensor
-                            {
-                                //Debug.Write(e_sector.name + " ");
-                                if ((r_sector.name == e_sector.name) && (r_sector.value == e_sector.value)) sectores++;
-                            }
-                        }
-                    }
-                    if (sectores == r_bloq.sector.Count) cond++;
-                    sectores = 0;
-                }
-                if (cond == r_cond.bloque.Count) { nuevasAcciones.accion.Add(r_cond.accion); cond = 0; }   
-            }
-            return nuevasAcciones;
-        }
-
-
-        public void Sensor(estados st) 
-        {
-            //asigna los estados
-            //estados e = Percepciones(sprite);
-            // acciones necesitan reglas
-            reglas r = new reglas();
-            //// ---------------------------------------------------------------------
-            //r.regla = new List<condiciones>();
-            //// condiciones
-            //// condicion 1
-            //condiciones cond = new condiciones(); // tecnicamente esto es una regla
-            //cond.bloque = new List<Bloque>();
-            //Bloque bA = new Bloque();
-            //bA.sector = new List<Sector>();
-            //Sector sA = new Sector();
-            //Sector sB = new Sector();
-            //Sector sC = new Sector();
-            //cond.accion = "avanzar";
-            //sA.value = true;
-            //sA.name = "F";
-            //sB.value = true;
-            //sB.name = "G";
-            //sC.value = true;
-            //sC.name = "H";
-            //bA.sector.Add(sA); // agrega sector F
-            //bA.sector.Add(sB); // agrega sector G
-            //bA.sector.Add(sC); // agrega sector H
-            //bA.element = "block"; // agrega el nombre del bloque
-            //cond.bloque.Add(bA); // agrega bloque a la lista de bloques.
-            //r.regla.Add(cond); // agrega la condicion a la regla.
-            //// condicion 2
-            //cond = new condiciones(); // tecnicamente esto es una regla
-            //cond.bloque = new List<Bloque>();
-            //bA = new Bloque();
-            //bA.sector = new List<Sector>();
-            //sA = new Sector();
-            //cond.accion = "saltarIzq";
-            //sA.value = true;
-            //sA.name = "D";
-            //bA.sector.Add(sA); // agrega sector D
-            //bA.element = "block"; // agrega el nombre del bloque
-            //cond.bloque.Add(bA); // agrega bloque a la lista de bloques.
-            //r.regla.Add(cond); // agrega la condicion a la regla.
-            //// fin condiciones
-            ////  ---------------------------------------------------------------------
-            //XML.Serialize(r, "reglas.dat");
-            r = XML.Deserialize<reglas>("reglas.dat");
-            acciones action = new acciones();
-            action = Regla(st, r);
-            //
-            Comportamiento(action);
-        }
-
-        public abstract void Comportamiento(acciones a);
-
         public void perseguir()
         {
             // calcula el mejor camino.. aun por definir.

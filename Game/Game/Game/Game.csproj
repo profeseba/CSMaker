@@ -72,15 +72,20 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Agentes\Enemigo.cs" />
+    <Compile Include="Agentes\AgenteAprende.cs" />
+    <Compile Include="Enemigos\Enemigo.cs" />
+    <Compile Include="Enemigos\Enemigo2.cs" />
     <Compile Include="Agentes\ext\acciones.cs" />
     <Compile Include="Agentes\Agent.cs" />
     <Compile Include="Agentes\ext\Bloque.cs" />
+    <Compile Include="Agentes\ext\BusquedaAestrella.cs" />
+    <Compile Include="Agentes\ext\ColumnasAER.cs" />
     <Compile Include="Agentes\ext\condiciones.cs" />
-    <Compile Include="Agentes\ext\estados.cs" />
+    <Compile Include="Agentes\ext\Nodo.cs" />
     <Compile Include="Agentes\ext\reglas.cs" />
     <Compile Include="Agentes\ext\Sector.cs" />
     <Compile Include="Agentes\ext\Sensores.cs" />
+    <Compile Include="Agentes\ext\TablaAER.cs" />
     <Compile Include="Agentes\ext\XML.cs" />
     <Compile Include="Juego\ActionScene.cs" />
     <Compile Include="Agentes\AgenteReactivoSimple.cs" />

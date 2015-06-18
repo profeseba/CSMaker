@@ -21,7 +21,7 @@ namespace Game
         SpriteBatch spriteBatch;
         Mundo mundo;
         Jugador jugador1;
-        AgenteReactivoSimple reactivoSimple;
+        Enemigo2 enemigo;
         private int celda = 32;
         public int Celda { get { return celda; } }
         int Piso { get { return celda * 2; } }
@@ -49,21 +49,21 @@ namespace Game
             //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 500)));
             //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(game.Window.ClientBounds.Width - (game.Window.ClientBounds.Width / 2), 96 + 96 + 28)));
             //mundo.AdicionarSprite(new Muro(game, new Vector2(256, 20), new Vector2(120, (int)(96 * 4.5f))));
-            mundo.AdicionarSprite(new Objeto(game, new Vector2(Celda, Celda), new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height - Piso)));
-            mundo.AdicionarSprite(new Objeto(game, new Vector2(Celda, Celda), new Vector2(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda)));
-            mundo.AdicionarSprite(new Objeto(game, new Vector2(Celda, Celda), new Vector2(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda*2)));
-            mundo.AdicionarSprite(new Objeto(game, new Vector2(Celda*2, Celda), new Vector2(Celda*4, game.Window.ClientBounds.Height - Piso)));
-            
-            mundo.AdicionarSprite(new Objeto(game, new Vector2(3 * Celda, Celda), new Vector2(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height - Piso)));
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height - Piso)));
+            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), new Vector2(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda)));
+            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), new Vector2(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda * 2)));
+            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda * 2, Celda), new Vector2(Celda * 4, game.Window.ClientBounds.Height - Piso)));
+
+            mundo.AdicionarSprite(new Muro(game, new Vector2(3 * Celda, Celda), new Vector2(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height - Piso)));
  
             //crea al jugador
             jugador1 = new Jugador(game, new Vector2(Celda, Celda), new Vector2(Celda, size.Y - 2*Celda), "players/blue");
             mundo.AdicionarSprite(jugador1);
 
             //crea al agente
-            reactivoSimple = new AgenteReactivoSimple(game, new Vector2(Celda, Celda), new Vector2(20*Celda, game.Window.ClientBounds.Height - Celda - Celda), "players/red");
-            mundo.AdicionarSprite(reactivoSimple);
-            mundo.AdicionarAgente(reactivoSimple);
+            enemigo = new Enemigo2(game, new Vector2(Celda, Celda), new Vector2(20*Celda, game.Window.ClientBounds.Height - Celda - Celda), "players/red");
+            mundo.AdicionarSprite(enemigo);
+            mundo.AdicionarAgente(enemigo);
         }
  
         protected override void LoadContent()
@@ -87,7 +87,7 @@ namespace Game
             {
                 if (isOnGround)
                 {
-                    velocidad.Y = -400;
+                    velocidad.Y = -300;
                     isOnGround = false;
                 }
             }

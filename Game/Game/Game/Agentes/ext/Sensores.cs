@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -44,44 +45,43 @@ namespace Game
              *      |T|U|V|W|X|
              * nivel de profundidad 3...
              */
-            Vector2 nPA = new Vector2(agente.Posicion.X / 32, agente.Posicion.Y / 32);
-            Vector2 nPS = new Vector2(sprite.Posicion.X / 32, sprite.Posicion.Y / 32);
-            Vector2 tPS = new Vector2(sprite.Tamano.X / 32, sprite.Tamano.Y / 32);
+            Vector2 nPA = new Vector2((int) (agente.Posicion.X / 32), (int) (agente.Posicion.Y / 32));
+            Vector2 nPS = new Vector2((int) (sprite.Posicion.X / 32), (int) (sprite.Posicion.Y / 32));
+            Vector2 tPS = new Vector2((int) (sprite.Tamano.X / 32), (int) (sprite.Tamano.Y / 32));
             // comprueba la posicion del sprite con profundidadnivel1
             //nuevoBloque.sector = ProfundidadNivel1(nPA, nPS, tPS);
-            nuevoBloque.sector = Profundidad(nPA, nPS, tPS, profundidad);
+            
 
             // asignamos el nombre del sprite
             if (sprite is Jugador)
             {
-                nuevoBloque.element = "player";
+                nuevoBloque.sector = Profundidad(nPA, nPS, tPS, profundidad, "player");
             }
             else if (sprite is Muro)
             {
-                nuevoBloque.element = "block";
+                nuevoBloque.sector = Profundidad(nPA, nPS, tPS, profundidad, "wall");
             }
             else if (sprite is Agent)
             {
-                nuevoBloque.element = "agent";
+                nuevoBloque.sector = Profundidad(nPA, nPS, tPS, profundidad, "agent");
             }
             else if (sprite is Objeto)
             {
-                nuevoBloque.element = "Objeto";
+                nuevoBloque.sector = Profundidad(nPA, nPS, tPS, profundidad, "object");
             }
 
             return nuevoBloque;
         }
 
-        private List<Sector> Profundidad(Vector2 nPA, Vector2 nPS, Vector2 tPS, int profundidad)
+        private List<Sector> Profundidad(Vector2 nPA, Vector2 nPS, Vector2 tPS, int profundidad, String nombre)
         {
             int k = profundidad;
-            int value = 0;
+            int m = 0, p = 0;
             List<Sector> retorno = new List<Sector>();
             for (int y = -k; y < k +1; y++)
             {
                 for (int x = -k; x < k + 1; x++)
                 {
-                    value++;
                     for (int h = 0; h < tPS.Y; h++)
                     {
                         for (int w = 0; w < tPS.X; w++)
@@ -89,31 +89,38 @@ namespace Game
                             if ((nPA.X + x == nPS.X + w) && (nPA.Y + y == nPS.Y + h))
                             {
                                 Sector aux = new Sector(); 
-                                aux.name = ""+value; 
-                                aux.value = true; 
+                                aux.name = nombre; 
+                                aux.value = true;
+                                aux.posicion = new Vector2(p,m);
                                 retorno.Add(aux);
                             }
                         }
                     }
+                    p++;
                 }
+                m++; p = 0;
             }
-
             return retorno;
         }
 
         public Bloque Suma(List<Bloque> input, int profundidad)
         {
             Bloque output = new Bloque();
-            //Bloque swap = new Bloque();
             List<Sector> swap = new List<Sector>();
-            int k;
-            k = ( ((profundidad * 2) + 1) * ((profundidad * 2) + 1) );
-            for (int i = 1; i < k+1; i++)
+            int k = profundidad;
+            int m = 0, p = 0;
+            for (int y = -k; y < k + 1; y++)
             {
-                Sector aux = new Sector(); 
-                aux.name = ""+i; 
-                aux.value = false; 
-                swap.Add(aux);
+                for (int x = -k; x < k + 1; x++)
+                {
+                    Sector aux = new Sector();
+                    aux.name = "empty";
+                    aux.value = false;
+                    aux.posicion = new Vector2(p, m);
+                    swap.Add(aux);
+                    p++;
+                }
+                m++; p = 0;
             }
             // comparacion
             foreach (var bloque in input)
@@ -122,7 +129,11 @@ namespace Game
                 {
                     foreach (var o in bloque.sector)
                     {
-                        if ((s.name == o.name) && (o.value == true)) s.value = true;
+                        if ((s.posicion == o.posicion) && (o.value == true))
+                        { 
+                            s.value = true; 
+                            s.name = o.name;
+                        }
                     }
                 }
             }

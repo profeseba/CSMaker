@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Game.Juego;
+using System.Diagnostics;
 
 
 namespace Game
@@ -129,9 +130,8 @@ namespace Game
         public void Update(float deltaTime, float totalTime)
         {
             //List<estados> stat = new List<estados>();
-            estados stat = new estados();
-            stat.bloque = new List<Bloque>();
-            List<Bloque> aux = new List<Bloque>();
+            List<Bloque> stat = new List<Bloque>();
+            Bloque outBloque = new Bloque();
             for (int i = 0; i < Sprites.Count; ++i)
             {
                 Sprites[i].Velocidad += gravedad * Sprites[i].Peso;
@@ -155,18 +155,16 @@ namespace Game
                 //verificar interaccion con el agente
                 for (int k = 0; k < Agentes.Count; k++)
                 {
-                    if (!(Sprites[i] is Agent) && !(Sprites[i] is Muro))
+                    if (!(Sprites[i] is Agent) )
                     {
-                        stat.bloque.Add(new Sensores().Percepciones(Agentes[k],Sprites[i], 1));
+                        stat.Add(new Sensores().Percepciones(Agentes[k], Sprites[i], Agentes[k].profundidad));
                     }
                     if (i == (Sprites.Count - 1) )
                     {
-                        aux = stat.bloque;
-                        stat = new estados();
-                        stat.bloque = new List<Bloque>();
-                        stat.bloque.Add(new Sensores().Suma(aux, 1));
-                        Agentes[k].Sensor(stat);
-                        
+                        outBloque = new Bloque();
+                        outBloque = new Sensores().Suma(stat, Agentes[k].profundidad);
+                        Agentes[k].Sensor(outBloque);
+                        stat = new List<Bloque>();
                     }
                 }               
             }
