@@ -12,6 +12,7 @@ namespace Game
     public abstract class Agent : SpriteComponent
     {
         public int profundidad { get; set; } //profundidad del sensor
+        protected bool contacto { get; set; }
 
         public Agent(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion, string nombreImagen)
             : base(game, tamano, posicion)
@@ -40,6 +41,8 @@ namespace Game
             if (otro is Jugador)
             {
                 Mover(desplazamiento);
+                contacto = true;
+                // asigna el valor true a la variable contacto para luego verificar si existe colision.
                 if (desplazamiento.Y != 0)
                 {
                     velocidad.Y = 0;

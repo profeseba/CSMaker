@@ -98,6 +98,11 @@ namespace Game.Agentes
             // cargar
             // XML.Deserialize<TablaAER>("memoria");
             // verificamos si existe el archivo memoria
+            //if (contacto)
+            //{
+            //    rA = 1;
+            //    contacto = false;
+            //}
             if (File.Exists("memoria"))
             {
                 // cargar memoria
