@@ -65,7 +65,7 @@ namespace Game.Agentes
                     Bloque estado = disminuirArea();
                     float recompensa = evaluarRecompensa(accion);
                     accion = funcionQ(accion, estado, recompensa); // algoritmo que aprende
-                    Debug.WriteLine(accion);
+                    // - Debug.WriteLine(accion);
                     Comportamiento(accion);
                 }
             }
@@ -113,7 +113,7 @@ namespace Game.Agentes
                     // agrega la tupla en la tabla
                     Q.addTupla(tupla);
                     accion = tupla.accion;
-                    Debug.WriteLine("La tupla si esta");
+                     // - Debug.WriteLine("La tupla si esta");
                 }
                 else // si no la encuentra
                 {
@@ -121,7 +121,7 @@ namespace Game.Agentes
                     // agrega la tupla directo en la tabla
                     Q.addTupla(tupla);
                     accion = tupla.accion;
-                    Debug.WriteLine("La tupla no esta");
+                    // - Debug.WriteLine("La tupla no esta");
                 }
                 XML.Serialize(Q, "memoria");
                 return accion;
@@ -142,7 +142,7 @@ namespace Game.Agentes
                 // asigna la accion actual como accion por defecto
                 accion = aA;
                 // retorna la accion
-                Debug.WriteLine("No existe memoria");
+                // - Debug.WriteLine("No existe memoria");
                 return accion;
             }
         }

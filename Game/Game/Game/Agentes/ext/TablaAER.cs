@@ -22,11 +22,11 @@ namespace Game
             {
                 if ((accion.Equals(fila.accion)) && (estado.IsEquals(fila.estado)))
                 {
-                    Debug.WriteLine("fila encontrada --------------------------------");
+                    // - Debug.WriteLine("fila encontrada --------------------------------");
                     return fila;
                 }
             }
-            Debug.WriteLine("fila no encontrada");
+            // - Debug.WriteLine("fila no encontrada");
             return null;
         }
         // retorna la tupla con mayor valor
