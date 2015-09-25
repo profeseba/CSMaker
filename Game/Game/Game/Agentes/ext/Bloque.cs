@@ -25,25 +25,20 @@ namespace Game
 
         public bool IsEquals(Bloque Input) 
         {
-            int cont = 0;
             for (int i = 0; i < Input.sector.Count; i++)
             {
-                if (Input.sector[i].Equals(eval[i]))
-                {
-                    cont++;
-                }
-                if (i == Input.sector.Count - 1)
-                {
-                    return true;
-                }
+                if ((Input.sector[i].name.Equals(sector[i].name)) && ((Input.sector[i].posicion == sector[i].posicion)) && (Input.sector[i].value == sector[i].value)) continue;
+                else return false;
             }
-            return false;
+            return true;
         }
 
         public Bloque() { }
 
         public Bloque(int h)
         {
+            this.sector = new List<Sector>();
+
             for (int i = 0; i < ((h*2)+1); i++)
             {
                 for (int j = 0; j < ((h*2)+1); j++)
@@ -52,7 +47,7 @@ namespace Game
                     aux.name = "empty";
                     aux.posicion = new Vector2(j,i);
                     aux.value = false;
-                    sector.Add(aux);
+                    eval.Add(aux);
                 }
             }
         }

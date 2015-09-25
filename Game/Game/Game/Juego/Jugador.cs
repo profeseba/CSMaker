@@ -9,16 +9,21 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Diagnostics;
 
 namespace Game
 {
     public class Jugador : SpriteComponent
     {
+
         public Jugador(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion, String nombreImagen)
             : base(game, tamano, posicion)
         {
             NombreImagen = nombreImagen;
             ColorImagen = Color.White;
+            direccionColision = "nulo";
+            life = 1;
+            nombreSprite = "Player";
             LoadContent();
         }
 
@@ -44,13 +49,18 @@ namespace Game
             }
             if (otro is Agent)
             {
+                //Debug.Print("jugador "+direccionColision);
                 Mover(desplazamiento);
                 if (desplazamiento.Y != 0)
                 {
                     velocidad.Y = 0;
                 }
             }
-            
+            //Debug.Print("jugador " + direccionColision);
+            if ((!direccionColision.Equals("abajo")) && (!direccionColision.Equals("nulo")))
+            {
+                life--;
+            }
         }
 
         

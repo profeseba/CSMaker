@@ -35,42 +35,33 @@ namespace Game
             ColumnasAER tupla = new ColumnasAER(accion,estado, 0, recompensa);
             foreach (var fila in filas)
             {
-                if (fila.estado.sector == estado.sector)
+                // verifica estados iguales
+                if (fila.estado.IsEquals(tupla.estado))
                 {
-                    if (fila.valor > tupla.valor)
+                    // verifica accion igual
+                    if (fila.accion == tupla.accion)
                     {
-                        tupla = fila;
-                    }
-                    else if (fila.valor == tupla.valor)
-                    {
-                        if (fila.frecuencia > tupla.frecuencia)
+                        if (tupla.valor <= -0.5)
                         {
-                            tupla = fila;
-                        }
-                    } 
-                }
-            }
-            // ver si es bueno o malo
-            if (tupla.valor == -1)
-            {
-                // malo
-                foreach (var item in Movimientos)
-                {
-                    if (item!=tupla.accion)
-                    {
-                        tupla.accion = item;
-                        break;
+                            foreach (var item in Movimientos)
+                            {
+                                if (item != tupla.accion)
+                                {
+                                    tupla.accion = item;
+                                    return tupla;
+                                }
+                            }
+                        }                    
                     }
                 }
             }
-
             return tupla;
         }
         // verifica que los elementos no esten en la tabla
         public void addTupla(ColumnasAER Input)
         {
             bool flag = false;
-            foreach (var item in FilasAER)
+            foreach (var item in filas)
             {
                 if ((item.accion.Equals(Input.accion)) && (item.estado.IsEquals(Input.estado)))
                 {

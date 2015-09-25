@@ -37,6 +37,10 @@ namespace Game
         public String NombreImagen { get; set; }
         public float Salto = 400;
         public String Direccion { get; set; }
+        public int life { get; set; }
+        public String direccionColision { get; set; } // lado en que se colisiono
+        public String nombreSprite { get; set; }
+        public bool died { get; set; }
         BoundingBox bound;
 
         public SpriteComponent(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 pos)
@@ -45,8 +49,10 @@ namespace Game
             // TODO: Construct any child components here
             Content = (ContentManager)Game.Services.GetService(typeof(ContentManager));
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+            died = false;
             Tamano = tamano;
             posicion = pos;
+            life = 1;
             Peso = 1.0f;
             isOnGround = true;
             Vector3 min1 = new Vector3(posicion.X, posicion.Y, 0);

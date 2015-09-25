@@ -168,14 +168,30 @@ namespace Game
             // Dirección Diagonal
             if ((arribaIzquierda) && (!mapa.obtenerSector(new Vector2(X - 1, Y - 1)).name.Equals("wall")))
             {
-                nodosAdyacentes.Add(new Nodo(nodoActual, nodoFinal,
-                new Vector2(X - 1, Y - 1), costoIrDiagonal + nodoActual.costoG));
+                if (mapa.obtenerSector(new Vector2(X - 1, Y)).name.Equals("wall"))
+                {
+                    nodosAdyacentes.Add(new Nodo(nodoActual, nodoFinal,
+                    new Vector2(X - 1, Y - 1), costoIrDiagonal + nodoActual.costoG));
+                }
+                else
+                {
+                    nodosAdyacentes.Add(new Nodo(nodoActual, nodoFinal,
+                    new Vector2(X , Y), costoIrDiagonal + nodoActual.costoG));
+                }
             }
 
             if ((arribaDerecha) && (!mapa.obtenerSector(new Vector2(X + 1, Y - 1)).name.Equals("wall")))
             {
-                nodosAdyacentes.Add(new Nodo(nodoActual, nodoFinal,
-                new Vector2(X + 1, Y - 1), costoIrDiagonal + nodoActual.costoG));
+                if (mapa.obtenerSector(new Vector2(X + 1, Y)).name.Equals("wall"))
+                {
+                    nodosAdyacentes.Add(new Nodo(nodoActual, nodoFinal,
+                    new Vector2(X + 1, Y), costoIrDiagonal + nodoActual.costoG));
+                }
+                else
+                {
+                    nodosAdyacentes.Add(new Nodo(nodoActual, nodoFinal,
+                    new Vector2(X, Y - 1), costoIrDiagonal + nodoActual.costoG));
+                }
             }
 
             if ((abajoIzquierda) && (!mapa.obtenerSector(new Vector2(X - 1, Y + 1)).name.Equals("wall")))

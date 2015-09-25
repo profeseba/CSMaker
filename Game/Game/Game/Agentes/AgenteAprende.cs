@@ -24,9 +24,10 @@ namespace Game.Agentes
             posPlayer = new Vector2(-1, -1);
             posAgent = new Vector2(-1, -1);
             area = new Bloque();
+            life = 1;
             LoadContent();
         }
-
+        // --- Calcula el camino utilizando hilos
         private void CalcularCaminoThread()
         {
             foreach (var item in area.sector)
@@ -43,7 +44,7 @@ namespace Game.Agentes
             
 
         }
-        // --- funcion sensor 
+        // --- funcion sensor -- crea hilos
         public override void Sensor(Bloque area)
         {
             this.area = area;
@@ -51,7 +52,10 @@ namespace Game.Agentes
             //Thread cal = new Thread(new ThreadStart(CalcularCaminoThread));
             //Thread cal = new Thread(new ThreadStart(SensorAgente));
             //cal.Start();
-            SensorAgente();
+            if (!died)
+            {
+                SensorAgente();
+            }            
         }
         // --- funcion SensorAgente que aprende
         private void SensorAgente()
@@ -62,37 +66,50 @@ namespace Game.Agentes
                 if (item.name.Equals("player"))
                 {
                     String accion = CaminoActualizado(area);
-                    Bloque estado = disminuirArea();
-                    float recompensa = evaluarRecompensa(accion);
-                    accion = funcionQ(accion, estado, recompensa); // algoritmo que aprende
+                    Bloque estado = disminuirArea(2);  // EJ: escala 1 : 1 un bloque por cada lado adyacente // matriz de 3x3                  
+                    accion = funcionQ(accion, estado); // algoritmo que aprende
                     // - Debug.WriteLine(accion);
                     Comportamiento(accion);
                 }
             }
+            if (life <= 0)
+            {
+                died = true;
+            }
             //Debug.WriteLine("");
         }
         // --- funcion evaluarRecompensa
-        private float evaluarRecompensa(String accion)
+        private float evaluarRecompensa(TablaAER Q, String accion, Bloque estado)
         {
-            float Out;
+            // recompensa por morir.
+            if (life <= 0)
+            {
+                return -1.0f;
+            }
+            ColumnasAER tupla = Q.getTupla(accion, estado);
+            if (tupla != null)
+            {
+                return tupla.valor;
+            }
+
+            float Out = -0.1f;
             // recompensa para avanzarDer, avanzarIzq, saltar es de -0.03
             if ((accion.Equals("avanzarDer")) || (accion.Equals("avanzarIzq")))
             {
                 Out = -0.3f;
             }
             // recompensa para saltarIzq, saltarDer es de -0.02
-            else if ((accion.Equals("saltarDer")) || (accion.Equals("saltarIzq")) || (accion.Equals("saltar")))
+            if ((accion.Equals("saltarDer")) || (accion.Equals("saltarIzq")) || (accion.Equals("saltar")))
             {
                 Out = -0.2f;
             }
-            else Out = -0.1f;
             return Out;
         }
         // --- funcion evalua cada accion, estado y recompensa. Retorna la accion a tomar
-        private String funcionQ(String aA, Bloque eA, float rA) // valores Actuales : accionActual, estadoActual, recompensaActual
+        private String funcionQ(String aA, Bloque eA) // valores Actuales : accionActual, estadoActual, recompensaActual
         {
             TablaAER Q = new TablaAER();
-            String accion = "empty";
+            String accion = "nada";
             // guardar
             // XML.Serialize(Q, "memoria");
             // cargar
@@ -109,6 +126,7 @@ namespace Game.Agentes
                 Q = XML.Deserialize<TablaAER>("memoria");
                 if (Q.getTupla(aA,eA) != null) // busca la tupla en la tabla
                 {
+                    float rA = evaluarRecompensa(Q,aA,eA);
                     ColumnasAER tupla = Q.getActionMaxQ(aA, eA, rA);
                     // agrega la tupla en la tabla
                     Q.addTupla(tupla);
@@ -117,6 +135,8 @@ namespace Game.Agentes
                 }
                 else // si no la encuentra
                 {
+                    
+                    float rA = evaluarRecompensa(Q,aA, eA);
                     ColumnasAER tupla = new ColumnasAER(aA, eA, 0, rA);
                     // agrega la tupla directo en la tabla
                     Q.addTupla(tupla);
@@ -131,6 +151,7 @@ namespace Game.Agentes
             {
                 // crear informacion
                 Q.FilasAER = new List<ColumnasAER>();
+                float rA = evaluarRecompensa(Q,aA, eA);
                 ColumnasAER tupla = new ColumnasAER(aA,eA,0,rA);
                 Q.FilasAER.Add(tupla);
                 // se agrega el moviemiento a su memoria
@@ -147,48 +168,42 @@ namespace Game.Agentes
             }
         }
         // --- disminuye el area de hxh a 3x3
-        private Bloque disminuirArea()
+        private Bloque disminuirArea(int escala)
         {
-            Vector2 centro = new Vector2(profundidad, profundidad); // centro del area
-            Bloque Out = new Bloque();
-            List<Sector> swap = new List<Sector>();
-            int h = 1; // profundidad
-            int m = 0, p = 0;
-            for (int y = -h; y < h + 1; y++)
+            //Vector2 centro = new Vector2(profundidad, profundidad); // centro del area
+            //Bloque Out = new Bloque();
+            Sector swap = new Sector();
+            // crea un bloque de dimension hxh vacio
+            Bloque In = new Bloque(escala);
+            // asigna el area en un bloque para manipular
+            Bloque Inter = this.area;
+            // asigna los valores del Area actual al bloque 
+            int h = (escala * 2) + 1;
+            int cuadrarX = escala;
+            int cuadrarY = escala;
+            int progresion = 0;
+            for (int j = 0; j < h; j++) // para Y
             {
-                for (int x = -h; x < h + 1; x++)
+                for (int k = 0; k < h; k++) // para X
                 {
-                    Sector aux = new Sector();
-                    aux.name = "empty";
-                    aux.value = false;
-                    aux.posicion = new Vector2(p, m);
-                    swap.Add(aux);
-                    p++;
+                    swap = Inter.obtenerSector(new Vector2(profundidad - cuadrarX, profundidad - cuadrarY));
+                    In.sector[progresion].name = swap.name;
+                    In.sector[progresion].value = swap.value;
+                    In.sector[progresion].posicion = new Vector2(k,j);
+                    progresion++;
+                    cuadrarX--;
+                    //Debug.Print();
+                    //Debug.Write("[" + swap.name + "]");
                 }
-                m++; p = 0;
+                cuadrarX = escala;
+                cuadrarY--;
+                //Debug.WriteLine("");
             }
-            int progresion = 0; // 0 - 9
-            foreach (var i in area.sector)
-            {
-                for (int j = 0; j < 3; j++)
-                {
-                    for (int k = 0; k < 3; k++)
-                    {
-                        if ((profundidad + (j - 1) == (i.posicion.X)) && (profundidad + (k - 1) == (i.posicion.Y)))
-                        {
-                            swap[progresion].name = i.name;
-                            swap[progresion].value = i.value;
-                            progresion++;
-                        }
-                    }
-                }
-            }
-
-            Out.sector = swap;
+            //Debug.WriteLine("");
             
-            return Out;
+            return In;
         }
-
+        // --- funcion que calcula el camino que debe seguir el agente, retorna el camino completo
         public acciones Camino(Bloque area)
         {
             BusquedaAestrella cOp = new BusquedaAestrella(area, profundidad); // instancia el algoritmo A*
@@ -253,13 +268,13 @@ namespace Game.Agentes
             
             return camino;
         }
-
-        public String CaminoActualizado(Bloque area) // retorna 1 accion
+        // --- funcion que calcula el camino que debe seguir el agente, retorna solo el siguiente movimiento.
+        public String CaminoActualizado(Bloque area)
         {
             BusquedaAestrella cOp = new BusquedaAestrella(area, profundidad); // instancia el algoritmo A*
             Vector2 final = cOp.getPosicionPlayer; // obtiene la posicion del player
             Vector2 inicio = cOp.getPosicionAgent; // obtiene la posicion del agente (posicion inicial)
-            String Accion = "empty";
+            String Accion = "nada";
             Vector2 sucesion; // item: posicion a alcansar
 
             if ((final != posPlayer) || (inicio != posAgent)) // si la posicion del jugador cambia
@@ -291,12 +306,20 @@ namespace Game.Agentes
             //abajo
             if ((sucesion.X == inicio.X) && (sucesion.Y == inicio.Y + 1))
             {
-                // nose
+                // por definir
             }
             //derecha-arriba
-            if ((sucesion.X == inicio.X + 1) && (sucesion.Y == inicio.Y - 1) )//&& (area.obtenerSector(new Vector2(inicio.X + 1, inicio.Y)).value == true))
+            if ((sucesion.X == inicio.X + 1) && (sucesion.Y == inicio.Y - 1) )
             {
-                Accion = "saltarDer";
+                if ((area.obtenerSector(new Vector2(inicio.X + 1, inicio.Y)).value == true))
+                {
+                    Accion = "saltarDer";
+                }
+                else
+                {
+                    Accion = "avanzarDer";
+                }
+                
             }
             //derecha-abajo
             if ((sucesion.X == inicio.X + 1) && (sucesion.Y == inicio.Y + 1))
@@ -304,9 +327,16 @@ namespace Game.Agentes
                 Accion = "avanzarDer";
             }
             //izquierda-arriba
-            if ((sucesion.X == inicio.X - 1) && (sucesion.Y == inicio.Y - 1) )//&& (area.obtenerSector(new Vector2(inicio.X - 1, inicio.Y)).value == true))
+            if ((sucesion.X == inicio.X - 1) && (sucesion.Y == inicio.Y - 1) )
             {
-                Accion = "saltarIzq";
+                if ((area.obtenerSector(new Vector2(inicio.X - 1, inicio.Y)).value == true))
+                {
+                    Accion = "saltarIzq";
+                }
+                else
+                {
+                    Accion = "avanzarIzq";
+                }                
             }
             //izquierda abajo
             if ((sucesion.X == inicio.X - 1) && (sucesion.Y == inicio.Y + 1))
@@ -320,7 +350,7 @@ namespace Game.Agentes
 
             return Accion;
         }
-        // --- funcion que realiza las acciones
+        // --- funcion que realiza la accion
         private void Comportamiento(String a)
         {
             //Debug.WriteLine(" -" +a);

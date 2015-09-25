@@ -13,13 +13,16 @@ namespace Game
     {
         public int profundidad { get; set; } //profundidad del sensor
         protected bool contacto { get; set; }
-
+        private int aceleracion;
+        
         public Agent(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion, string nombreImagen)
             : base(game, tamano, posicion)
         {
             NombreImagen = nombreImagen;
             ColorImagen = Color.White;
             Direccion = "left";
+            aceleracion = 90;
+            nombreSprite = "Agente";
             LoadContent();
         }
         
@@ -41,8 +44,9 @@ namespace Game
             if (otro is Jugador)
             {
                 Mover(desplazamiento);
-                contacto = true;
-                // asigna el valor true a la variable contacto para luego verificar si existe colision.
+                // causa daño
+                //life--;
+                //Debug.Print(direccionColision);
                 if (desplazamiento.Y != 0)
                 {
                     velocidad.Y = 0;
@@ -56,6 +60,11 @@ namespace Game
                     velocidad.Y = 0;
                     isOnGround = true;
                 }
+            }
+            //Debug.Print("Agente "+direccionColision);
+            if (direccionColision.Equals("arriba"))
+            {
+                life--;
             }
         }
         
@@ -82,11 +91,11 @@ namespace Game
         {
             if (Direccion.Equals("left"))
             {
-                velocidad.X = -100;
+                velocidad.X = -aceleracion;
             }
             else if (Direccion.Equals("right"))
             {
-                velocidad.X = 100;
+                velocidad.X = aceleracion;
             }
             
         }
@@ -95,11 +104,11 @@ namespace Game
         {
             if (Direccion.Equals("left"))
             {
-                velocidad.X = -100;
+                velocidad.X = -aceleracion;
             }
             else if (Direccion.Equals("right"))
             {
-                velocidad.X = 100;
+                velocidad.X = aceleracion;
             }
 
         }
