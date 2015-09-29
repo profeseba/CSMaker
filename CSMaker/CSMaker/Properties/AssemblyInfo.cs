@@ -5,8 +5,8 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Framework")]
-[assembly: AssemblyProduct("Framework")]
+[assembly: AssemblyTitle("CSMaker")]
+[assembly: AssemblyProduct("CSMaker")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
@@ -22,7 +22,7 @@ using System.Runtime.InteropServices;
 // On Windows, the following GUID is for the ID of the typelib if this
 // project is exposed to COM. On other platforms, it unique identifies the
 // title storage container when deploying this assembly to the device.
-[assembly: Guid("cf868611-1726-4972-84f6-7613c7024a11")]
+[assembly: Guid("4485e3db-ebe4-42d7-b081-cb19412a794d")]
 
 // Version information for an assembly consists of the following four values:
 //

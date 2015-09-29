@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Framework
+namespace CSMaker
 {
 #if WINDOWS || XBOX
     static class Program
@@ -10,10 +10,10 @@ namespace Framework
         /// </summary>
         static void Main(string[] args)
         {
-            FrameworkCSM editor = new FrameworkCSM();
-            editor.Show();
-            editor.game = new Game1(editor.pb_editor.Handle, editor, editor.pb_editor);
-            editor.game.Run();
+            using (Game1 game = new Game1())
+            {
+                game.Run();
+            }
         }
     }
 #endif
