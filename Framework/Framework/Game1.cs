@@ -42,7 +42,7 @@ namespace Framework
             this.parentForm = parentForm;
             this.pictureBox = pictureBox;
 
-            size = new Vector2(960, 640); // x = 30*32px ; y = 20*32px
+            size = new Vector2(960, 640); // 960,640 x = 30*32px ; y = 20*32px
             this.pictureBox.Width = (int)size.X;
             this.pictureBox.Height = (int)size.Y;
             this.graphics.PreferredBackBufferWidth = (int)size.X;

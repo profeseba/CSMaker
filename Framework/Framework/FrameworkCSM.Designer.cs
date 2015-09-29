@@ -30,8 +30,8 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cerrarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.pb_editor = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
@@ -58,32 +58,37 @@
             this.archivoToolStripMenuItem.Size = new System.Drawing.Size(71, 24);
             this.archivoToolStripMenuItem.Text = "Archivo";
             // 
+            // cerrarToolStripMenuItem
+            // 
+            this.cerrarToolStripMenuItem.Name = "cerrarToolStripMenuItem";
+            this.cerrarToolStripMenuItem.Size = new System.Drawing.Size(118, 24);
+            this.cerrarToolStripMenuItem.Text = "Cerrar";
+            // 
             // editarToolStripMenuItem
             // 
             this.editarToolStripMenuItem.Name = "editarToolStripMenuItem";
             this.editarToolStripMenuItem.Size = new System.Drawing.Size(60, 24);
             this.editarToolStripMenuItem.Text = "Editar";
             // 
-            // cerrarToolStripMenuItem
-            // 
-            this.cerrarToolStripMenuItem.Name = "cerrarToolStripMenuItem";
-            this.cerrarToolStripMenuItem.Size = new System.Drawing.Size(152, 24);
-            this.cerrarToolStripMenuItem.Text = "Cerrar";
-            // 
             // panel1
             // 
             this.panel1.AutoScroll = true;
+            this.panel1.AutoSize = true;
+            this.panel1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.panel1.Controls.Add(this.pb_editor);
             this.panel1.Location = new System.Drawing.Point(12, 31);
+            this.panel1.MaximumSize = new System.Drawing.Size(1280, 960);
+            this.panel1.MinimumSize = new System.Drawing.Size(800, 600);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(640, 640);
+            this.panel1.Size = new System.Drawing.Size(806, 606);
             this.panel1.TabIndex = 1;
             // 
             // pb_editor
             // 
             this.pb_editor.Location = new System.Drawing.Point(3, 3);
+            this.pb_editor.MinimumSize = new System.Drawing.Size(800, 600);
             this.pb_editor.Name = "pb_editor";
-            this.pb_editor.Size = new System.Drawing.Size(634, 634);
+            this.pb_editor.Size = new System.Drawing.Size(800, 600);
             this.pb_editor.TabIndex = 0;
             this.pb_editor.TabStop = false;
             // 
@@ -97,6 +102,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "FrameworkCSM";
             this.Text = "FrameworkCSM";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
