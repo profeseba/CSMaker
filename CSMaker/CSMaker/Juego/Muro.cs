@@ -17,11 +17,20 @@ namespace CSMaker
     /// </summary>
     public class Muro : SpriteComponent
     {
+        public Muro(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion, String img)
+            : base(game, tamano, posicion)
+        {
+            Peso = 0.0f;
+            NombreImagen = img;
+            ColorImagen = Color.Black;
+            LoadContent();
+        }
+
         public Muro(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion)
             : base(game, tamano, posicion)
         {
             Peso = 0.0f;
-            NombreImagen = "background/black";
+            NombreImagen = "tileset/default2";
             ColorImagen = Color.Black;
             LoadContent();
         }

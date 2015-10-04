@@ -62,7 +62,7 @@ namespace CSMaker
             //Debug.Print("Agente "+direccionColision);
             if (direccionColision.Equals("arriba"))
             {
-                life--;
+               life--;
             }
         }
         

@@ -21,6 +21,7 @@ namespace CSMaker
         // Propiedades
         ContentManager Content;
         SpriteBatch spriteBatch;
+        public Rectangle textura_origen;
         protected Vector2 posicion { get; set; }
         public Vector2 Posicion { get { return posicion; } set { posicion = value; } }
         public Texture2D Textura { get; set; }
@@ -48,6 +49,7 @@ namespace CSMaker
             Content = (ContentManager)Game.Services.GetService(typeof(ContentManager));
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
             died = false;
+            textura_origen = new Rectangle(0, 0, (int)Tamano.X, (int)Tamano.Y);
             Tamano = tamano;
             posicion = pos;
             life = 1;
@@ -90,7 +92,7 @@ namespace CSMaker
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Draw(Textura, posicion, new Rectangle(0, 0, (int)Tamano.X, (int)Tamano.Y), ColorImagen);
+            spriteBatch.Draw(Textura, posicion, textura_origen, ColorImagen);
             base.Draw(gameTime);
         }
 
