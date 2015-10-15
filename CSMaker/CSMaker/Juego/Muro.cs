@@ -30,7 +30,8 @@ namespace CSMaker
             : base(game, tamano, posicion)
         {
             Peso = 0.0f;
-            NombreImagen = "tileset/default2";
+            //NombreImagen = "tileset/default2";
+            NombreImagen = "background/black";
             ColorImagen = Color.Black;
             LoadContent();
         }

@@ -49,8 +49,8 @@ namespace CSMaker
             Content = (ContentManager)Game.Services.GetService(typeof(ContentManager));
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
             died = false;
-            textura_origen = new Rectangle(0, 0, (int)Tamano.X, (int)Tamano.Y);
             Tamano = tamano;
+            textura_origen = new Rectangle(0, 0, (int)Tamano.X, (int)Tamano.Y);
             posicion = pos;
             life = 1;
             Peso = 1.0f;

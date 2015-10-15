@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Diagnostics;
 
 
 namespace CSMaker
@@ -20,7 +21,7 @@ namespace CSMaker
         ContentManager Content;
         SpriteBatch spriteBatch;
         Mundo mundo;
-        public Jugador jugador1;
+        Jugador jugador;
         private int celda = 32;
         public int Celda { get { return celda; } }
         int Piso { get { return celda * 2; } }
@@ -36,34 +37,33 @@ namespace CSMaker
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
             this.size = new Vector2(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
             this.sizeWorld = sizeWorld;
-            //this.posVentana = posVentana;
             mundo = new Mundo();
             //Crear los muros
             mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, 1), posicion(0,0)));   // muro de arriba     
             mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), posicion(sizeWorld.X, 0))); // muro de derecha
             mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, Celda), posicion(0, sizeWorld.Y - Celda))); // muro de abajo
             mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), posicion(0, 0))); // muro de izquierda
- 
-            ////crear algunas plataformas
-            ////mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 96)));
-            ////mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 500)));
-            ////mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(game.Window.ClientBounds.Width - (game.Window.ClientBounds.Width / 2), 96 + 96 + 28)));
-            ////mundo.AdicionarSprite(new Muro(game, new Vector2(256, 20), new Vector2(120, (int)(96 * 4.5f))));
-            ////mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height - Piso)));
-            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), posicion(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda)));
-            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), posicion(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda * 2)));
-            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda * 2, Celda), posicion(Celda * 4, game.Window.ClientBounds.Height - Piso)));
 
-            //mundo.AdicionarSprite(new Muro(game, new Vector2(3 * Celda, Celda), posicion(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height - Piso)));
- 
-            ////crea al jugador
-            //jugador1 = new Jugador(game, new Vector2(Celda, Celda), posicion(Celda, size.Y - 2 * Celda), "players/blue");
-            //mundo.AdicionarSprite(jugador1);
+            //crear algunas plataformas
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 96)));
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 500)));
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(game.Window.ClientBounds.Width - (game.Window.ClientBounds.Width / 2), 96 + 96 + 28)));
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(256, 20), new Vector2(120, (int)(96 * 4.5f))));
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height - Piso)));
+            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), posicion(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda)));
+            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), posicion(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda * 2)));
+            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda * 2, Celda), posicion(Celda * 4, game.Window.ClientBounds.Height - Piso)));
 
-            ////crea al agente
-            //enemigo = new Enemigo2(game, new Vector2(Celda, Celda), posicion(20 * Celda, game.Window.ClientBounds.Height - Celda - Celda), "players/red");
-            //mundo.AdicionarSprite(enemigo);
-            //mundo.AdicionarAgente(enemigo);
+            mundo.AdicionarSprite(new Muro(game, new Vector2(3 * Celda, Celda), posicion(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height - Piso)));
+
+            //crea al jugador
+            jugador = new Jugador(game, new Vector2(Celda, Celda), posicion(Celda, size.Y - 4 * Celda), "players/blue");
+            mundo.AdicionarSprite(jugador);
+
+            //crea al agente
+            Enemigo2 enemigo = new Enemigo2(game, new Vector2(Celda, Celda), posicion(20 * Celda, game.Window.ClientBounds.Height - Celda - Celda), "players/red");
+            mundo.AdicionarSprite(enemigo);
+            mundo.AdicionarAgente(enemigo);
         }
 
         public void nuevo_elemento(SpriteComponent obj)
@@ -88,20 +88,21 @@ namespace CSMaker
  
         public override void Update(GameTime gameTime)
         {
-            if (!(jugador1 == null))
+            if (!(jugador == null))
             {
                 float deltaTime = (float)((double)gameTime.ElapsedGameTime.Milliseconds / 1000);
                 float totalTime = (float)((double)gameTime.TotalGameTime.TotalMilliseconds / 1000);
                 KeyboardState newState = Keyboard.GetState();
-                Vector2 velocidad = jugador1.Velocidad;
+                Vector2 velocidad = jugador.Velocidad;
                 Vector2 desplazamiento = Vector2.Zero;
-                bool isOnGround = jugador1.isOnGround;
+                bool isOnGround = jugador.isOnGround;
 
                 velocidad.X = 0;
                 desplazamiento.X = 0;
 
                 if (newState.IsKeyDown(Keys.Space))
                 {
+                    //Debug.Print("espacio presionado");
                     if (isOnGround)
                     {
                         velocidad.Y = -300;
@@ -114,7 +115,7 @@ namespace CSMaker
                 }
                 if (newState.IsKeyDown(Keys.D))
                 {
-                    if ((jugador1.Posicion.X / 32) > (size.X / 64))
+                    if ((jugador.Posicion.X / 32) > (size.X / 64))
                     {
                         desplazamiento.X = -200;
                     }
@@ -122,8 +123,8 @@ namespace CSMaker
                 }
 
                 mundo.Desplazamiento = desplazamiento;
-                jugador1.Velocidad = velocidad;
-                jugador1.isOnGround = isOnGround;
+                jugador.Velocidad = velocidad;
+                jugador.isOnGround = isOnGround;
                 mundo.Update(deltaTime, totalTime);
             }
             base.Update(gameTime);

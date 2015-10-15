@@ -48,14 +48,8 @@ namespace Framework
                 anchoMapa = Int32.Parse(ancho);
                 TamTile = Int32.Parse(tamCelda);
                 //int zoom = TamTile/32;
-                Image img = Image.FromFile(@"img\default2.png");
-                //Size tamImg = new System.Drawing.Size(img.Width*zoom,img.Height*zoom);
-                //tileSheet =  new Bitmap(img,tamImg);
-                tileSheet = new Bitmap(img);
-                pb_tileset = new PictureBox();
-                pb_tileset.Image = tileSheet;
-                pb_tileset.Size = tileSheet.Size;
-
+                cargarImagenPictureBox(@"img\background\default2.png");
+                
                 Graphics g = Graphics.FromImage(tileSheet);
 
                 Pen miLapiz = new Pen(System.Drawing.Color.White);
@@ -74,11 +68,8 @@ namespace Framework
                 seleccion.Height * (TamTile + 1) - 1.5f);
 
                 game.crearJuego(anchoMapa,altoMapa);
-
-                pb_editor.Visible = true;
-
-                panel_editor.Controls.Add(pb_tileset);
-
+                // hace visible el picturebox del mapa
+                pb_editor.Visible = true;                
                 
             }
             catch (Exception)
@@ -87,6 +78,42 @@ namespace Framework
                 Debug.Print("paso algo");
             }
             
+        }
+
+        private void tabControlEventMapa(object sender, EventArgs e)
+        {
+            StringBuilder img = new StringBuilder();
+            img.Append(@"img\");
+            switch (tabControl1.SelectedIndex)
+            {
+                case 0: img.Append(@"background\default2.png"); break;
+                case 1: img.Append(@"players\blue.png"); break;
+                case 2: img.Append(@"players\red.png"); break;
+                case 3: img.Append(@"background\black.jpg"); break;
+                case 4: img.Append(@"background\black.jpg"); break;
+                default: img.Append(@"background\default2.png"); break;
+            }
+            cargarImagenPictureBox(img.ToString());
+        }
+
+        private void cargarImagenPictureBox(String file)
+        {
+            Image img = Image.FromFile(file);
+            //Size tamImg = new System.Drawing.Size(img.Width*zoom,img.Height*zoom);
+            //tileSheet =  new Bitmap(img,tamImg);
+            tileSheet = new Bitmap(img);
+            pb_diseno.Image = tileSheet;
+            pb_diseno.Size = tileSheet.Size;
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void b_personaje_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
