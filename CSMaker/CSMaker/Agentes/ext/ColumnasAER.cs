@@ -8,9 +8,11 @@ namespace CSMaker
     public class ColumnasAER
     {
         public String accion { get; set; }
-        public Bloque estado { get; set; }
-        public int frecuencia { get; set; }
         public float valor { get; set; }
+        public int frecuencia { get; set; }
+        public Bloque estado { get; set; }
+        
+        
 
         public ColumnasAER(String accion, Bloque estado, int frecuencia, float valor) 
         {

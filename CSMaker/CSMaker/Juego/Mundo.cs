@@ -198,6 +198,7 @@ namespace CSMaker
 
             for (int i = 0; i < Sprites.Count; ++i)
             {
+                Sprites[i].verificarMuerte();
                 if (Sprites[i].died)
                 {
                     RemoverSprite(Sprites[i]);
@@ -217,40 +218,36 @@ namespace CSMaker
                     if (Sprites[i] == Sprites[j])
                         continue;
                     Vector2 depth = CalcularMinimaDistanciaTraslacion(Sprites[i].Bound, Sprites[j].Bound);
-
-                    if (((Sprites[i] is Agent) || (Sprites[i] is Jugador)) && ((Sprites[j] is Agent) || (Sprites[j] is Jugador)))
-                    {
-                        //Debug.Print("---------"+Sprites[i].nombreSprite+"----------");
-                        Sprites[i].direccionColision = ColisionEntreObjetos(Sprites[i].Bound, Sprites[j].Bound);
-                        //Debug.Print(""+Sprites[i].life+" "+Sprites[i].direccionColision);  
-                    }
                     if (depth != Vector2.Zero)
                     {
                         Sprites[i].Colision(Sprites[j], depth);
                     }
+                    //if (( (Sprites[i].nombreSprite.Equals("Agente")) || (Sprites[i].nombreSprite.Equals("Player")) ) && ( (Sprites[j].nombreSprite.Equals("Agente")) || (Sprites[j].nombreSprite.Equals("Player")) ))
+                    //{
+                    //    //Debug.Print("---------"+Sprites[i].nombreSprite+"----------");
+                    //    Sprites[i].direccionColision = ColisionEntreObjetos(Sprites[i].Bound, Sprites[j].Bound);
+                    //    //Debug.Print(""+Sprites[i].life+" "+Sprites[i].direccionColision);  
+                    //}
+                    //Sprites[i].Colision(Sprites[j], depth);
+                    
                 }
 
             }
             for (int k = 0; k < Agentes.Count; k++)
             {
-                if (Agentes[k].died)
-                {
-                    RemoverAgente(Agentes[k]);
-                    continue;
-                }
                 for (int i = 0; i < Sprites.Count; ++i)
                 {
-                    //verificar interaccion con el agente
-                    //if (!(Sprites[i] is Agent))
-                    //{
-                        
-                    //}
                     stat.Add(new Sensores().Percepciones(Agentes[k], Sprites[i], Agentes[k].profundidad));
                 }
                 outBloque = new Bloque();
                 outBloque = new Sensores().Suma(stat, Agentes[k].profundidad);
                 Agentes[k].Sensor(outBloque);
                 stat = new List<Bloque>();
+                if (Agentes[k].died)
+                {
+                    RemoverAgente(Agentes[k]);
+                    continue;
+                }
             }
             
         }

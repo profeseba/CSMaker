@@ -22,6 +22,7 @@ namespace CSMaker
             profundidad = 1;
             NombreImagen = nombreImagen;
             ColorImagen = Color.White;
+            life = 1;
             LoadContent();
         }
 

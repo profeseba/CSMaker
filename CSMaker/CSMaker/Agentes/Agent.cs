@@ -30,6 +30,15 @@ namespace CSMaker
 
         public override void Colision(SpriteComponent otro, Vector2 desplazamiento) 
         {
+            //if (life <= 0)
+            //{
+            //    died = true;
+            //}
+            //Debug.Print("Agente "+direccionColision);
+            //if (direccionColision.Equals("arriba"))
+            //{
+            //    life--;
+            //}
             if (otro is Muro)
             {
                 Mover(desplazamiento);
@@ -41,10 +50,13 @@ namespace CSMaker
             }
             if (otro is Jugador)
             {
+                direccionColision = cls.colision(this.Bound, otro.Bound);
+                //Debug.Print("Agente " + direccionColision + " vida:" + life);
+                if ((!direccionColision.Equals("abajo")) && (!direccionColision.Equals("nulo")))
+                {
+                    otro.life--;
+                }
                 Mover(desplazamiento);
-                // causa daño
-                //life--;
-                //Debug.Print(direccionColision);
                 if (desplazamiento.Y != 0)
                 {
                     velocidad.Y = 0;
@@ -59,11 +71,15 @@ namespace CSMaker
                     isOnGround = true;
                 }
             }
-            //Debug.Print("Agente "+direccionColision);
-            if (direccionColision.Equals("arriba"))
+            if (otro is Agent)
             {
-               life--;
+                Mover(desplazamiento);
+                if (desplazamiento.Y != 0)
+                {
+                    velocidad.Y = 0;
+                }
             }
+            
         }
         
         public void perseguir()

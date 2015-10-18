@@ -23,6 +23,7 @@ namespace Framework
         //HelpScene escenaAyuda;
         GameScene escenaActiva;
         public ActionScene escenaAccion;
+        
         //SpriteFont fuenteNormal;
         Texture2D fondo;
         //KeyboardState newState;
@@ -57,11 +58,9 @@ namespace Framework
             this.pictureBox.Width = (int)size.X;
             this.pictureBox.Height = (int)size.Y;
             // test
-            graphics.PreferredBackBufferWidth = pictureBox.Height;
-            graphics.PreferredBackBufferHeight = pictureBox.Width;
+            graphics.PreferredBackBufferWidth = pictureBox.Width;
+            graphics.PreferredBackBufferHeight =  pictureBox.Height;
             graphics.ApplyChanges();
-            this.graphics.PreferredBackBufferWidth = (int)size.X;
-            this.graphics.PreferredBackBufferHeight = (int)size.Y;
             escenaAccion = new ActionScene(this, fondo, size);
             Components.Add(escenaAccion);
             escenaAccion.Show();
@@ -84,8 +83,8 @@ namespace Framework
         }
         void gameForm_SizeChanged(object sender, EventArgs e)
         {
-            graphics.PreferredBackBufferWidth = pictureBox.Height;
-            graphics.PreferredBackBufferHeight = pictureBox.Width;
+            graphics.PreferredBackBufferWidth = pictureBox.Width;
+            graphics.PreferredBackBufferHeight = pictureBox.Height;
             graphics.ApplyChanges();
         }
         /// <summary>
@@ -160,6 +159,7 @@ namespace Framework
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+            
             base.Draw(gameTime);
             spriteBatch.End();
         }

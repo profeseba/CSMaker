@@ -651,7 +651,6 @@
             this.pb_editor.Margin = new System.Windows.Forms.Padding(2);
             this.pb_editor.Name = "pb_editor";
             this.pb_editor.Size = new System.Drawing.Size(32, 32);
-            this.pb_editor.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pb_editor.TabIndex = 0;
             this.pb_editor.TabStop = false;
             this.pb_editor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pb_editor_MouseClick);
@@ -698,7 +697,6 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pb_editor)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

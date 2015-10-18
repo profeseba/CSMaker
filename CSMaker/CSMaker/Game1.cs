@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Diagnostics;
 
 namespace CSMaker
 {
@@ -22,21 +23,26 @@ namespace CSMaker
         //HelpScene escenaAyuda;
         GameScene escenaActiva;
         ActionScene escenaAccion;
+        SpriteFont spriteTexto;
         //SpriteFont fuenteNormal;
         Texture2D fondo;
         //KeyboardState newState;
         //KeyboardState oldState;
         Vector2 size;
+        private JuegoXML juego;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            Window.Title = "CSMakerTestv1.1";
+            //Window.Title = "CSMakerTestv1.1";
 
-            size = new Vector2(960, 640); // x = 30*32px ; y = 20*32px
+            juego = XML.Deserialize<JuegoXML>("game.dat");
+            Window.Title = juego.nombre;
+
+            size = new Vector2(640, 640); // x = 30*32px ; y = 20*32px
             this.graphics.PreferredBackBufferWidth = (int)size.X;
-            this.graphics.PreferredBackBufferHeight = (int)size.Y;
+            this.graphics.PreferredBackBufferHeight = (int)juego.size.Y;
             //this.graphics.IsFullScreen = true;
         }
         /// <summary>
@@ -62,7 +68,9 @@ namespace CSMaker
             Services.AddService(typeof(SpriteBatch), spriteBatch);
             Services.AddService(typeof(ContentManager), Content);
             //fuenteNormal = Content.Load<SpriteFont>("fuente");
-            fondo = Content.Load<Texture2D>("background/mario");
+            fondo = Content.Load<Texture2D>("background/black");
+
+            spriteTexto = Content.Load<SpriteFont>("Font/Courier New");
             //escenaInicio = new MenuScene(this, fuenteNormal, fondo);
             //Components.Add(escenaInicio);
             //fondo = Content.Load<Texture2D>("fondo2");
@@ -75,8 +83,6 @@ namespace CSMaker
 
         private void cargarJuego() 
         {
-            JuegoXML juego = XML.Deserialize<JuegoXML>("game.dat");
-            Window.Title = juego.nombre;
             escenaAccion = new ActionScene(this, fondo, juego.size);
             escenaAccion.nuevo_jugador(new Jugador(this, juego.player.tam,juego.player.posicion,juego.player.img));
             foreach (var item in juego.walls)
@@ -143,6 +149,10 @@ namespace CSMaker
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+            if (escenaAccion.jugador.died)
+            {
+                spriteBatch.DrawString(spriteTexto, "GAME OVER", new Vector2(size.X / 2, size.Y / 2), Color.Red, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
+            }
             base.Draw(gameTime);
             spriteBatch.End();
         }

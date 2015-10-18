@@ -21,13 +21,14 @@ namespace CSMaker
         ContentManager Content;
         SpriteBatch spriteBatch;
         Mundo mundo;
-        Jugador jugador;
+        public Jugador jugador;
         List<Objeto> objeto;
         private int celda = 32;
         public int Celda { get { return celda; } }
         int Piso { get { return celda * 2; } }
         Vector2 size;
         Vector2 sizeWorld;
+        
         //KeyboardState oldState;
  
         public ActionScene(Microsoft.Xna.Framework.Game game, Texture2D background, Vector2 sizeWorld)
@@ -111,6 +112,7 @@ namespace CSMaker
  
         protected override void LoadContent()
         {
+            
             base.LoadContent();
         }
  
@@ -128,33 +130,38 @@ namespace CSMaker
                 velocidad.X = 0;
                 desplazamiento.X = 0;
 
-                if (newState.IsKeyDown(Keys.Space))
+                if ((!jugador.died))
                 {
-                    //Debug.Print("espacio presionado");
-                    if (isOnGround)
+                    if (newState.IsKeyDown(Keys.Space))
                     {
-                        velocidad.Y = -300;
-                        isOnGround = false;
+                        //Debug.Print("espacio presionado");
+                        if (isOnGround)
+                        {
+                            velocidad.Y = -300;
+                            isOnGround = false;
+                        }
+                    }
+                    if (newState.IsKeyDown(Keys.A))
+                    {
+                        velocidad.X = -200;
+                    }
+                    if (newState.IsKeyDown(Keys.D))
+                    {
+                        if ((jugador.Posicion.X / 32) > (size.X / 64))
+                        {
+                            desplazamiento.X = -200;
+                        }
+                        else velocidad.X = 200;
                     }
                 }
-                if (newState.IsKeyDown(Keys.A))
-                {
-                    velocidad.X = -200;
-                }
-                if (newState.IsKeyDown(Keys.D))
-                {
-                    if ((jugador.Posicion.X / 32) > (size.X / 64))
-                    {
-                        desplazamiento.X = -200;
-                    }
-                    else velocidad.X = 200;
-                }
+               
 
                 mundo.Desplazamiento = desplazamiento;
                 jugador.Velocidad = velocidad;
                 jugador.isOnGround = isOnGround;
                 mundo.Update(deltaTime, totalTime);
             }
+
             base.Update(gameTime);
         }
  
@@ -164,7 +171,7 @@ namespace CSMaker
             foreach (SpriteComponent sp in mundo.Sprites)
             {
                 sp.Draw(gameTime);
-            }
+            }            
         }
  
         public override void Show()

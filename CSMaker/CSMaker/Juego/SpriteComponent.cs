@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Diagnostics;
 
 
 namespace CSMaker
@@ -22,6 +23,7 @@ namespace CSMaker
         ContentManager Content;
         SpriteBatch spriteBatch;
         public Rectangle textura_origen;
+        protected Colision cls;
         protected Vector2 posicion { get; set; }
         public Vector2 Posicion { get { return posicion; } set { posicion = value; } }
         public Texture2D Textura { get; set; }
@@ -48,12 +50,14 @@ namespace CSMaker
             // TODO: Construct any child components here
             Content = (ContentManager)Game.Services.GetService(typeof(ContentManager));
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
+            nombreSprite = "sprite";
             died = false;
             Tamano = tamano;
             textura_origen = new Rectangle(0, 0, (int)Tamano.X, (int)Tamano.Y);
             posicion = pos;
             life = 1;
             Peso = 1.0f;
+            cls = new Colision();
             isOnGround = true;
             Vector3 min1 = new Vector3(posicion.X, posicion.Y, 0);
             Vector3 max1 = new Vector3((posicion.X + Tamano.X), (posicion.Y + Tamano.Y), 0);
@@ -77,7 +81,14 @@ namespace CSMaker
             base.Initialize();
         }
 
-
+        public void verificarMuerte()
+        {
+           // Debug.Print("vida :" + life);
+            if (life <= 0)
+            {
+                died = true;
+            }
+        }
         /// <summary>
         /// Allows the game component to update itself.
         /// </summary>
@@ -86,7 +97,7 @@ namespace CSMaker
         public override void Update(GameTime gameTime)
         {
             // TODO: Add your update code here
-
+            
             base.Update(gameTime);
         }
 

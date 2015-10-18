@@ -89,8 +89,8 @@ namespace Framework
                 imagen = true;
                 mapa = true;
                 pb_diseno.Visible = true;
-                pb_editor.Width = anchoMapa;
-                pb_editor.Height = altoMapa;
+                //pb_editor.Width = anchoMapa;
+                //pb_editor.Height = altoMapa;
                 game.crearJuego(anchoMapa,altoMapa);
                 // redimensiona el pb_editor
                 // hace visible el picturebox del mapa
@@ -304,7 +304,7 @@ namespace Framework
         {
             JuegoXML juegoXML = new JuegoXML(textBox7.Text, new Vector2(anchoMapa, altoMapa), jugadorXML, murosXML, agentesXML);
             XML.Serialize(juegoXML, "game.dat");
-            System.Diagnostics.Process.Start("copy", "CSMaker.exe " + textBox7.Text+".exe");
+            //System.Diagnostics.Process.Start("copy", "CSMaker.exe "+ textBox7.Text+".exe");
         }
 
         private void cerrarToolStripMenuItem_Click(object sender, EventArgs e)

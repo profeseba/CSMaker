@@ -95,6 +95,7 @@
     <Compile Include="Enemigos\Enemigo2.cs" />
     <Compile Include="Juego\ActionScene.cs" />
     <Compile Include="Juego\BackgroundComponent.cs" />
+    <Compile Include="Juego\Colision.cs" />
     <Compile Include="Juego\GameScene.cs" />
     <Compile Include="Juego\Jugador.cs" />
     <Compile Include="Juego\Mundo.cs" />
