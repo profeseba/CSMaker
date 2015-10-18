@@ -124,7 +124,7 @@ namespace CSMaker
                     float rA = evaluarRecompensa(Q,aA,eA);
                     if (rA == -10f)
                     {
-                        accionAnterior.valor = -12f;
+                        accionAnterior.valor = -10f;
                         Q.addTupla(accionAnterior);
                     }
                     else
