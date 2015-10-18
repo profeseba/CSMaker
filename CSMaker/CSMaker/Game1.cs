@@ -68,14 +68,46 @@ namespace CSMaker
             //fondo = Content.Load<Texture2D>("fondo2");
             //escenaAyuda = new HelpScene(this, fondo);
             //Components.Add(escenaAyuda);
-            escenaAccion = new ActionScene(this, fondo, new Vector2(70 * 32, size.Y));
+            cargarJuego();
+            
+            // TODO: use this.Content to load your game content here
+        }
+
+        private void cargarJuego() 
+        {
+            JuegoXML juego = XML.Deserialize<JuegoXML>("game.dat");
+            Window.Title = juego.nombre;
+            escenaAccion = new ActionScene(this, fondo, juego.size);
+            escenaAccion.nuevo_jugador(new Jugador(this, juego.player.tam,juego.player.posicion,juego.player.img));
+            foreach (var item in juego.walls)
+            {
+                escenaAccion.nuevo_muro(new Muro(this,item.tam,item.posicion,item.img,item.posImg));
+            }
+            foreach (var item in juego.enemies)
+            {
+                if (item.agente.Equals("ARS"))
+                {
+                    escenaAccion.nuevo_agente(new Enemigo(this,item.tam,item.posicion,item.img));
+                }
+                if (item.agente.Equals("ABU"))
+                {
+                    escenaAccion.nuevo_agente(new Enemigo3(this, item.tam, item.posicion, item.img));
+                }
+                if (item.agente.Equals("ABO"))
+                {
+                    escenaAccion.nuevo_agente(new Enemigo4(this, item.tam, item.posicion, item.img));
+                }
+                if (item.agente.Equals("AA"))
+                {
+                    escenaAccion.nuevo_agente(new Enemigo2(this, item.tam, item.posicion, item.img));
+                }
+            }
             Components.Add(escenaAccion);
             escenaAccion.Show();
             //escenaInicio.Show();
             //escenaAyuda.Hide();
             //escenaActiva = escenaInicio;
             escenaActiva = escenaAccion;
-            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>

@@ -22,6 +22,7 @@ namespace CSMaker
         SpriteBatch spriteBatch;
         Mundo mundo;
         Jugador jugador;
+        List<Objeto> objeto;
         private int celda = 32;
         public int Celda { get { return celda; } }
         int Piso { get { return celda * 2; } }
@@ -38,11 +39,12 @@ namespace CSMaker
             this.size = new Vector2(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
             this.sizeWorld = sizeWorld;
             mundo = new Mundo();
-            //Crear los muros
-            mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, 1), posicion(0,0)));   // muro de arriba     
-            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), posicion(sizeWorld.X, 0))); // muro de derecha
-            mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, Celda), posicion(0, sizeWorld.Y - Celda))); // muro de abajo
-            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), posicion(0, 0))); // muro de izquierda
+            objeto = new List<Objeto>();
+            ////Crear los muros
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, 1), posicion(0, 0)));   // muro de arriba     
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), posicion(sizeWorld.X, 0))); // muro de derecha
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, Celda), posicion(0, sizeWorld.Y - Celda))); // muro de abajo
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), posicion(0, 0))); // muro de izquierda
 
             ////crear algunas plataformas
             ////mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 96)));
@@ -66,9 +68,15 @@ namespace CSMaker
             //mundo.AdicionarAgente(enemigo);
         }
 
-        public void nuevo_elemento(SpriteComponent obj)
+        public void nuevo_jugador(Jugador obj)
         {
-            mundo.AdicionarSprite(obj);
+            jugador = obj;
+            mundo.AdicionarSprite(jugador);
+        }
+
+        public void modificar_posicion_jugador(Vector2 pos)
+        {
+            jugador.Posicion = pos;
         }
 
         public void nuevo_muro(Muro obj)
@@ -76,9 +84,24 @@ namespace CSMaker
             mundo.AdicionarSprite(obj);
         }
 
-        public void nuevo_enemigo(Agent obj) 
+        public int nuevo_obj(Objeto obj) 
         {
-            mundo.AdicionarAgente(obj);
+            objeto.Add(obj);
+            int index = objeto.Count - 1;
+            mundo.AdicionarSprite(objeto[index]);
+            // retorna el index del agente
+            return index;
+        }
+
+        public void mover_obj(int index, Vector2 pos) 
+        {
+            objeto[index].Posicion = pos;
+        }
+
+        public void nuevo_agente(Agent item)
+        {
+            mundo.AdicionarAgente(item);
+            mundo.AdicionarSprite(item);
         }
 
         private Vector2 posicion(float X, float Y) 

@@ -53,9 +53,13 @@ namespace Framework
 
         public void crearJuego(int width, int height) 
         {
-            size = new Vector2(32 * width, 32 * height); // 960,640 x = 30*32px ; y = 20*32px
+            size = new Vector2(width,height); 
             this.pictureBox.Width = (int)size.X;
             this.pictureBox.Height = (int)size.Y;
+            // test
+            graphics.PreferredBackBufferWidth = pictureBox.Height;
+            graphics.PreferredBackBufferHeight = pictureBox.Width;
+            graphics.ApplyChanges();
             this.graphics.PreferredBackBufferWidth = (int)size.X;
             this.graphics.PreferredBackBufferHeight = (int)size.Y;
             escenaAccion = new ActionScene(this, fondo, size);
@@ -80,9 +84,9 @@ namespace Framework
         }
         void gameForm_SizeChanged(object sender, EventArgs e)
         {
-            //graphics.PreferredBackBufferWidth = pictureBox.Height;
-            //graphics.PreferredBackBufferHeight = pictureBox.Width;
-            //graphics.ApplyChanges();
+            graphics.PreferredBackBufferWidth = pictureBox.Height;
+            graphics.PreferredBackBufferHeight = pictureBox.Width;
+            graphics.ApplyChanges();
         }
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -107,7 +111,7 @@ namespace Framework
             Services.AddService(typeof(SpriteBatch), spriteBatch);
             Services.AddService(typeof(ContentManager), Content);
             //fuenteNormal = Content.Load<SpriteFont>("fuente");
-            fondo = Content.Load<Texture2D>("background/mario");
+            fondo = Content.Load<Texture2D>("background/black");
             //escenaInicio = new MenuScene(this, fuenteNormal, fondo);
             //Components.Add(escenaInicio);
             //fondo = Content.Load<Texture2D>("fondo2");

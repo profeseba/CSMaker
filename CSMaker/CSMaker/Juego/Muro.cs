@@ -22,7 +22,7 @@ namespace CSMaker
         {
             Peso = 0.0f;
             NombreImagen = img;
-            ColorImagen = Color.Black;
+            ColorImagen = Color.White;
             LoadContent();
         }
 
@@ -32,7 +32,7 @@ namespace CSMaker
             Peso = 0.0f;
             NombreImagen = img;
             textura_origen = new Rectangle((int)posImg.X, (int)posImg.Y, (int)tamano.X, (int)tamano.Y);
-            ColorImagen = Color.Black;
+            ColorImagen = Color.White;
             LoadContent();
         }
 
@@ -42,7 +42,7 @@ namespace CSMaker
             Peso = 0.0f;
             //NombreImagen = "tileset/default2";
             NombreImagen = "players/yellow";
-            ColorImagen = Color.Black;
+            ColorImagen = Color.White;
             LoadContent();
         }
 
