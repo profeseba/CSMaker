@@ -304,6 +304,13 @@ namespace Framework
         {
             JuegoXML juegoXML = new JuegoXML(textBox7.Text, new Vector2(anchoMapa, altoMapa), jugadorXML, murosXML, agentesXML);
             XML.Serialize(juegoXML, "game.dat");
+            System.Diagnostics.Process.Start("copy", "CSMaker.exe " + textBox7.Text+".exe");
+        }
+
+        private void cerrarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            game.Exit();
+            Application.Exit();
         }
     }
 }
