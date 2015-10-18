@@ -27,6 +27,9 @@ namespace CSMaker
             life = 1;
             LoadContent();
         }
+
+        public override void muerte() { }
+
         // --- Calcula el camino utilizando hilos
         private void CalcularCaminoThread()
         {
