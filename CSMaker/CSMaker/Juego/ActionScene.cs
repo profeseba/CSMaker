@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Diagnostics;
 
 
 namespace CSMaker
@@ -20,14 +21,14 @@ namespace CSMaker
         ContentManager Content;
         SpriteBatch spriteBatch;
         Mundo mundo;
-        Jugador jugador1;
-        Enemigo2 enemigo;
+        public Jugador jugador;
+        List<Objeto> objeto;
         private int celda = 32;
         public int Celda { get { return celda; } }
         int Piso { get { return celda * 2; } }
         Vector2 size;
         Vector2 sizeWorld;
-        Vector2 posVentana;
+        
         //KeyboardState oldState;
  
         public ActionScene(Microsoft.Xna.Framework.Game game, Texture2D background, Vector2 sizeWorld)
@@ -38,84 +39,129 @@ namespace CSMaker
             spriteBatch = (SpriteBatch)Game.Services.GetService(typeof(SpriteBatch));
             this.size = new Vector2(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height);
             this.sizeWorld = sizeWorld;
-            this.posVentana = posVentana;
             mundo = new Mundo();
-            //Crear los muros
-            mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, 1), posicion(0,0)));   // muro de arriba     
-            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), posicion(sizeWorld.X, 0))); // muro de derecha
-            mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, Celda), posicion(0, sizeWorld.Y - Celda))); // muro de abajo
-            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), posicion(0, 0))); // muro de izquierda
- 
-            //crear algunas plataformas
-            //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 96)));
-            //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 500)));
-            //mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(game.Window.ClientBounds.Width - (game.Window.ClientBounds.Width / 2), 96 + 96 + 28)));
-            //mundo.AdicionarSprite(new Muro(game, new Vector2(256, 20), new Vector2(120, (int)(96 * 4.5f))));
-            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height - Piso)));
-            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), posicion(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda)));
-            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), posicion(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda * 2)));
-            mundo.AdicionarSprite(new Muro(game, new Vector2(Celda * 2, Celda), posicion(Celda * 4, game.Window.ClientBounds.Height - Piso)));
+            objeto = new List<Objeto>();
+            ////Crear los muros
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, 1), posicion(0, 0)));   // muro de arriba     
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), posicion(sizeWorld.X, 0))); // muro de derecha
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, Celda), posicion(0, sizeWorld.Y - Celda))); // muro de abajo
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), posicion(0, 0))); // muro de izquierda
 
-            mundo.AdicionarSprite(new Muro(game, new Vector2(3 * Celda, Celda), posicion(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height - Piso)));
- 
-            //crea al jugador
-            jugador1 = new Jugador(game, new Vector2(Celda, Celda), posicion(Celda, size.Y - 2 * Celda), "players/blue");
-            mundo.AdicionarSprite(jugador1);
+            ////crear algunas plataformas
+            ////mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 96)));
+            ////mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(0, 500)));
+            ////mundo.AdicionarSprite(new Muro(game, new Vector2(game.Window.ClientBounds.Width / 2, 24), new Vector2(game.Window.ClientBounds.Width - (game.Window.ClientBounds.Width / 2), 96 + 96 + 28)));
+            ////mundo.AdicionarSprite(new Muro(game, new Vector2(256, 20), new Vector2(120, (int)(96 * 4.5f))));
+            ////mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), new Vector2(game.Window.ClientBounds.Width / 2, game.Window.ClientBounds.Height - Piso)));
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), posicion(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda)));
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, Celda), posicion(Celda * 5, game.Window.ClientBounds.Height - Piso - Celda * 2)));
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda * 2, Celda), posicion(Celda * 4, game.Window.ClientBounds.Height - Piso)));
 
-            //crea al agente
-            enemigo = new Enemigo2(game, new Vector2(Celda, Celda), posicion(20 * Celda, game.Window.ClientBounds.Height - Celda - Celda), "players/red");
-            mundo.AdicionarSprite(enemigo);
-            mundo.AdicionarAgente(enemigo);
+            //mundo.AdicionarSprite(new Muro(game, new Vector2(3 * Celda, Celda), posicion(game.Window.ClientBounds.Width, game.Window.ClientBounds.Height - Piso)));
+
+            ////crea al jugador
+            //jugador = new Jugador(game, new Vector2(Celda, Celda), posicion(Celda, size.Y - 4 * Celda), "players/blue");
+            //mundo.AdicionarSprite(jugador);
+
+            ////crea al agente
+            //Enemigo2 enemigo = new Enemigo2(game, new Vector2(Celda, Celda), posicion(20 * Celda, game.Window.ClientBounds.Height - Celda - Celda), "players/red");
+            //mundo.AdicionarSprite(enemigo);
+            //mundo.AdicionarAgente(enemigo);
+        }
+
+        public void nuevo_jugador(Jugador obj)
+        {
+            jugador = obj;
+            mundo.AdicionarSprite(jugador);
+        }
+
+        public void modificar_posicion_jugador(Vector2 pos)
+        {
+            jugador.Posicion = pos;
+        }
+
+        public void nuevo_muro(Muro obj)
+        {
+            mundo.AdicionarSprite(obj);
+        }
+
+        public int nuevo_obj(Objeto obj) 
+        {
+            objeto.Add(obj);
+            int index = objeto.Count - 1;
+            mundo.AdicionarSprite(objeto[index]);
+            // retorna el index del agente
+            return index;
+        }
+
+        public void mover_obj(int index, Vector2 pos) 
+        {
+            objeto[index].Posicion = pos;
+        }
+
+        public void nuevo_agente(Agent item)
+        {
+            mundo.AdicionarAgente(item);
+            mundo.AdicionarSprite(item);
         }
 
         private Vector2 posicion(float X, float Y) 
         {
-            //return new Vector2(posVentana.X+X,posVentana.Y+Y);
             return new Vector2(X,Y);
         }
  
         protected override void LoadContent()
         {
+            
             base.LoadContent();
         }
  
         public override void Update(GameTime gameTime)
         {
-            float deltaTime = (float)((double)gameTime.ElapsedGameTime.Milliseconds / 1000);
-            float totalTime = (float)((double)gameTime.TotalGameTime.TotalMilliseconds / 1000);
-            KeyboardState newState = Keyboard.GetState();
-            Vector2 velocidad = jugador1.Velocidad;
-            Vector2 desplazamiento = Vector2.Zero;
-            bool isOnGround = jugador1.isOnGround;
- 
-            velocidad.X = 0;
-            desplazamiento.X = 0;
+            if (!(jugador == null))
+            {
+                float deltaTime = (float)((double)gameTime.ElapsedGameTime.Milliseconds / 1000);
+                float totalTime = (float)((double)gameTime.TotalGameTime.TotalMilliseconds / 1000);
+                KeyboardState newState = Keyboard.GetState();
+                Vector2 velocidad = jugador.Velocidad;
+                Vector2 desplazamiento = Vector2.Zero;
+                bool isOnGround = jugador.isOnGround;
 
-            if (newState.IsKeyDown(Keys.Space))
-            {
-                if (isOnGround)
+                velocidad.X = 0;
+                desplazamiento.X = 0;
+
+                if ((!jugador.died))
                 {
-                    velocidad.Y = -300;
-                    isOnGround = false;
+                    if (newState.IsKeyDown(Keys.Space))
+                    {
+                        //Debug.Print("espacio presionado");
+                        if (isOnGround)
+                        {
+                            velocidad.Y = -300;
+                            isOnGround = false;
+                        }
+                    }
+                    if (newState.IsKeyDown(Keys.A))
+                    {
+                        velocidad.X = -200;
+                    }
+                    if (newState.IsKeyDown(Keys.D))
+                    {
+                        if ((jugador.Posicion.X / 32) > (size.X / 64))
+                        {
+                            desplazamiento.X = -200;
+                        }
+                        else velocidad.X = 200;
+                    }
                 }
-            }
-            if (newState.IsKeyDown(Keys.A))
-            {
-                velocidad.X = -200;
-            }
-            if (newState.IsKeyDown(Keys.D))
-            {
-                if ((jugador1.Posicion.X / 32) > (size.X / 64))
-                {
-                    desplazamiento.X = -200;
-                }
-                else velocidad.X = 200;
+               
+
+                mundo.Desplazamiento = desplazamiento;
+                jugador.Velocidad = velocidad;
+                jugador.isOnGround = isOnGround;
+                mundo.Update(deltaTime, totalTime);
             }
 
-            mundo.Desplazamiento = desplazamiento;
-            jugador1.Velocidad = velocidad;
-            jugador1.isOnGround = isOnGround;
-            mundo.Update(deltaTime, totalTime);
             base.Update(gameTime);
         }
  
@@ -125,7 +171,7 @@ namespace CSMaker
             foreach (SpriteComponent sp in mundo.Sprites)
             {
                 sp.Draw(gameTime);
-            }
+            }            
         }
  
         public override void Show()

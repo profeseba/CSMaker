@@ -17,12 +17,32 @@ namespace CSMaker
     /// </summary>
     public class Muro : SpriteComponent
     {
+        public Muro(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion, String img)
+            : base(game, tamano, posicion)
+        {
+            Peso = 0.0f;
+            NombreImagen = img;
+            ColorImagen = Color.White;
+            LoadContent();
+        }
+
+        public Muro(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion, String img, Vector2 posImg)
+            : base(game, tamano, posicion)
+        {
+            Peso = 0.0f;
+            NombreImagen = img;
+            textura_origen = new Rectangle((int)posImg.X, (int)posImg.Y, (int)tamano.X, (int)tamano.Y);
+            ColorImagen = Color.White;
+            LoadContent();
+        }
+
         public Muro(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion)
             : base(game, tamano, posicion)
         {
             Peso = 0.0f;
-            NombreImagen = "background/black";
-            ColorImagen = Color.Black;
+            //NombreImagen = "tileset/default2";
+            NombreImagen = "players/yellow";
+            ColorImagen = Color.White;
             LoadContent();
         }
 

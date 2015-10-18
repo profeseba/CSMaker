@@ -3,29 +3,43 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSMaker", "CSMaker\CSMaker\CSMaker.csproj", "{7B62F354-68BA-4E4C-999B-A95DDE28F037}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "CSMakerContent", "CSMaker\CSMakerContent\CSMakerContent.contentproj", "{3C2F9083-357F-4DD7-AB5D-583C06002F08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSMakerContent", "CSMaker\CSMakerContent\CSMakerContent.contentproj", "{3C2F9083-357F-4DD7-AB5D-583C06002F08}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Framework\Framework\Framework.csproj", "{38D97A8F-C6EC-40BD-956F-31DB50816F50}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "FrameworkContent", "Framework\FrameworkContent\FrameworkContent.contentproj", "{42D50919-5265-4312-A78A-CC41660044FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrameworkContent", "Framework\FrameworkContent\FrameworkContent.contentproj", "{42D50919-5265-4312-A78A-CC41660044FA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B62F354-68BA-4E4C-999B-A95DDE28F037}.Debug|x64.ActiveCfg = Debug|x86
+		{7B62F354-68BA-4E4C-999B-A95DDE28F037}.Debug|x64.Build.0 = Debug|x86
 		{7B62F354-68BA-4E4C-999B-A95DDE28F037}.Debug|x86.ActiveCfg = Debug|x86
 		{7B62F354-68BA-4E4C-999B-A95DDE28F037}.Debug|x86.Build.0 = Debug|x86
+		{7B62F354-68BA-4E4C-999B-A95DDE28F037}.Release|x64.ActiveCfg = Release|x86
+		{7B62F354-68BA-4E4C-999B-A95DDE28F037}.Release|x64.Build.0 = Release|x86
 		{7B62F354-68BA-4E4C-999B-A95DDE28F037}.Release|x86.ActiveCfg = Release|x86
 		{7B62F354-68BA-4E4C-999B-A95DDE28F037}.Release|x86.Build.0 = Release|x86
+		{3C2F9083-357F-4DD7-AB5D-583C06002F08}.Debug|x64.ActiveCfg = Debug|x86
 		{3C2F9083-357F-4DD7-AB5D-583C06002F08}.Debug|x86.ActiveCfg = Debug|x86
+		{3C2F9083-357F-4DD7-AB5D-583C06002F08}.Release|x64.ActiveCfg = Release|x86
 		{3C2F9083-357F-4DD7-AB5D-583C06002F08}.Release|x86.ActiveCfg = Release|x86
+		{38D97A8F-C6EC-40BD-956F-31DB50816F50}.Debug|x64.ActiveCfg = Debug|x86
+		{38D97A8F-C6EC-40BD-956F-31DB50816F50}.Debug|x64.Build.0 = Debug|x86
 		{38D97A8F-C6EC-40BD-956F-31DB50816F50}.Debug|x86.ActiveCfg = Debug|x86
 		{38D97A8F-C6EC-40BD-956F-31DB50816F50}.Debug|x86.Build.0 = Debug|x86
+		{38D97A8F-C6EC-40BD-956F-31DB50816F50}.Release|x64.ActiveCfg = Release|x86
+		{38D97A8F-C6EC-40BD-956F-31DB50816F50}.Release|x64.Build.0 = Release|x86
 		{38D97A8F-C6EC-40BD-956F-31DB50816F50}.Release|x86.ActiveCfg = Release|x86
 		{38D97A8F-C6EC-40BD-956F-31DB50816F50}.Release|x86.Build.0 = Release|x86
+		{42D50919-5265-4312-A78A-CC41660044FA}.Debug|x64.ActiveCfg = Debug|x86
 		{42D50919-5265-4312-A78A-CC41660044FA}.Debug|x86.ActiveCfg = Debug|x86
+		{42D50919-5265-4312-A78A-CC41660044FA}.Release|x64.ActiveCfg = Release|x86
 		{42D50919-5265-4312-A78A-CC41660044FA}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution

@@ -9,15 +9,14 @@ using System.Threading;
 
 namespace CSMaker
 {
-    public abstract class AgenteAprende : Agent
+    public abstract class AgenteObjetivo : Agent
     {
         private Vector2 posPlayer;
         private Vector2 posAgent;
         private Bloque area;
         private List<Vector2> camino;
-        private ColumnasAER accionAnterior;
 
-        public AgenteAprende(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion, String nombreImagen)
+        public AgenteObjetivo(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion, String nombreImagen)
             : base(game, tamano, posicion, nombreImagen)
         {
             NombreImagen = nombreImagen;
@@ -25,7 +24,6 @@ namespace CSMaker
             posPlayer = new Vector2(-1, -1);
             posAgent = new Vector2(-1, -1);
             area = new Bloque();
-            accionAnterior = new ColumnasAER();
             life = 1;
             LoadContent();
         }
@@ -54,7 +52,10 @@ namespace CSMaker
             //Thread cal = new Thread(new ThreadStart(CalcularCaminoThread));
             //Thread cal = new Thread(new ThreadStart(SensorAgente));
             //cal.Start();
-            SensorAgente();
+            if (!died)
+            {
+                SensorAgente();
+            }            
         }
         // --- funcion SensorAgente que aprende
         private void SensorAgente()
@@ -65,11 +66,15 @@ namespace CSMaker
                 if (item.name.Equals("player"))
                 {
                     String accion = CaminoActualizado(area);
-                    Bloque estado = disminuirArea(1);  // EJ: escala 1 : 1 un bloque por cada lado adyacente // matriz de 3x3                  
-                    accion = funcionQ(accion, estado); // algoritmo que aprende
+                    Bloque estado = disminuirArea(2);  // EJ: escala 1 : 1 un bloque por cada lado adyacente // matriz de 3x3                  
+                   // accion = funcionQ(accion, estado); // algoritmo que aprende
                     // - Debug.WriteLine(accion);
                     Comportamiento(accion);
                 }
+            }
+            if (life <= 0)
+            {
+                died = true;
             }
             //Debug.WriteLine("");
         }
@@ -79,7 +84,7 @@ namespace CSMaker
             // recompensa por morir.
             if (life <= 0)
             {
-                return -10f;
+                return -1.0f;
             }
             ColumnasAER tupla = Q.getTupla(accion, estado);
             if (tupla != null)
@@ -87,16 +92,16 @@ namespace CSMaker
                 return tupla.valor;
             }
 
-            float Out = -1f;
+            float Out = -0.1f;
             // recompensa para avanzarDer, avanzarIzq, saltar es de -0.03
             if ((accion.Equals("avanzarDer")) || (accion.Equals("avanzarIzq")))
             {
-                Out = -3f;
+                Out = -0.3f;
             }
             // recompensa para saltarIzq, saltarDer es de -0.02
             if ((accion.Equals("saltarDer")) || (accion.Equals("saltarIzq")) || (accion.Equals("saltar")))
             {
-                Out = -2f;
+                Out = -0.2f;
             }
             return Out;
         }
@@ -122,19 +127,10 @@ namespace CSMaker
                 if (Q.getTupla(aA,eA) != null) // busca la tupla en la tabla
                 {
                     float rA = evaluarRecompensa(Q,aA,eA);
-                    if (rA == -10f)
-                    {
-                        accionAnterior.valor = -12f;
-                        Q.addTupla(accionAnterior);
-                    }
-                    else
-                    {
-                        ColumnasAER tupla = Q.getActionMaxQ(aA, eA, rA);
-                        // agrega la tupla en la tabla
-                        Q.addTupla(tupla);
-                        accionAnterior = tupla;
-                        accion = tupla.accion;
-                    }
+                    ColumnasAER tupla = Q.getActionMaxQ(aA, eA, rA);
+                    // agrega la tupla en la tabla
+                    Q.addTupla(tupla);
+                    accion = tupla.accion;
                      // - Debug.WriteLine("La tupla si esta");
                 }
                 else // si no la encuentra

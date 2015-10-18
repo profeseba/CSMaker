@@ -22,7 +22,8 @@ namespace Framework
         //MenuScene escenaInicio;
         //HelpScene escenaAyuda;
         GameScene escenaActiva;
-        ActionScene escenaAccion;
+        public ActionScene escenaAccion;
+        
         //SpriteFont fuenteNormal;
         Texture2D fondo;
         //KeyboardState newState;
@@ -42,12 +43,6 @@ namespace Framework
             this.parentForm = parentForm;
             this.pictureBox = pictureBox;
 
-            size = new Vector2(960, 640); // x = 30*32px ; y = 20*32px
-            this.pictureBox.Width = (int)size.X;
-            this.pictureBox.Height = (int)size.Y;
-            this.graphics.PreferredBackBufferWidth = (int)size.X;
-            this.graphics.PreferredBackBufferHeight = (int)size.Y;
-
             graphics.PreparingDeviceSettings += new EventHandler<PreparingDeviceSettingsEventArgs>(graphics_PreparingDeviceSettings);
             Mouse.WindowHandle = drawSurface;
             gameForm = System.Windows.Forms.Control.FromHandle(this.Window.Handle);
@@ -56,6 +51,25 @@ namespace Framework
 
             //this.graphics.IsFullScreen = true;
         }
+
+        public void crearJuego(int width, int height) 
+        {
+            size = new Vector2(width,height); 
+            this.pictureBox.Width = (int)size.X;
+            this.pictureBox.Height = (int)size.Y;
+            // test
+            graphics.PreferredBackBufferWidth = pictureBox.Width;
+            graphics.PreferredBackBufferHeight =  pictureBox.Height;
+            graphics.ApplyChanges();
+            escenaAccion = new ActionScene(this, fondo, size);
+            Components.Add(escenaAccion);
+            escenaAccion.Show();
+            //escenaInicio.Show();
+            //escenaAyuda.Hide();
+            //escenaActiva = escenaInicio;
+            escenaActiva = escenaAccion;
+        }
+
         void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
         {
             e.GraphicsDeviceInformation.PresentationParameters.DeviceWindowHandle = drawSurface;
@@ -69,9 +83,9 @@ namespace Framework
         }
         void gameForm_SizeChanged(object sender, EventArgs e)
         {
-            //graphics.PreferredBackBufferWidth = pictureBox.Height;
-            //graphics.PreferredBackBufferHeight = pictureBox.Width;
-            //graphics.ApplyChanges();
+            graphics.PreferredBackBufferWidth = pictureBox.Width;
+            graphics.PreferredBackBufferHeight = pictureBox.Height;
+            graphics.ApplyChanges();
         }
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -96,19 +110,19 @@ namespace Framework
             Services.AddService(typeof(SpriteBatch), spriteBatch);
             Services.AddService(typeof(ContentManager), Content);
             //fuenteNormal = Content.Load<SpriteFont>("fuente");
-            fondo = Content.Load<Texture2D>("background/mario");
+            fondo = Content.Load<Texture2D>("background/black");
             //escenaInicio = new MenuScene(this, fuenteNormal, fondo);
             //Components.Add(escenaInicio);
             //fondo = Content.Load<Texture2D>("fondo2");
             //escenaAyuda = new HelpScene(this, fondo);
             //Components.Add(escenaAyuda);
-            escenaAccion = new ActionScene(this, fondo, new Vector2(70 * 32, size.Y));
-            Components.Add(escenaAccion);
-            escenaAccion.Show();
-            //escenaInicio.Show();
-            //escenaAyuda.Hide();
-            //escenaActiva = escenaInicio;
-            escenaActiva = escenaAccion;
+            //escenaAccion = new ActionScene(this, fondo, new Vector2(size.X, size.Y));
+            //Components.Add(escenaAccion);
+            //escenaAccion.Show();
+            ////escenaInicio.Show();
+            ////escenaAyuda.Hide();
+            ////escenaActiva = escenaInicio;
+            //escenaActiva = escenaAccion;
             // TODO: use this.Content to load your game content here
         }
 
@@ -145,6 +159,7 @@ namespace Framework
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+            
             base.Draw(gameTime);
             spriteBatch.End();
         }
