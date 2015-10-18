@@ -26,12 +26,22 @@ namespace CSMaker
             LoadContent();
         }
 
+        public Muro(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion, String img, Vector2 posImg)
+            : base(game, tamano, posicion)
+        {
+            Peso = 0.0f;
+            NombreImagen = img;
+            textura_origen = new Rectangle((int)posImg.X, (int)posImg.Y, (int)tamano.X, (int)tamano.Y);
+            ColorImagen = Color.Black;
+            LoadContent();
+        }
+
         public Muro(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion)
             : base(game, tamano, posicion)
         {
             Peso = 0.0f;
             //NombreImagen = "tileset/default2";
-            NombreImagen = "background/black";
+            NombreImagen = "players/yellow";
             ColorImagen = Color.Black;
             LoadContent();
         }

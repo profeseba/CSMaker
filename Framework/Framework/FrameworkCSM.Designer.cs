@@ -455,6 +455,7 @@
             this.pb_editor.Size = new System.Drawing.Size(272, 225);
             this.pb_editor.TabIndex = 0;
             this.pb_editor.TabStop = false;
+            this.pb_editor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pb_editor_MouseClick);
             // 
             // openFileDialog1
             // 
@@ -467,6 +468,9 @@
             this.pb_diseno.Size = new System.Drawing.Size(50, 48);
             this.pb_diseno.TabIndex = 0;
             this.pb_diseno.TabStop = false;
+            this.pb_diseno.Paint += new System.Windows.Forms.PaintEventHandler(this.pb_diseno_Paint);
+            this.pb_diseno.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pb_diseno_MouseClick);
+            
             // 
             // FrameworkCSM
             // 

@@ -22,7 +22,7 @@ namespace Framework
         //MenuScene escenaInicio;
         //HelpScene escenaAyuda;
         GameScene escenaActiva;
-        ActionScene escenaAccion;
+        public ActionScene escenaAccion;
         //SpriteFont fuenteNormal;
         Texture2D fondo;
         //KeyboardState newState;
@@ -58,6 +58,13 @@ namespace Framework
             this.pictureBox.Height = (int)size.Y;
             this.graphics.PreferredBackBufferWidth = (int)size.X;
             this.graphics.PreferredBackBufferHeight = (int)size.Y;
+            escenaAccion = new ActionScene(this, fondo, size);
+            Components.Add(escenaAccion);
+            escenaAccion.Show();
+            //escenaInicio.Show();
+            //escenaAyuda.Hide();
+            //escenaActiva = escenaInicio;
+            escenaActiva = escenaAccion;
         }
 
         void graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e)
@@ -100,19 +107,19 @@ namespace Framework
             Services.AddService(typeof(SpriteBatch), spriteBatch);
             Services.AddService(typeof(ContentManager), Content);
             //fuenteNormal = Content.Load<SpriteFont>("fuente");
-            fondo = Content.Load<Texture2D>("background/black");
+            fondo = Content.Load<Texture2D>("background/mario");
             //escenaInicio = new MenuScene(this, fuenteNormal, fondo);
             //Components.Add(escenaInicio);
             //fondo = Content.Load<Texture2D>("fondo2");
             //escenaAyuda = new HelpScene(this, fondo);
             //Components.Add(escenaAyuda);
-            escenaAccion = new ActionScene(this, fondo, new Vector2(size.X, size.Y));
-            Components.Add(escenaAccion);
-            escenaAccion.Show();
-            //escenaInicio.Show();
-            //escenaAyuda.Hide();
-            //escenaActiva = escenaInicio;
-            escenaActiva = escenaAccion;
+            //escenaAccion = new ActionScene(this, fondo, new Vector2(size.X, size.Y));
+            //Components.Add(escenaAccion);
+            //escenaAccion.Show();
+            ////escenaInicio.Show();
+            ////escenaAyuda.Hide();
+            ////escenaActiva = escenaInicio;
+            //escenaActiva = escenaAccion;
             // TODO: use this.Content to load your game content here
         }
 
