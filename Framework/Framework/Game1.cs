@@ -62,6 +62,7 @@ namespace Framework
             graphics.PreferredBackBufferHeight =  pictureBox.Height;
             graphics.ApplyChanges();
             escenaAccion = new ActionScene(this, fondo, size);
+            escenaAccion.modoFramework = true;
             Components.Add(escenaAccion);
             escenaAccion.Show();
             //escenaInicio.Show();

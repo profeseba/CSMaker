@@ -37,6 +37,7 @@ namespace Framework
         List<MuroXML> murosXML;
         List<AgentesXML> agentesXML;
         JugadorXML jugadorXML;
+        private bool juegoCreado;
 
         public FrameworkCSM()
         {
@@ -88,6 +89,7 @@ namespace Framework
 
                 imagen = true;
                 mapa = true;
+                juegoCreado = true;
                 pb_diseno.Visible = true;
                 //pb_editor.Width = anchoMapa;
                 //pb_editor.Height = altoMapa;
@@ -146,9 +148,9 @@ namespace Framework
                     // cambia la pos del jugador
                     jugadorXML.posicion = new Vector2(x1 * TamTile, y1 * TamTile);
                 }
-                
+
             }
-            if (agente && (cb_enemigos.SelectedIndex!=-1))
+            if (agente && (cb_enemigos.SelectedIndex != -1))
             {
                 label9.Text = "" + x1 * TamTile;
                 label10.Text = "" + y1 * TamTile;
@@ -265,28 +267,28 @@ namespace Framework
                     agentesXML.Add(new AgentesXML(new Vector2(-33, -33), new Vector2(TamTile, TamTile), "players/red", "ARS"));
                     index = game.escenaAccion.nuevo_obj(ARS);
                     //listaAgente.Add(index);
-                    cb_enemigos.Items.Add("Enemigo "+index);
+                    cb_enemigos.Items.Add("Enemigo " + index);
                     break;
                 case 1: // agente basado en utilidad
                     Objeto ABU = new Objeto(game, new Vector2(TamTile, TamTile), new Vector2(-33, -33), "players/orange");
                     agentesXML.Add(new AgentesXML(new Vector2(-33, -33), new Vector2(TamTile, TamTile), "players/orange", "ABU"));
                     index = game.escenaAccion.nuevo_obj(ABU);
                     //listaAgente.Add(index);
-                    cb_enemigos.Items.Add("Enemigo "+index);
+                    cb_enemigos.Items.Add("Enemigo " + index);
                     break;
                 case 2: // agente basado en objetivo
                     Objeto ABO = new Objeto(game, new Vector2(TamTile, TamTile), new Vector2(-33, -33), "players/yellow");
                     agentesXML.Add(new AgentesXML(new Vector2(-33, -33), new Vector2(TamTile, TamTile), "players/yellow", "ABO"));
                     index = game.escenaAccion.nuevo_obj(ABO);
                     //listaAgente.Add(index);
-                    cb_enemigos.Items.Add("Enemigo "+index);
+                    cb_enemigos.Items.Add("Enemigo " + index);
                     break;
                 case 3: // agente que aprende
                     Objeto AA = new Objeto(game, new Vector2(TamTile, TamTile), new Vector2(-33, -33), "players/green");
                     agentesXML.Add(new AgentesXML(new Vector2(-33, -33), new Vector2(TamTile, TamTile), "players/green", "AA"));
                     index = game.escenaAccion.nuevo_obj(AA);
                     //listaAgente.Add(index);
-                    cb_enemigos.Items.Add("Enemigo "+index);
+                    cb_enemigos.Items.Add("Enemigo " + index);
                     break;
                 default:
                     break;
@@ -300,25 +302,54 @@ namespace Framework
 
         private void button3_Click(object sender, EventArgs e)
         {
-            JuegoXML juegoXML = new JuegoXML(textBox7.Text, new Vector2(anchoMapa, altoMapa), jugadorXML, murosXML, agentesXML);
-            XML.Serialize(juegoXML, "game.dat");
-            //System.Diagnostics.Process.Start("copy", "CSMaker.exe "+ textBox7.Text+".exe");
-            System.Diagnostics.ProcessStartInfo procStartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c copy CSMaker.exe " + textBox7.Text + ".exe");
-            // Indicamos que la salida del proceso se redireccione en un Stream
-            procStartInfo.RedirectStandardOutput = true;
-            procStartInfo.UseShellExecute = false;
-            //Indica que el proceso no despliegue una pantalla negra (El proceso se ejecuta en background)
-            procStartInfo.CreateNoWindow = true;
-            //Inicializa el proceso
-            System.Diagnostics.Process proc = new System.Diagnostics.Process();
-            proc.StartInfo = procStartInfo;
-            proc.Start();
+            if ((jugador != null) && (juegoCreado) && (!textBox7.Text.Equals("")))
+            {
+                JuegoXML juegoXML = new JuegoXML(textBox7.Text, new Vector2(anchoMapa, altoMapa), jugadorXML, murosXML, agentesXML);
+                XML.Serialize(juegoXML, "game.dat");
+                //System.Diagnostics.Process.Start("copy", "CSMaker.exe "+ textBox7.Text+".exe");
+                System.Diagnostics.ProcessStartInfo procStartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c copy CSMaker.exe " + textBox7.Text + ".exe");
+                // Indicamos que la salida del proceso se redireccione en un Stream
+                procStartInfo.RedirectStandardOutput = true;
+                procStartInfo.UseShellExecute = false;
+                //Indica que el proceso no despliegue una pantalla negra (El proceso se ejecuta en background)
+                procStartInfo.CreateNoWindow = false;
+                //Inicializa el proceso
+                System.Diagnostics.Process proc = new System.Diagnostics.Process();
+                proc.StartInfo = procStartInfo;
+                proc.Start();
+                procStartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c CSMaker.exe");
+                // Indicamos que la salida del proceso se redireccione en un Stream
+                procStartInfo.RedirectStandardOutput = true;
+                procStartInfo.UseShellExecute = false;
+                //Indica que el proceso no despliegue una pantalla negra (El proceso se ejecuta en background)
+                procStartInfo.CreateNoWindow = true;
+                //Inicializa el proceso
+                proc = new System.Diagnostics.Process();
+                proc.StartInfo = procStartInfo;
+                proc.Start();
+            }
+            else MessageBox.Show("Aún no se han asignado todos los parametros.");
         }
 
         private void cerrarToolStripMenuItem_Click(object sender, EventArgs e)
         {
             game.Exit();
             Application.Exit();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Title = "Seleccionar Musica";
+            openFileDialog1.Filter = "Music Files|*.mp3;*.wma";
+            openFileDialog1.CheckFileExists = true;
+            openFileDialog1.CheckPathExists = true;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                String name = openFileDialog1.FileName;
+                name = name.Replace("\\", "/");
+                //game.cargarCancion(name);
+                textBox8.Text = name;
+            }
         }
     }
 }
