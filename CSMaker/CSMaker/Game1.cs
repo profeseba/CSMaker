@@ -154,6 +154,7 @@ namespace CSMaker
             {
                 spriteBatch.DrawString(spriteTexto, "GAME OVER", new Vector2(graphics.GraphicsDevice.Viewport.Width / 3, graphics.GraphicsDevice.Viewport.Height / 3), Color.Red, 0, Vector2.Zero, 3.0f, SpriteEffects.None, 0);
             }
+
             spriteBatch.End();
         }
     }

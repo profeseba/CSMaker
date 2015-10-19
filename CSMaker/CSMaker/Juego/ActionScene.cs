@@ -28,6 +28,7 @@ namespace CSMaker
         int Piso { get { return celda * 2; } }
         Vector2 size;
         Vector2 sizeWorld;
+        public bool modoFramework { get; set; }
         
         //KeyboardState oldState;
  
@@ -41,6 +42,7 @@ namespace CSMaker
             this.sizeWorld = sizeWorld;
             mundo = new Mundo();
             objeto = new List<Objeto>();
+            modoFramework = false;
             ////Crear los muros
             //mundo.AdicionarSprite(new Muro(game, new Vector2(sizeWorld.X, 1), posicion(0, 0)));   // muro de arriba     
             //mundo.AdicionarSprite(new Muro(game, new Vector2(Celda, sizeWorld.Y), posicion(sizeWorld.X, 0))); // muro de derecha
@@ -118,7 +120,7 @@ namespace CSMaker
  
         public override void Update(GameTime gameTime)
         {
-            if (!(jugador == null))
+            if (!(jugador == null) && !modoFramework)
             {
                 float deltaTime = (float)((double)gameTime.ElapsedGameTime.Milliseconds / 1000);
                 float totalTime = (float)((double)gameTime.TotalGameTime.TotalMilliseconds / 1000);
