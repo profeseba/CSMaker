@@ -43,6 +43,7 @@ namespace CSMaker
         public String nombreSprite { get; set; }
         public bool died { get; set; }
         BoundingBox bound;
+        private SpriteFont spriteTexto;
 
         public SpriteComponent(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 pos)
             : base(game)
@@ -71,6 +72,7 @@ namespace CSMaker
         protected override void LoadContent()
         {
             Textura = Content.Load<Texture2D>(NombreImagen);
+            spriteTexto = Content.Load<SpriteFont>("Font/Courier New");
             base.LoadContent();
         }
  
