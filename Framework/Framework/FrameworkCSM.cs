@@ -261,9 +261,7 @@ namespace Framework
             switch (cb_agentes.SelectedIndex)
             {
                 case 0: // agente reactivo simple
-                    //Enemigo ARS = new Enemigo(game, new Vector2(TamTile, TamTile), new Vector2(0, 0), "players/red");
                     Objeto ARS = new Objeto(game, new Vector2(TamTile, TamTile), new Vector2(-33, -33), "players/red");
-                    // agrega el agente
                     agentesXML.Add(new AgentesXML(new Vector2(-33, -33), new Vector2(TamTile, TamTile), "players/red", "ARS"));
                     index = game.escenaAccion.nuevo_obj(ARS);
                     //listaAgente.Add(index);
@@ -305,6 +303,16 @@ namespace Framework
             JuegoXML juegoXML = new JuegoXML(textBox7.Text, new Vector2(anchoMapa, altoMapa), jugadorXML, murosXML, agentesXML);
             XML.Serialize(juegoXML, "game.dat");
             //System.Diagnostics.Process.Start("copy", "CSMaker.exe "+ textBox7.Text+".exe");
+            System.Diagnostics.ProcessStartInfo procStartInfo = new System.Diagnostics.ProcessStartInfo("cmd", "/c copy CSMaker.exe " + textBox7.Text + ".exe");
+            // Indicamos que la salida del proceso se redireccione en un Stream
+            procStartInfo.RedirectStandardOutput = true;
+            procStartInfo.UseShellExecute = false;
+            //Indica que el proceso no despliegue una pantalla negra (El proceso se ejecuta en background)
+            procStartInfo.CreateNoWindow = true;
+            //Inicializa el proceso
+            System.Diagnostics.Process proc = new System.Diagnostics.Process();
+            proc.StartInfo = procStartInfo;
+            proc.Start();
         }
 
         private void cerrarToolStripMenuItem_Click(object sender, EventArgs e)
