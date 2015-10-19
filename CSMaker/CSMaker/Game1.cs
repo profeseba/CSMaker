@@ -148,12 +148,12 @@ namespace CSMaker
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            spriteBatch.Begin();
+            spriteBatch.Begin();            
+            base.Draw(gameTime);
             if (escenaAccion.jugador.died)
             {
-                spriteBatch.DrawString(spriteTexto, "GAME OVER", new Vector2(size.X / 2, size.Y / 2), Color.Red, 0, Vector2.Zero, 1.0f, SpriteEffects.None, 0);
+                spriteBatch.DrawString(spriteTexto, "GAME OVER", new Vector2(graphics.GraphicsDevice.Viewport.Width / 3, graphics.GraphicsDevice.Viewport.Height / 3), Color.Red, 0, Vector2.Zero, 3.0f, SpriteEffects.None, 0);
             }
-            base.Draw(gameTime);
             spriteBatch.End();
         }
     }

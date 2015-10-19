@@ -81,6 +81,8 @@ namespace CSMaker
             }
             
         }
+
+        public abstract void muerte();
         
         public void perseguir()
         {

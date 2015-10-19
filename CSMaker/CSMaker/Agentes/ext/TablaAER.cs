@@ -41,7 +41,7 @@ namespace CSMaker
                     // verifica accion igual
                     if (fila.accion == tupla.accion)
                     {
-                        if (tupla.valor <= -0.5)
+                        if (tupla.valor <= -5)
                         {
                             foreach (var item in Movimientos)
                             {

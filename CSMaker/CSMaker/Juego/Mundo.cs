@@ -235,6 +235,12 @@ namespace CSMaker
             }
             for (int k = 0; k < Agentes.Count; k++)
             {
+                if (Agentes[k].died)
+                {
+                    Agentes[k].muerte();
+                    RemoverAgente(Agentes[k]);
+                    continue;
+                }
                 for (int i = 0; i < Sprites.Count; ++i)
                 {
                     stat.Add(new Sensores().Percepciones(Agentes[k], Sprites[i], Agentes[k].profundidad));
@@ -243,11 +249,7 @@ namespace CSMaker
                 outBloque = new Sensores().Suma(stat, Agentes[k].profundidad);
                 Agentes[k].Sensor(outBloque);
                 stat = new List<Bloque>();
-                if (Agentes[k].died)
-                {
-                    RemoverAgente(Agentes[k]);
-                    continue;
-                }
+                
             }
             
         }

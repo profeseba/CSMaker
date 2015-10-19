@@ -16,6 +16,8 @@ namespace CSMaker
         private Bloque area;
         private List<Vector2> camino;
         private ColumnasAER accionAnterior;
+        private TablaAER Q;
+        private bool nomemory;
 
         public AgenteAprende(Microsoft.Xna.Framework.Game game, Vector2 tamano, Vector2 posicion, String nombreImagen)
             : base(game, tamano, posicion, nombreImagen)
@@ -27,6 +29,16 @@ namespace CSMaker
             area = new Bloque();
             accionAnterior = new ColumnasAER();
             life = 1;
+            try
+            {
+                Q = XML.Deserialize<TablaAER>("memoria");
+            }
+            catch (Exception)
+            {
+                nomemory = true;
+                Q = new TablaAER();
+            }
+            
             LoadContent();
         }
         // --- Calcula el camino utilizando hilos
@@ -65,7 +77,7 @@ namespace CSMaker
                 if (item.name.Equals("player"))
                 {
                     String accion = CaminoActualizado(area);
-                    Bloque estado = disminuirArea(1);  // EJ: escala 1 : 1 un bloque por cada lado adyacente // matriz de 3x3                  
+                    Bloque estado = disminuirArea(3);  // EJ: escala 1 : 1 un bloque por cada lado adyacente // matriz de 3x3                  
                     accion = funcionQ(accion, estado); // algoritmo que aprende
                     // - Debug.WriteLine(accion);
                     Comportamiento(accion);
@@ -100,76 +112,67 @@ namespace CSMaker
             }
             return Out;
         }
+        // --- funcion evaluarRecompensa2
+        private float evaluarRecompensa(String accion, Bloque estado)
+        {
+            float Out = -1f;
+            // recompensa para avanzarDer, avanzarIzq, saltar es de -0.03
+            if ((accion.Equals("avanzarDer")) || (accion.Equals("avanzarIzq")))
+            {
+                Out = -3f;
+            }
+            // recompensa para saltarIzq, saltarDer es de -0.02
+            if ((accion.Equals("saltarDer")) || (accion.Equals("saltarIzq")) || (accion.Equals("saltar")))
+            {
+                Out = -2f;
+            }
+            return Out;
+        }
         // --- funcion evalua cada accion, estado y recompensa. Retorna la accion a tomar
         private String funcionQ(String aA, Bloque eA) // valores Actuales : accionActual, estadoActual, recompensaActual
         {
-            TablaAER Q = new TablaAER();
             String accion = "nada";
-            // guardar
-            // XML.Serialize(Q, "memoria");
-            // cargar
-            // XML.Deserialize<TablaAER>("memoria");
-            // verificamos si existe el archivo memoria
-            //if (contacto)
-            //{
-            //    rA = 1;
-            //    contacto = false;
-            //}
-            if (File.Exists("memoria"))
+            if (nomemory)
             {
-                // cargar memoria
-                Q = XML.Deserialize<TablaAER>("memoria");
-                if (Q.getTupla(aA,eA) != null) // busca la tupla en la tabla
-                {
-                    float rA = evaluarRecompensa(Q,aA,eA);
-                    if (rA == -10f)
-                    {
-                        accionAnterior.valor = -10f;
-                        Q.addTupla(accionAnterior);
-                    }
-                    else
-                    {
-                        ColumnasAER tupla = Q.getActionMaxQ(aA, eA, rA);
-                        // agrega la tupla en la tabla
-                        Q.addTupla(tupla);
-                        accionAnterior = tupla;
-                        accion = tupla.accion;
-                    }
-                     // - Debug.WriteLine("La tupla si esta");
-                }
-                else // si no la encuentra
-                {
-                    
-                    float rA = evaluarRecompensa(Q,aA, eA);
-                    ColumnasAER tupla = new ColumnasAER(aA, eA, 0, rA);
-                    // agrega la tupla directo en la tabla
-                    Q.addTupla(tupla);
-                    accion = tupla.accion;
-                    // - Debug.WriteLine("La tupla no esta");
-                }
-                XML.Serialize(Q, "memoria");
+                Q.FilasAER = new List<ColumnasAER>();
+                Q.Movimientos = new List<string>();
+                float rA = evaluarRecompensa(aA, eA);
+                ColumnasAER tupla = new ColumnasAER(aA, eA, 0, rA);
+                // agrega la tupla directo en la tabla
+                Q.addTupla(tupla);
+                accion = tupla.accion;
+                nomemory = false;
                 return accion;
             }
-            // algoritmo que se ejecuta por defecto cuando no existe memoria
+            if (Q.getTupla(aA, eA) != null) // busca la tupla en la tabla
+            {
+                float rA = evaluarRecompensa(Q, aA, eA);
+                ColumnasAER tupla = Q.getActionMaxQ(aA, eA, rA);
+                // agrega la tupla en la tabla
+                Q.addTupla(tupla);
+                accionAnterior = tupla;
+                accion = tupla.accion;
+                // - Debug.WriteLine("La tupla si esta");
+            }
             else
             {
-                // crear informacion
-                Q.FilasAER = new List<ColumnasAER>();
-                float rA = evaluarRecompensa(Q,aA, eA);
-                ColumnasAER tupla = new ColumnasAER(aA,eA,0,rA);
-                Q.FilasAER.Add(tupla);
-                // se agrega el moviemiento a su memoria
-                Q.Movimientos = new List<String>();
-                Q.Movimientos.Add(aA);
-                // guardar informacion en memoria
-                XML.Serialize(Q, "memoria");
-                // cerrar archivo
-                // asigna la accion actual como accion por defecto
-                accion = aA;
-                // retorna la accion
-                // - Debug.WriteLine("No existe memoria");
-                return accion;
+                float rA = evaluarRecompensa(Q, aA, eA);
+                ColumnasAER tupla = new ColumnasAER(aA, eA, 0, rA);
+                // agrega la tupla directo en la tabla
+                Q.addTupla(tupla);
+                accion = tupla.accion;
             }
+                return accion;
+        }
+
+
+        // guardar memoria
+        public override void muerte() // guarda la tabla en memoria
+        {
+            // recompenza por morir
+            accionAnterior.valor = -10f;
+            Q.addTupla(accionAnterior);
+            XML.Serialize(Q, "memoria");
         }
         // --- disminuye el area de hxh a 3x3
         private Bloque disminuirArea(int escala)

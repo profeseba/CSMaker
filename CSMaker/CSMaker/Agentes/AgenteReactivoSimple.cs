@@ -25,6 +25,7 @@ namespace CSMaker
             life = 1;
             LoadContent();
         }
+        public override void muerte() { }
 
         public override void Sensor(Bloque area)
         {
